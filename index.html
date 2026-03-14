@@ -30,19 +30,50 @@ a{color:#003580}
 const {useState, useRef} = React;
 
 const C = {
-  navy:'#002147', navyDk:'#001530', navyMd:'#1a3d6e',
-  gold:'#be9a3c', goldPale:'#f5ead5', goldBd:'#d4b86a',
-  cream:'#f9f7f2', white:'#ffffff',
-  bd:'#ddd8d0', bd2:'#c8c3bb',
-  tx:'#1a1814', muted:'#5a5650', light:'#9a9590',
+  navy:'#002147',
+  navyDk:'#001530',
+  navyMd:'#1a3d6e',
+
+  gold:'#be9a3c',
+  goldPale:'#f5ead5',
+  goldBd:'#d4b86a',
+
+  cream:'#f4f1ec',
+  white:'#ffffff',
+
+  bd:'#ddd8d0',
+  bd2:'#c8c3bb',
+
+  tx:'#1a1814',
+  muted:'#5a5650',
+  light:'#9a9590',
+
   ok:'#1a5c38', okBg:'#e6f2ec', okBd:'#8ecfaa',
-  warn:'#7a4800', warnBg:'#fff7e6', warnBd:'#f5c97a',
-  err:'#8b1a1a', errBg:'#fce8e8', errBd:'#f0a0a0',
+
+  warn:'#7a5a12', warnBg:'#fdf8e8', warnBd:'#e6d8a6',
+
+  err:'#002147', errBg:'#e8eef6', errBd:'#9fb6d6',
+
   info:'#003580', infoBg:'#e8eef8', infoBd:'#a8c0e8',
-  purple:'#4a1a7a', purpleBg:'#f0e8f8', purpleBd:'#c0a0e0',
+
+  purple:'#6b4a85', purpleBg:'#f3eef8', purpleBd:'#c8afd8',
 };
 
 const serif = "'Spectral','Georgia',serif";
+
+// ─── OXFORD SHIELD ───────────────────────────────────────────────────────────
+const Shield = ({size=36}) => (
+  <svg width={size} height={size*1.2} viewBox="0 0 40 48" fill="none">
+    <path d="M2 2h36v28c0 10-18 16-18 16S2 40 2 30V2z" fill={C.navy} stroke={C.gold} strokeWidth="1.5"/>
+    <rect x="12" y="15" width="16" height="11" rx="1" fill="none" stroke={C.gold} strokeWidth="1.2"/>
+    <line x1="20" y1="15" x2="20" y2="26" stroke={C.gold} strokeWidth="1.2"/>
+    <rect x="13.5" y="17" width="2.5" height="1.8" rx="0.4" fill={C.gold}/>
+    <rect x="24" y="17" width="2.5" height="1.8" rx="0.4" fill={C.gold}/>
+    <path d="M17 5.5L18.5 3.5L20 5.5L21.5 3.5L23 5.5V8.5H17z" fill={C.gold}/>
+    <path d="M7.5 10.5L9 8.5L10.5 10.5V13H7.5z" fill={C.gold}/>
+    <path d="M29.5 10.5L31 8.5L32.5 10.5V13H29.5z" fill={C.gold}/>
+  </svg>
+);
 
 // ─── UI HELPERS ──────────────────────────────────────────────────────────────
 const Card = ({children, style={}}) => (
@@ -1435,7 +1466,7 @@ function App() {
       {/* HEADER */}
       <div style={{background:C.navy}}>
         <div style={{maxWidth:880,margin:'0 auto',padding:'0.875rem 1rem',display:'flex',alignItems:'center',gap:14}}>
-          
+          <Shield size={34}/>
           <div>
             <div style={{fontFamily:serif,fontSize:17,fontWeight:600,color:C.white,letterSpacing:'-0.01em',lineHeight:1.2}}>University of Oxford</div>
             <div style={{fontSize:11,color:'rgba(255,255,255,0.5)',marginTop:1}}>Generative AI Teaching and Assessment Toolkit</div>
