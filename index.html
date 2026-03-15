@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oxford AI Toolkit: Teaching and Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px;-webkit-font-smoothing:antialiased}
+body{font-family:'Source Sans 3','Segoe UI',system-ui,sans-serif;background:#f7f8fa;color:#1a1c20;min-height:100vh}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+select,input,textarea{font-family:inherit;font-size:14px}
+textarea{resize:vertical}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:#c0bbb5;border-radius:3px}
+a{color:#003580}
+@media(max-width:600px){
+  .hide-mobile{display:none!important}
+  .nav-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/babel">
+const {useState, useRef} = React;
+
+const C = {
+  navy:'#002147',
+  navyDk:'#001530',
+  navyMd:'#1a3d6e',
+
+  gold:'#be9a3c',
+  goldPale:'#f5f0e3',
+  goldBd:'#d4b86a',
+
+  cream:'#f7f8fa',
+  white:'#ffffff',
+
+  bd:'#dde1e7',
+  bd2:'#c8cdd5',
+
+  tx:'#1a1c20',
+  muted:'#52575f',
+  light:'#9098a4',
+
+  ok:'#1a5c38', okBg:'#eaf4ef', okBd:'#8ecfaa',
+
+  warn:'#7a5a12', warnBg:'#fdf8e8', warnBd:'#e6d8a6',
+
+  err:'#002147', errBg:'#e8eef6', errBd:'#9fb6d6',
+
+  info:'#003580', infoBg:'#e8eef8', infoBd:'#a8c0e8',
+
+  purple:'#6b4a85', purpleBg:'#f3eef8', purpleBd:'#c8afd8',
+};
+
+const serif = "'Spectral','Georgia',serif";
+
+// ─── NO MARK: pure typographic header ────────────────────────────────────────
+const Shield = ({size=36}) => null;
+
+// ─── UI HELPERS ──────────────────────────────────────────────────────────────
+const Card = ({children, style={}}) => (
+  <div style={{background:C.white,border:`1px solid ${C.bd}`,borderRadius:8,padding:'1.25rem',...style}}>
+    {children}
+  </div>
+);
+
+const Alert = ({type='warn',title,children}) => {
+  const map = {warn:{bg:C.warnBg,bd:C.warnBd,col:C.warn},err:{bg:C.errBg,bd:C.errBd,col:C.err},
+    ok:{bg:C.okBg,bd:C.okBd,col:C.ok},info:{bg:C.infoBg,bd:C.infoBd,col:C.info},
+    purple:{bg:C.purpleBg,bd:C.purpleBd,col:C.purple}};
+  const m = map[type]||map.warn;
+  return (
+    <div style={{background:m.bg,border:`1px solid ${m.bd}`,borderRadius:8,padding:'0.875rem 1.1rem',marginBottom:'1rem'}}>
+      {title && <div style={{fontWeight:600,color:m.col,marginBottom:4,fontSize:13}}>{title}</div>}
+      <div style={{fontSize:13,color:m.col,lineHeight:1.65}}>{children}</div>
+    </div>
+  );
+};
+
+const PrincipleBox = ({n,title,children}) => (
+  <div style={{display:'flex',gap:12,marginBottom:'0.875rem',alignItems:'flex-start'}}>
+    <div style={{minWidth:28,height:28,borderRadius:'50%',background:C.navy,color:C.white,display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:600,flexShrink:0}}>{n}</div>
+    <div>
+      <div style={{fontWeight:600,color:C.navy,fontSize:14,marginBottom:2}}>{title}</div>
+      <div style={{fontSize:13,color:C.muted,lineHeight:1.6}}>{children}</div>
+    </div>
+  </div>
+);
+
+const Chip = ({label,color='navy'}) => {
+  const map = {navy:{bg:C.navy,col:C.white},gold:{bg:C.goldPale,col:C.warn},ok:{bg:C.okBg,col:C.ok},
+    warn:{bg:C.warnBg,col:C.warn},err:{bg:C.errBg,col:C.err},info:{bg:C.infoBg,col:C.info}};
+  const m = map[color]||map.navy;
+  return <span style={{...m,fontSize:13,padding:'2px 8px',borderRadius:10,fontWeight:600,whiteSpace:'nowrap'}}>{label}</span>;
+};
+
+const ExtLink = ({href,children}) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" style={{color:C.info,fontSize:13,display:'inline-flex',alignItems:'center',gap:3}}>
+    {children} <span style={{fontSize:10}}>&#8599;</span>
+  </a>
+);
+
+const SectionTitle = ({children,sub}) => (
+  <div style={{marginBottom:'1.25rem'}}>
+    <h2 style={{fontFamily:serif,fontSize:24,fontWeight:600,color:C.navy,lineHeight:1.25}}>{children}</h2>
+    {sub && <p style={{fontSize:13,color:C.muted,marginTop:4,lineHeight:1.6}}>{sub}</p>}
+  </div>
+);
+
+const SubHead = ({children}) => (
+  <div style={{fontFamily:serif,fontSize:17,fontWeight:600,color:C.navy,margin:'1.25rem 0 0.625rem'}}>{children}</div>
+);
+
+const BulletRow = ({children,color=C.gold}) => (
+  <div style={{display:'flex',gap:10,alignItems:'flex-start',marginBottom:'0.5rem'}}>
+    <div style={{width:6,height:6,borderRadius:'50%',background:color,flexShrink:0,marginTop:6}}/>
+    <div style={{fontSize:13,color:C.tx,lineHeight:1.6}}>{children}</div>
+  </div>
+);
+
+const NumRow = ({n,children}) => (
+  <div style={{display:'flex',gap:10,alignItems:'flex-start',marginBottom:'0.75rem'}}>
+    <div style={{minWidth:22,height:22,borderRadius:'50%',background:C.navy,color:C.white,fontSize:13,fontWeight:600,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>{n}</div>
+    <div style={{fontSize:13,color:C.tx,lineHeight:1.65}}>{children}</div>
+  </div>
+);
+
+const QuoteBlock = ({children}) => (
+  <div style={{background:C.cream,borderLeft:`3px solid ${C.gold}`,padding:'0.875rem 1rem',borderRadius:'0 6px 6px 0',fontSize:13,color:'#2a2e36',lineHeight:1.8,fontFamily:serif,fontStyle:'italic',marginBottom:'0.875rem'}}>
+    {children}
+  </div>
+);
+
+const Divider = () => <div style={{height:1,background:C.bd,margin:'1.25rem 0'}}/>;
+
+// ─── POLICY DATA ─────────────────────────────────────────────────────────────
+const TREE = {
+  start:{q:"What is your primary concern about AI in your course?",
+    sub:"Select the option closest to where you are starting from. Each path ends with specific guidance and ready-to-use handbook language.",
+    opts:[
+      {id:'a',label:"Maintaining academic integrity in assessed work",desc:"You want to ensure your assessments genuinely test student understanding and are not compromised by AI use",next:'int_q2'},
+      {id:'b',label:"Preparing students for AI-augmented careers",desc:"You want students to develop the AI literacy and professional judgment they will need after Oxford",next:'prep_q2'},
+      {id:'c',label:"Improving my teaching with AI tools",desc:"You want to explore how AI can enhance your course delivery, feedback, or student support",next:'ped_q2'},
+      {id:'d',label:"I am new to all of this and need an overview",desc:"You want a clear starting point before making decisions about your course",next:'guide_q2'},
+    ]},
+  int_q2:{q:"What is your primary summative assessment format?",
+    sub:"Different formats carry very different levels of AI risk and require different responses",back:'start',
+    opts:[
+      {id:'a',label:"Take-home essay or written assignment",next:'r_essay'},
+      {id:'b',label:"Unseen closed examination",next:'r_exam'},
+      {id:'c',label:"Research project or dissertation",next:'r_proj'},
+      {id:'d',label:"Oral, presentation, or viva",next:'r_oral'},
+    ]},
+  prep_q2:{q:"What professional or academic context are your students heading into?",back:'start',
+    opts:[
+      {id:'a',label:"Research or academic careers",next:'r_prep_res'},
+      {id:'b',label:"Professional services: law, medicine, finance, consulting",next:'r_prep_prof'},
+      {id:'c',label:"Technical, engineering, or computing roles",next:'r_prep_tech'},
+      {id:'d',label:"Creative, policy, or generalist professional roles",next:'r_prep_gen'},
+    ]},
+  ped_q2:{q:"What kind of pedagogical AI use are you considering?",back:'start',
+    opts:[
+      {id:'a',label:"Using AI to generate feedback on student drafts",next:'r_ped_fb'},
+      {id:'b',label:"Getting students to critically evaluate AI outputs",next:'r_ped_crit'},
+      {id:'c',label:"Creating course materials or lectures with AI assistance",next:'r_ped_mat'},
+      {id:'d',label:"AI-assisted tutoring or student support outside class",next:'r_ped_tut'},
+    ]},
+  guide_q2:{q:"What level are you primarily teaching?",back:'start',
+    opts:[
+      {id:'a',label:"First or second year undergraduates",next:'r_g_early'},
+      {id:'b',label:"Third or fourth year undergraduates",next:'r_g_late'},
+      {id:'c',label:"Postgraduate taught (MSc, MPhil, MBA)",next:'r_g_pgt'},
+      {id:'d',label:"Doctoral researchers (DPhil)",next:'r_g_dphil'},
+    ]},
+  r_essay:{type:'result',back:'int_q2',stance:'err',stanceLabel:'Highest AI risk: redesign strongly recommended',
+    title:"Take-home essays",
+    summary:"Standard take-home essays are the assessment format most vulnerable to generative AI. A student can now produce a plausible, well-structured essay on most generic questions in minutes. If your questions have not changed since 2022, your assessment may no longer be reliably measuring what you intend.",
+    recs:[
+      "Add a process component: require a research log, annotated sources, or visible draft progression alongside the final piece. AI cannot fabricate a credible, consistent intellectual journey.",
+      "Use primary sources, archival materials, or course-specific datasets that AI tools cannot credibly engage with. The more contextually specific the question, the harder it is to answer generically.",
+      "Consider a short oral element: students who discuss their essay in tutorial, and cannot speak to their own argument, provide immediate and clear diagnostic information.",
+      "If permitting AI: require students to submit their full prompt history and a reflective statement explaining how they evaluated, modified, and took responsibility for the AI output.",
+      "Do not rely on AI detection tools to identify misconduct: as of October 2025, no AI detection tool has received university endorsement. Identify suspected cases through the marking process only.",
+    ],
+    lang:"Use of generative AI tools in this assessment is [not permitted / permitted only as specified below]. Any use of AI must be declared in the prescribed format before submission. Where AI use is permitted, students must submit: the name and version of any tool used; a description of how it was used; and a reflection on how AI outputs were evaluated, modified, and integrated into the final work. Submitted work must represent the student's own analysis, argument, and conclusions.",
+    stupts:["AI restrictions exist to protect the integrity of your academic development: the skills you build through writing are what carry you through your degree and beyond","You may be asked to discuss your essay in tutorial: preparing by genuinely engaging with the material is also the best preparation for that conversation","Submitting AI-generated work without permission is cheating under University regulations and may result in failing the assessment or, in serious cases, expulsion"]},
+  r_exam:{type:'result',back:'int_q2',stance:'ok',stanceLabel:'Low direct risk in closed conditions',
+    title:"Unseen closed examinations",
+    summary:"Closed examinations are not directly vulnerable to generative AI since students cannot access devices during the examination itself. Your attention should focus on ensuring any open-access components are also addressed, and on whether your questions reward recall or the kind of deeper analysis that AI makes easier to fake in preparation.",
+    recs:[
+      "Audit any take-home or open-book components running alongside the exam: these carry genuine AI risk and need separate policy decisions.",
+      "Shift exam questions from knowledge recall toward application, analysis, and synthesis. AI makes surface-level preparation easier; questions that test deep understanding remain meaningful.",
+      "Use unseen case studies, problems, or primary sources in the examination that require genuine subject knowledge to engage with.",
+      "Ensure your module handbook states a clear AI policy for all components, including the exam, even where the risk is low.",
+    ],
+    lang:"This module includes an unseen examination and [other components]. AI use is not permitted in the unseen examination. Policy for other components is specified separately in the assessment instructions for each.",
+    stupts:["You may not use AI tools in the unseen exam itself: this is not a point of ambiguity","Prepare thoroughly through genuine engagement with the material: this is also what builds the understanding that examinations test","Check the AI policy separately for any coursework or other components in this module"]},
+  r_proj:{type:'result',back:'int_q2',stance:'warn',stanceLabel:'Manageable with good process design',
+    title:"Research projects and dissertations",
+    summary:"Extended research projects are inherently more AI-resistant than essays because they require original data, sustained intellectual development, and a demonstrable process over time. The risks are real but very manageable with straightforward changes to supervision practice.",
+    recs:[
+      "Require structured milestone submissions: a proposal, literature review draft, and chapter drafts at defined points. AI cannot retrospectively fabricate consistent intellectual development across sequential supervised work.",
+      "Record and formalise supervisor meetings as part of the project record. Documented supervisory conversations establish intellectual ownership and cannot be fabricated.",
+      "Where possible, require original data collection, fieldwork, interviews, or experiments. These are inherently AI-resistant.",
+      "Add a viva or presentation element for higher-stakes dissertations. A short conversation about the research reveals depth of understanding immediately.",
+      "Require students to declare any AI tool use in the project's Methods section or Acknowledgements, specifying the tool, version, purpose, and how outputs were verified.",
+    ],
+    lang:"Students are required to maintain a research log documenting their intellectual process throughout this project. Any substantive use of AI tools must be declared in the Methods section or Acknowledgements, specifying the tool used, the version, the purpose, and how any AI-generated content was critically evaluated and verified. The research design, analysis, and intellectual argument must be the student's own work.",
+    stupts:["The process of doing original research is the purpose of a dissertation: using AI to shortcut this undermines your own development as a researcher","Transparent AI use for legitimate tasks such as writing support, coding, or data processing is acceptable when declared honestly","Your supervisor relationship is the primary mechanism for establishing intellectual ownership: engage with it actively and record your meetings"]},
+  r_oral:{type:'result',back:'int_q2',stance:'ok',stanceLabel:'Inherently AI-resistant: the gold standard',
+    title:"Oral assessments, presentations, and vivas",
+    summary:"Oral examinations, vivas, and presentations are among the most AI-resistant formats available to you. AI cannot impersonate a student in real time. Genuine understanding, or its absence, becomes immediately apparent in conversation. If you are looking for one change to make, adding an oral element is the most impactful.",
+    recs:[
+      "Consider increasing the proportion of oral assessment, or adding an oral element to existing written work.",
+      "Focus marking on the live performance rather than preparation materials, which may still be AI-assisted.",
+      "Use follow-up questions in vivas and presentations to probe beyond the prepared material: genuine understanding becomes visible under questioning.",
+      "Make the skills developed through oral assessment explicit to students: communication, reasoning under pressure, and the ability to engage with challenge are what employers and doctoral committees value.",
+    ],
+    lang:"Assessment in this module includes an oral component. This format is designed to assess your genuine understanding and your ability to engage with the subject in real time. Preparation materials submitted in advance may be AI-assisted within the stated policy; the oral examination itself will be conducted without AI assistance.",
+    stupts:["This format directly and reliably rewards genuine understanding: there is no meaningful shortcut","Preparing by genuinely engaging with the material is also the best preparation for the conversation","The skills you develop through oral assessment are exactly what professional and doctoral contexts require"]},
+  r_prep_res:{type:'result',back:'prep_q2',stance:'info',stanceLabel:'Guided AI integration recommended',
+    title:"Preparing future researchers",
+    summary:"Research careers increasingly require fluency with AI tools for literature synthesis, data analysis, coding, and writing support. Students who have not developed critical AI literacy at Oxford will be at a disadvantage. The goal is rigorous, transparent AI use, not prohibition.",
+    recs:[
+      "Design at least one assignment where students use an AI tool for a defined research task, then critically evaluate its outputs against primary sources. This develops exactly the skills a researcher needs.",
+      "Teach AI tools explicitly as research instruments: which tools are appropriate for which tasks, what their limitations are, how to verify AI-generated citations.",
+      "Include the norms of AI disclosure in research: what declaration is required, what constitutes appropriate use across different publication and funder contexts.",
+      "Have students compare their own analysis of a text or dataset with an AI analysis. Where they diverge reveals disciplinary thinking in action.",
+    ],
+    lang:"This module develops critical AI literacy as a core research competency. Students are encouraged to use AI tools rigorously and transparently for appropriate research tasks. All AI use in submitted work must be declared, specifying the tool, version, purpose, and how AI outputs were critically evaluated. Students should be able to demonstrate independent understanding of all material submitted.",
+    stupts:["AI tools will be part of your research toolkit: this module helps you use them with the rigour and transparency that research requires","Critical evaluation of AI output is a core research skill: AI tools produce plausible-sounding errors, hallucinate citations, and embed biases you will not see unless you look","All AI use in submitted work must be declared: norms vary across disciplines and publication venues and you should know the requirements for your field"]},
+  r_prep_prof:{type:'result',back:'prep_q2',stance:'info',stanceLabel:'Authentic professional task design',
+    title:"Preparing for professional services careers",
+    summary:"In law, medicine, finance, and consulting, AI is already reshaping professional practice. The most effective preparation combines AI fluency with the professional judgment, verification responsibility, and ethical accountability that AI cannot substitute for.",
+    recs:[
+      "Design assessments as authentic professional tasks: a client advice note, a clinical decision summary, a financial analysis, or a policy brief. Formats where AI can assist but professional judgment is what is assessed.",
+      "Build in a verification layer: require students to identify what an AI tool got wrong in a professional document, or to take professional responsibility for the accuracy of AI-assisted work.",
+      "Address professional liability directly: in professional contexts, the practitioner is legally and ethically responsible for all work regardless of whether AI assistance was used.",
+      "Use case-based scenarios with specific factual constraints that generic AI cannot resolve without genuine professional knowledge.",
+    ],
+    lang:"This module prepares students for professional practice in a context where AI tools are in common use. Students will develop the professional judgment to use AI tools appropriately, to verify AI-generated content rigorously, and to take full professional responsibility for all work they produce or advise upon.",
+    stupts:["In professional practice you are legally and ethically responsible for the accuracy and judgment in your work, even where AI assistance was used","Learning to use AI well, and to verify its outputs against professional standards, is part of your formation as a practitioner","This module will help you develop the professional judgment that AI tools cannot replace and that clients and employers will hold you to"]},
+  r_prep_tech:{type:'result',back:'prep_q2',stance:'info',stanceLabel:'Responsible AI use is the norm in this field',
+    title:"Preparing for technical and engineering careers",
+    summary:"AI coding assistants are already standard tools in most technical workplaces. Assessments that simply prohibit them may produce graduates who are less well-prepared than those who learned to work with AI tools critically and effectively. The emphasis should shift from code production to code comprehension and judgment.",
+    recs:[
+      "Shift assessment focus from code production toward code comprehension, debugging, architecture decisions, and explanation. These are the skills AI augments but cannot replace.",
+      "Require students to explain, modify, or critique any code they submit, whether AI-assisted or not. This tests genuine understanding regardless of how the code was produced.",
+      "Consider providing AI-generated code with intentional errors or poor practices for students to identify, explain, and fix.",
+      "Be explicit about when AI assistance is and is not appropriate: in foundational modules, understanding the underlying algorithm is essential; this cannot be built by using AI to write the code for you.",
+    ],
+    lang:"AI coding tools may be used in this module as specified in the instructions for each assessment. Students are expected to understand and be able to explain all code they submit. In assessments where AI tools are not permitted, this will be stated explicitly. The ability to understand, adapt, debug, explain, and take responsibility for code is what this module assesses.",
+    stupts:["AI coding tools are standard in industry: knowing when to use them, when not to, and how to use them responsibly is part of your professional formation","You are expected to understand and be able to explain all code you submit: AI-generated code you cannot explain is code you cannot take responsibility for","Foundational understanding is what allows you to use AI tools effectively: AI cannot help you if you do not understand what you are building"]},
+  r_prep_gen:{type:'result',back:'prep_q2',stance:'info',stanceLabel:'Critical AI literacy as a graduate skill',
+    title:"Preparing for creative, policy, and generalist careers",
+    summary:"Across professional contexts, graduates will encounter AI tools as normal parts of their working lives. The graduate skills that matter are knowing when and how to use AI, when not to, and how to evaluate and take responsibility for AI outputs.",
+    recs:[
+      "Include at least one assessment that asks students to critically evaluate AI-generated content in your subject area: identify its assumptions, gaps, errors, and what it misses.",
+      "Frame AI use as a professional and ethical question: what are the implications of using AI for this task, who is affected, what is lost, and what responsibilities attach to the output.",
+      "Design assessments that reward original perspective, voice, and judgment: the qualities AI currently cannot replicate well.",
+      "Discuss explicitly how AI is reshaping your specific field and what skills remain distinctively valuable.",
+    ],
+    lang:"This module develops the critical thinking, original analysis, and professional judgment that are central to careers in this field. Students will develop critical AI literacy alongside the distinctively human skills that AI tools augment rather than replace. Transparent AI use for appropriate tasks is encouraged; all use must be declared.",
+    stupts:["Using AI without critical judgment is a professional risk, not just an academic integrity issue: it can produce work you cannot defend or stand behind","Original thinking, ethical judgment, and genuine voice are what employers in this field value and what AI cannot reliably produce","This module will help you understand what AI can and cannot do in your professional context, and how to work with it responsibly"]},
+  r_ped_fb:{type:'result',back:'ped_q2',stance:'warn',stanceLabel:'Possible, but with significant constraints',
+    title:"Using AI to generate feedback on student drafts",
+    summary:"AI can generate useful formative feedback at scale, but the data protection constraints are significant and must be addressed before you begin. The rule is clear: do not upload identifiable student work to any external AI tool.",
+    recs:[
+      "Never upload identifiable student work to an external AI tool. Student work is personal data under UK GDPR. This is a legal obligation, not a guideline.",
+      "Use fully anonymised drafts only, processed through Oxford-licensed platforms exclusively: Microsoft Copilot (Nexus365) or ChatGPT Edu (Oxford enterprise licence).",
+      "AI feedback is most valuable for formative work at scale, where the goal is direction and the stakes are low. For summative assessment, human judgment and accountability remain essential.",
+      "Tell students clearly, in advance, if and how AI tools are used in processing their work.",
+    ],
+    lang:"Students should be aware that [formative/draft] work in this module may be processed using AI tools to support feedback at scale. All such processing uses Oxford-licensed platforms only (Microsoft Copilot / ChatGPT Edu). No identifiable student data will be uploaded to external AI systems. AI-assisted feedback is formative and intended as a starting point for your own reflection, not a final assessment of your work.",
+    stupts:["If AI tools are used to assist with feedback, you will be told about this in advance and in writing","AI feedback is a starting point, not a final word: engage with it critically and bring questions to your tutor","Your tutor remains responsible for your academic development: AI feedback does not replace direct engagement with your supervisor or tutorial"]},
+  r_ped_crit:{type:'result',back:'ped_q2',stance:'ok',stanceLabel:'Excellent pedagogical practice: highly recommended',
+    title:"Getting students to critically evaluate AI outputs",
+    summary:"Asking students to critically evaluate AI-generated content in your discipline is one of the best pedagogical responses available. It develops real subject expertise, creates authentic tasks, rewards genuine knowledge, and is itself highly AI-resistant as an assessment format.",
+    recs:[
+      "Ask students to evaluate an AI-generated response to a question in your field: identify factual errors, missing nuance, faulty reasoning, and disciplinary misconceptions.",
+      "Have students compare their own analysis of a primary source with an AI analysis. Where they diverge reveals disciplinary thinking in action and is impossible to fake without genuine knowledge.",
+      "Use AI-generated content as a teaching resource to make explicit what disciplinary expertise actually consists of: what does your field know that AI consistently gets wrong or oversimplifies?",
+      "This format is inherently AI-resistant: genuinely evaluating AI output well requires the subject knowledge that is the whole point of the module.",
+    ],
+    lang:"This module includes tasks requiring critical evaluation of AI-generated content. These tasks are designed to develop discipline-specific analytical skills and AI literacy simultaneously. Students are assessed on the quality, accuracy, and depth of their critical evaluation, which requires genuine subject knowledge to do well.",
+    stupts:["Evaluating AI output well requires knowing the subject deeply: this task rewards genuine expertise","AI tools reflect the biases, gaps, and errors in their training data: your disciplinary training is what equips you to see this clearly","This is one of the most directly professionally relevant skills this module develops: the ability to evaluate and take responsibility for AI-generated content"]},
+  r_ped_mat:{type:'result',back:'ped_q2',stance:'info',stanceLabel:'Permitted: verify carefully',
+    title:"Creating course materials with AI assistance",
+    summary:"Using AI to help draft, structure, or format teaching materials is permitted and can save significant time. The key obligations are rigorous accuracy verification and transparent disclosure to students where relevant.",
+    recs:[
+      "Always verify AI-generated factual content against primary sources before using it in teaching. AI tools produce plausible-sounding errors on specific dates, technical details, and citations at a significant rate.",
+      "AI is more reliable for structuring, reformatting, and improving clarity than for generating factual content. Use it accordingly.",
+      "Consider disclosing AI assistance in your materials where it is pedagogically useful: this models transparent AI use for students.",
+      "Course materials created with AI assistance remain your intellectual and professional responsibility. The pedagogical judgment about what to teach, how to sequence it, and what to emphasise is yours.",
+    ],
+    lang:"Some materials in this module have been developed with AI assistance. All AI-assisted content has been reviewed and verified for accuracy by the course team. All pedagogical decisions about content, structure, and emphasis have been made by the instructors.",
+    stupts:["Course materials may have been developed with AI assistance: where this is the case it will be disclosed","All materials have been reviewed and verified by the teaching team","This reflects the kind of responsible, transparent AI use in professional contexts that this module addresses"]},
+  r_ped_tut:{type:'result',back:'ped_q2',stance:'info',stanceLabel:'Promising, but needs clear structure',
+    title:"AI-assisted tutoring and student support",
+    summary:"AI tools can provide useful on-demand study support outside contact hours. The key risks are overreliance, exposure to AI errors that students may not recognise, and wellbeing considerations. Structure and specific tool recommendations matter.",
+    recs:[
+      "Name specific tools students should use rather than giving general encouragement: ChatGPT Edu and Microsoft Copilot are the appropriate options within Oxford's data governance framework.",
+      "Encourage critical engagement: students should interrogate AI explanations, check them against course materials, and bring points of disagreement or confusion to tutorials. AI errors are common.",
+      "Consider a structured reflection component: students record what they asked AI, what they learned, and any points of uncertainty. This surfaces common misunderstandings and builds metacognitive habits.",
+      "Note that AI tools are not equipped to provide mental health or welfare support. Always direct students experiencing distress to Oxford's Student Welfare and Support Services, not to AI tools.",
+    ],
+    lang:"Students in this module may use Oxford-licensed AI tools (Microsoft Copilot, ChatGPT Edu) for study support and concept clarification outside contact hours. AI tools make errors: always cross-reference responses with course materials and your own notes. AI study support supplements, and does not replace, direct engagement with your tutor.",
+    stupts:["AI tools can help when you are stuck between tutorials: use them as a starting point to develop your thinking, not as a final authority","Always check AI explanations against your course materials: AI tools make errors, especially on specific details and advanced concepts","If you are experiencing difficulties with your wellbeing, speak with your tutor, your college welfare team, or the University's Student Welfare and Support Services: AI tools are not appropriate for welfare support"]},
+  r_g_early:{type:'result',back:'guide_q2',stance:'warn',stanceLabel:'Protective approach strongly recommended',
+    title:"Early undergraduates: protecting the foundations",
+    summary:"First and second year students are forming their academic identities and building the core disciplinary skills that will carry them through the rest of their degree. Over-reliance on AI at this stage can permanently undermine the foundations they need. The case for restriction is strong.",
+    recs:[
+      "Restrict AI use more tightly in Years 1 and 2 than in later years. The foundational skills being built at this stage are precisely the ones AI could shortcut most effectively.",
+      "Design assessments that are witnessed or involve visible process: tutorials, in-class writing, discussions, and small assignments where the work is demonstrably the student's own.",
+      "Explain the pedagogical rationale for restrictions to students. Students who understand why AI is restricted at this stage are significantly more likely to engage with the restriction honestly.",
+      "Introduce AI as a critical topic in the curriculum: what it can and cannot do, why disciplinary thinking matters, what it means to be an expert. Begin the AI literacy that will develop across the degree.",
+    ],
+    lang:"In this module, use of generative AI tools for assessed work is not permitted. The foundational skills we are developing can only be built through direct, sustained practice. Opportunities to engage with AI tools critically and appropriately will arise in later years of your degree.",
+    stupts:["Restrictions on AI use in your first and second years are about your academic development: the skills you build now are the foundation for everything that follows","The cognitive effort of writing, reasoning, and constructing an argument is what builds understanding: AI cannot do this for you without you losing the benefit","We will discuss AI and what it can and cannot do as part of this course: understanding the limits of AI requires understanding your discipline deeply"]},
+  r_g_late:{type:'result',back:'guide_q2',stance:'info',stanceLabel:'Graduated autonomy appropriate',
+    title:"Later undergraduates: moving towards professional autonomy",
+    summary:"Third and fourth year students are developing intellectual independence and preparing for postgraduate study or professional life. A graduated approach that permits appropriate AI use with full transparency requirements is consistent with their stage of development.",
+    recs:[
+      "Permit AI for appropriate, specified tasks (grammar support, literature discovery, drafting structure) with mandatory declaration.",
+      "Design assessments that reward originality, synthesis, and independent argument. The intellectual contribution of the student should be clearly evident regardless of what AI assistance was used.",
+      "Make declaration normal and positively framed: students who declare AI use transparently are behaving with integrity, not confessing wrongdoing.",
+      "Consider one assessment that explicitly engages with AI as preparation for postgraduate or professional contexts where these norms are already in operation.",
+    ],
+    lang:"Students in this module may use AI tools for [specified tasks: grammar and writing support / literature discovery / stated uses] with full declaration. All assessed work must represent the student's own analysis, argument, and conclusions. A declaration of any AI use must be submitted alongside all assessed work, in the prescribed format.",
+    stupts:["Transparent AI use for appropriate tasks is permitted: declaring it honestly is the right thing to do and is treated as evidence of integrity, not wrongdoing","Your markers are assessing your analysis, your argument, and your engagement with the material: AI can assist the process, but the intellectual substance must be yours","You are approaching the stage where professional and postgraduate norms apply: building good habits now will serve you well"]},
+  r_g_pgt:{type:'result',back:'guide_q2',stance:'info',stanceLabel:'Professional norms and full transparency apply',
+    title:"Postgraduate taught students",
+    summary:"Postgraduate taught students are at or near professional entry level. The focus shifts to developing the AI literacy and professional judgment needed in their careers, alongside the academic integrity standards appropriate to their level.",
+    recs:[
+      "Frame AI use in professional terms: what would responsible AI use look like in the professional contexts your students are entering?",
+      "Require full transparency with specific detail: tool name, version, purpose, and a reflection on how outputs were evaluated and verified.",
+      "Build critical evaluation of AI output into assessment design: PGT students should be capable of identifying AI limitations in their specialist field. This is itself a professional competency.",
+      "Dissertation and project work must meet the highest standards: AI may appropriately assist with literature discovery, grammar, and formatting; the research design, analysis, and intellectual argument must be the student's own.",
+    ],
+    lang:"Students at postgraduate level are expected to approach AI use with professional judgment and full transparency. All use of AI tools in assessed work must be declared, specifying the tool used, its version, the purpose of use, and how outputs were critically evaluated. The research design, analysis, and intellectual argument in all assessed work must demonstrably be the student's own.",
+    stupts:["You are operating at a professional level: the transparency and honesty standards you bring to AI use should reflect that","AI is a tool; the research question, the analysis, and the intellectual argument are yours and will be assessed as yours","Your ability to critically evaluate AI outputs in your specialist field is a professional competency in its own right: this module will help you develop it"]},
+  r_g_dphil:{type:'result',back:'guide_q2',stance:'warn',stanceLabel:'Research integrity is the governing framework',
+    title:"Doctoral researchers",
+    summary:"DPhil researchers face distinct questions from taught students. The governing framework is research integrity, not just academic integrity in assessment. The focus is on original contribution, transparent disclosure, and understanding how AI use fits within your discipline's norms and your target publication venues.",
+    recs:[
+      "AI tools for literature synthesis, grammar and writing support, coding assistance, data processing, and transcription are generally acceptable with appropriate disclosure.",
+      "The original research contribution (research question, methodology, data collection, analysis, and interpretation) must be demonstrably the researcher's own.",
+      "Publication and funder norms around AI disclosure are evolving rapidly. Check the requirements of your target journals, your funders, and your discipline before submitting.",
+      "Discuss AI use explicitly and regularly with your supervisor: what is appropriate for the thesis, what would require disclosure, how to document AI assistance so that the intellectual contribution is clear.",
+      "Review Oxford's Policy for using Generative AI in Research (September 2025) and the accompanying FAQs, which apply to all doctoral researchers conducting research.",
+    ],
+    lang:"Doctoral researchers may use AI tools to support their research in accordance with Oxford's Policy for using Generative AI in Research (September 2025). All substantive AI use must be disclosed to the supervisor and, where required by field conventions or publication requirements, in the thesis itself. The original research contribution must be demonstrably the researcher's own.",
+    stupts:["AI tools can legitimately and usefully support your research: discuss their use openly and regularly with your supervisor","Oxford's Policy for using Generative AI in Research (September 2025) applies to you: read it and the accompanying FAQs","Publication norms vary significantly across disciplines and are changing rapidly: check the requirements for your target journals and conferences before submitting work that involved AI assistance"]},
+};
+
+const REDESIGN = {
+  essay_none:[
+    {t:"Process documentation portfolio",d:"Require a research log, annotated bibliography, and at least one draft alongside the final essay. AI cannot fabricate a credible, evolving intellectual journey.",b:"Strongly recommended"},
+    {t:"Course-specific primary source questions",d:"Design questions around texts, archival materials, or datasets discussed in your specific lectures and seminars. Generic AI cannot engage credibly without genuine course knowledge.",b:"Strong"},
+    {t:"Oral discussion component",d:"Students discuss their essay briefly in tutorial. Those who cannot speak coherently to their own argument provide immediate and unambiguous diagnostic evidence.",b:"Strong"},
+  ],
+  essay_limited:[
+    {t:"Pre-submission argument map",d:"Require an annotated outline or argument map before the essay is due. This establishes independent intellectual direction and cannot be generated retroactively from an AI-written essay.",b:"Recommended"},
+    {t:"Structured AI declaration with reflection",d:"Permit AI for grammar and structural support only, with a mandatory declaration specifying tools used and a short critical reflection on how outputs were evaluated and modified.",b:"Recommended"},
+    {t:"Question specificity and course embeddedness",d:"The more a question requires engagement with your specific course materials, field-specific debates, and your department's disciplinary norms, the harder it is to answer generically.",b:"Strong"},
+  ],
+  essay_open:[
+    {t:"AI-as-collaborator with full audit trail",d:"Students submit their complete prompt history, the AI output, and a critical reflection explaining how they directed, evaluated, and took intellectual responsibility for the AI contribution.",b:"Forward-looking"},
+    {t:"Critical evaluation of provided AI output",d:"Provide an AI-generated essay on the topic and ask students to critique, correct, and improve it. This requires genuine subject knowledge and is itself highly AI-resistant.",b:"AI-resistant"},
+    {t:"Student-formulated question with approval",d:"Students submit their own research question for approval before writing. This establishes intellectual ownership and investment from the outset.",b:"Recommended"},
+  ],
+  exam_none:[
+    {t:"Closed conditions remain low-risk",d:"Closed exams are not vulnerable to AI in the room. Direct your redesign effort toward any open-access components. Shift questions from recall toward application and analysis.",b:"Note"},
+    {t:"Unseen case or scenario",d:"An unseen case, problem, or primary source in the exam requires genuine knowledge to engage with: AI-assisted preparation helps less with these formats.",b:"Good practice"},
+    {t:"Audit open-access components",d:"Use this as a prompt to review any essays, coursework, or open-book components running alongside the exam. That is where AI risk sits.",b:"Important"},
+  ],
+  project_none:[
+    {t:"Milestone submission structure",d:"A proposal, literature review, and chapter drafts at set points creates a visible record of intellectual development that AI cannot retrospectively fake.",b:"Essential"},
+    {t:"Documented supervisory meetings",d:"Formalising the supervisory relationship as part of the project record establishes intellectual ownership that is impossible to fabricate retrospectively.",b:"Strong"},
+    {t:"Original data or fieldwork requirement",d:"Projects requiring original data collection, fieldwork, interviews, or experiments are inherently more AI-resistant than purely literature-based work.",b:"Strong"},
+  ],
+  project_limited:[
+    {t:"AI declaration in methods section",d:"Require students to declare AI tool use in their Methods or Acknowledgements, specifying the tool, version, purpose, and how AI-generated content was verified against primary sources.",b:"Recommended"},
+    {t:"Sequential milestone declarations",d:"At each milestone, students declare what AI tools were used for that section and how outputs were critically verified.",b:"Strong"},
+    {t:"Originality and responsibility statement",d:"A signed declaration at submission that the research design, data collection, analysis, and argument represent the student's own intellectual work.",b:"Standard"},
+  ],
+  oral_none:[
+    {t:"Oral examination or viva",d:"The most AI-resistant format available. AI cannot impersonate a student in real time. Genuine understanding becomes immediately apparent under questioning.",b:"Highest integrity"},
+    {t:"Presentation with Q&A",d:"A live presentation followed by questions from the panel tests both prepared communication and unrehearsed depth of understanding.",b:"Strong"},
+    {t:"Tutorial participation across term",d:"Regular assessed tutorial contributions cannot be AI-generated at any single point, and accumulated over a term they build an authentic record.",b:"Strong"},
+  ],
+};
+
+const SCENARIOS = [
+  {id:1,q:"Can students use AI for a take-home essay?",v:'dep',vl:'Depends on your stated policy',
+    a:"This is entirely your decision as module lead, within your department or faculty's framework. There is no single Oxford-wide answer. What Oxford requires is that your decision is stated clearly in writing, in advance, for each specific assessment. The default position, if you state nothing, is that AI use is unauthorised.",
+    cav:"Whatever you decide, the policy must be stated in writing in the assessment instructions before the assessment begins. 'In writing, in advance' is the legal threshold."},
+  {id:2,q:"Can I upload student essays to an AI tool to generate feedback?",v:'no',vl:'No, not without specific conditions',
+    a:"Uploading identifiable student work to an external AI tool is not permitted without explicit student consent and a data processing agreement. Student work is personal data under UK GDPR. This is a legal obligation, not a guideline.",
+    cav:"Fully anonymised text, processed through Oxford-licensed platforms only (Copilot via Nexus365, ChatGPT Edu), may be acceptable. Seek guidance from your department and the Information Compliance team before proceeding."},
+  {id:3,q:"Can I use AI detection tools to identify misconduct in student work?",v:'no',vl:'No: no tools are currently endorsed',
+    a:"As of October 2025, no AI detection tool has received University endorsement. Oxford's policy states that suspected unauthorised AI use should only be identified through the marking process itself, not through detection tools. Using unapproved detection tools creates evidential and fairness risks.",
+    cav:"Do not use Turnitin's AI detection feature or any other AI detection tool for the purpose of identifying misconduct until a tool has received university endorsement. Identify concerns through your reading of the work and refer to your department's academic misconduct procedures."},
+  {id:4,q:"Can I use AI to draft lecture slides or teaching materials?",v:'yes',vl:'Yes, with careful verification',
+    a:"Using AI to help draft, structure, or format teaching materials is permitted. You must verify all factual content rigorously: AI tools produce plausible-sounding errors on specific dates, technical details, and citations at a significant rate. Consider disclosing AI assistance to students where it is pedagogically useful.",
+    cav:null},
+  {id:5,q:"Can I use AI to help write exam questions or mark schemes?",v:'yes',vl:'Yes, with human review',
+    a:"Drafting exam questions, mark schemes, and rubrics with AI assistance is acceptable. Review all outputs carefully for factual errors, ambiguities, and fitness for your course level. The academic judgment about the quality and appropriateness of questions remains yours entirely.",
+    cav:null},
+  {id:6,q:"Can I upload my own research materials to an AI tool?",v:'dep',vl:'Generally yes, with conditions',
+    a:"Using Oxford-licensed tools with your own non-sensitive research materials is generally acceptable. Check the tool's data retention terms. Consumer AI tools may use inputs to improve their models. For commercially sensitive research, confidential data, or work subject to funder agreements, use Oxford-licensed tools only.",
+    cav:"If your research involves personal data from human participants, you need ethics approval and data protection compliance before AI processing. Contact the Information Compliance team for guidance."},
+  {id:7,q:"Can students use Grammarly or basic writing tools?",v:'yes',vl:'Generally yes, declare if significant',
+    a:"Basic grammar and spell-checking has always been acceptable and is not typically considered AI assistance. AI-powered rewriting, restructuring, or content generation is a different category and should be declared if used significantly. Your module policy should specify the threshold you intend to apply.",
+    cav:"If your policy prohibits all AI tools, clarify explicitly whether basic grammar checking is included or excluded. Leaving this ambiguous creates unnecessary confusion and potential unfairness for students."},
+  {id:8,q:"Can students use AI translation tools?",v:'dep',vl:'Depends on what the assessment tests',
+    a:"If the assessment is designed to test language or translation skills, AI translation directly undermines the assessment purpose. If language competence is incidental and the assessment tests other knowledge, a more permissive approach may be justified. State your position clearly in the assessment instructions.",
+    cav:"Consider equity: students for whom English is not a first language may have legitimate needs here. Oxford's policy specifically carves out using AI to improve English or foreign language standard as a non-substantive, excluded use. Ensure your policy does not inadvertently disadvantage this group."},
+  {id:9,q:"Can I use AI-generated images in teaching materials?",v:'dep',vl:'It depends on the tool and use',
+    a:"The copyright status of AI-generated images is legally unsettled in the UK. There is no clear intellectual property protection for purely AI-generated content. Be cautious about using images generated from prompts based on copyrighted works. Check your specific tool's licence terms before using AI images in published or externally distributed materials.",
+    cav:null},
+  {id:10,q:"Does Oxford AI policy apply to college teaching as well as faculty teaching?",v:'yes',vl:'Yes, it applies to all summative assessment',
+    a:"Oxford's AI policy on summative assessment applies to all summative assessment set for students of the University, regardless of whether the teaching is delivered by a faculty or a college. Individual colleges may have additional or more specific guidance. Check with your college Academic Administrator.",
+    cav:null},
+];
+
+const OBLIGATIONS = [
+  {n:1,title:"Declare AI permissions for each assessment",detail:"You must state explicitly, in writing, in advance of each assessment, whether AI use is permitted and, if so, what forms of use are permitted. There is no default permission: if you do not state that AI use is permitted, it is not. This applies to every discrete assessment unit, not just the module as a whole.",important:true},
+  {n:2,title:"Review assessment design for alignment",detail:"For each assessment, review the task and marking criteria to ensure they are aligned with the level of AI use you have permitted. If you have prohibited AI, the task should ideally be designed so that AI assistance provides limited advantage. If you have permitted AI, the task should reward what you intend to assess even when AI is used."},
+  {n:3,title:"Ensure equality of AI tool access",detail:"Where you have authorised students to use specific AI tools for an assessment, you must ensure that all students have equitable access to appropriate baseline provision. You cannot assess students on their ability to use AI tools that some students cannot access."},
+  {n:4,title:"Specify the required declaration format",detail:"You must prescribe the format in which students are required to declare any AI use. A declaration should include at minimum: the name and version of any tool used; how it was used; and how the AI output was evaluated and integrated. Templates are available in the Handbook Generator section of this toolkit."},
+  {n:5,title:"Use only endorsed tools to identify suspected AI use",detail:"You may only identify suspected unauthorised AI use through the marking process (your own reading of the work) or through AI detection tools that have received explicit University endorsement. As of October 2025, no AI detection tool has received University endorsement. Do not use Turnitin AI detection or any other AI detection tool for misconduct purposes at this time.",important:true},
+  {n:6,title:"Handle all cases under the standard disciplinary regulations",detail:"All cases of suspected academic misconduct involving AI must be handled under Oxford's standard academic disciplinary regulations and procedures. There are no AI-specific procedures: the existing conduct regulations apply."},
+];
+
+const RESEARCH_EXPECTATIONS = [
+  {n:1,title:"Remain ultimately responsible for GenAI content",detail:"You are accountable for the integrity of all content produced with GenAI assistance. Maintain a critical approach to AI outputs: be aware of hallucinations, social biases embedded in training data, and the potential for misrepresentation of protected groups or historical inaccuracies."},
+  {n:2,title:"Understand IP implications of uploading material",detail:"Uploading published or unpublished work to a GenAI tool may constitute a breach of copyright if it cannot be covered by a copyright exception. Ensure the tool you use will not use your uploaded content for training. Oxford recommends using ChatGPT Edu (governed by an Oxford-OpenAI agreement) or a locally deployed model."},
+  {n:3,title:"Follow information security guidance",detail:"Cloud-hosted AI services present confidentiality risks. Do not upload commercially sensitive, personally identifiable, export-controlled, or confidentiality-agreement-protected information to cloud AI tools unless confidentiality can be guaranteed. Use ChatGPT Edu or consult the AI Competency Centre for guidance on locally deployed models."},
+  {n:4,title:"Declare substantive GenAI use and communicate openly",detail:"When using a standalone GenAI tool (rather than AI functionality embedded in existing software), declare its substantive use in your work. Declarations should include the tool name, version, date, how it was used, and how it affected the research process. If relevant, make prompts and outputs available in line with open research principles."},
+  {n:5,title:"Aim for reproducibility and robustness",detail:"GenAI tools are probabilistic and produce different outputs from the same input. Cloud-hosted models are continuously updated and cannot be archived. Disclose limitations of AI tools used and any mitigation measures in your methods or acknowledgements. Consider locally run models for improved reproducibility where feasible."},
+  {n:6,title:"Learn to use GenAI tools responsibly and keep current",detail:"GenAI tools evolve quickly. Make use of training, guidance, and advice from the University, including the AI Competency Centre and Bodleian Libraries training. Consider joining the University's Generative AI Special Interest Group on Teams, run by the AI Competency Centre."},
+  {n:7,title:"Be mindful of the environmental impact",detail:"Building and running large GenAI models is extremely energy-intensive. Where feasible, use smaller locally run models for routine tasks. Consider whether a non-GenAI tool or simpler automation is fit for purpose before choosing a large cloud-hosted model."},
+];
+
+const SUBSTANTIVE_USE_YES = [
+  "Interpreting or analysing data, texts, audio, or image files",
+  "Undertaking a literature review or translation",
+  "Identifying research gaps or formulating research aims",
+  "Developing hypotheses or generating ideas",
+  "Generating code or synthetic data",
+  "Transcribing interviews or meetings to save time (rather than to overcome barriers)",
+  "Producing documents from transcripts, recordings, or other people's work",
+];
+
+const SUBSTANTIVE_USE_NO = [
+  "Assisting a non-native speaker with translation or language improvement",
+  "Transforming transcribed spoken language into written language where you face barriers to writing",
+  "Formatting documents or improving layout",
+  "Improving the standard of your written English or a foreign language",
+];
+
+const TOOLS_DATA = [
+  {name:"Microsoft Copilot",badge:"Nexus365 (Oxford)",bc:"#003580",
+    desc:"AI assistant embedded in Teams, Word, Outlook, SharePoint, and OneDrive. Operates within Oxford's data governance framework via the Nexus365 enterprise agreement.",
+    can:["Draft and edit documents, emails, and presentations","Summarise meetings, documents, and communications","Search and synthesise content across your OneDrive and SharePoint","Generate and review teaching materials","Support literature organisation within your own files"],
+    cant:["Process identifiable student personal data without explicit consent","Access Oxford systems beyond your own Nexus365 account","Guarantee factual accuracy: always verify all outputs against primary sources"],
+    acc:"Available via your Oxford Nexus365 account. Check IT Services (help.it.ox.ac.uk) for current rollout status across staff groups.",
+    link:"https://help.it.ox.ac.uk"},
+  {name:"ChatGPT Edu",badge:"Oxford Enterprise Licence",bc:"#1a5c38",
+    desc:"Oxford's enterprise ChatGPT licence with OpenAI. Conversations are not used to train OpenAI models, unlike consumer ChatGPT accounts. Governed by an Oxford-OpenAI data agreement.",
+    can:["General AI assistance for research, teaching, and administration","Drafting, editing, and reformatting documents and course materials","Working with your own research materials (check sensitivity)","Study support for students (within licence terms)","Code generation and debugging"],
+    cant:["Upload sensitive personal data or confidential research data","Access Oxford's internal systems","Guarantee accurate citations: always verify with primary sources"],
+    acc:"Access via Oxford's enterprise account. Contact IT Services or the AI Competency Centre for onboarding.",
+    link:"https://oerc.ox.ac.uk/ai-centre/ai-guides/genai-tool-guides/chatgpt-edu-onboarding-guides/"},
+  {name:"NotebookLM",badge:"Google (Oxford)",bc:"#8b1a00",
+    desc:"AI research assistant grounded exclusively in documents you upload. Answers are based only on your uploaded sources, not the open internet. Useful for creating department-specific knowledge bases.",
+    can:["Query across a set of documents you provide","Summarise, compare, and synthesise your uploaded sources","Generate FAQs and summaries from policy documents or lecture notes","Create course-specific or department-specific AI reference tools"],
+    cant:["Access content beyond what you have uploaded","Process identifiable personal data","Replace verification against primary sources: always check outputs"],
+    acc:"Available through Oxford's Google Workspace. Access via your Oxford Google account.",
+    link:"https://support.google.com/notebooklm"},
+  {name:"Gemini for Google Workspace",badge:"Google (Oxford)",bc:"#8b1a00",
+    desc:"AI assistant integrated into Google Docs, Slides, Sheets, and Gmail for staff with Oxford Google Workspace accounts.",
+    can:["Draft and improve documents in Google Docs","Create and structure presentation content","Analyse spreadsheet data using natural language","Draft and summarise emails in Gmail"],
+    cant:["Process sensitive personal data or confidential research data","Access Oxford systems outside Google Workspace","Guarantee accuracy: verify all outputs"],
+    acc:"Available to staff with Oxford Google Workspace accounts. Enable via Workspace settings.",
+    link:"https://workspace.google.com/products/gemini/"},
+];
+
+const PRINCIPLES = [
+  {n:1,title:"Integrity, honesty, and transparency",body:"Educational practice in teaching and assessment must be grounded in values of integrity, honesty, and transparency. These values need to be clearly articulated and frequently discussed with students: they should not be treated as self-evident or assumed."},
+  {n:2,title:"Fitness for specific purpose",body:"Every discrete unit of assessment must be carefully designed to be fit for its specific purposes. Those purposes need to be clearly articulated to students. The purpose of the assessment should inform the decisions made regarding what AI assistance, if any, is appropriate for that specific task."},
+  {n:3,title:"Clear and specific expectations",body:"Every element of summative assessment must be accompanied by a clear explanation of what appropriate assistance is permitted and what is forbidden. Where assistance is permitted, the assignment should specify exactly how students should report the assistance they received."},
+];
+
+// ─── SECTION: HOME ───────────────────────────────────────────────────────────
+function HomeSection({setSec}) {
+  return (
+    <div>
+      <div style={{background:C.white,border:`1px solid ${C.bd}`,borderRadius:8,padding:'1.5rem',marginBottom:'1.25rem'}}>
+        <h1 style={{fontFamily:serif,fontSize:28,fontWeight:600,color:C.navy,marginBottom:'0.5rem',lineHeight:1.2}}>Generative AI at Oxford</h1>
+        <h2 style={{fontFamily:serif,fontSize:18,fontWeight:400,color:C.muted,marginBottom:'1rem',fontStyle:'italic',lineHeight:1.4}}>Teaching and Assessment Toolkit</h2>
+        <p style={{fontSize:14,color:C.muted,lineHeight:1.7,marginBottom:'1rem'}}>A practical reference for all members of the University navigating the use of generative AI in teaching, assessment, research, and study. Every section is grounded in Oxford's official policies as of October 2025. Use the navigation to go directly to what you need.</p>
+        <Alert type="err" title="The Oxford default position">
+          <strong>All use of AI in work submitted for summative assessment is unauthorised unless you are specifically told otherwise in writing, in advance, for that specific assessment.</strong> Even if AI was permitted for a previous assessment, or for formative work, this does not carry over. Each assessment must be treated independently. This applies to all students of the University.
+        </Alert>
+        <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+          <ExtLink href="https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment">AI Use in Summative Assessment Policy</ExtLink>
+          <span style={{color:C.light,fontSize:13}}>|</span>
+          <ExtLink href="https://www.ox.ac.uk/research/support-researchers/research-practice/policy-generative-ai-research">Research AI Policy (Sept 2025)</ExtLink>
+          <span style={{color:C.light,fontSize:13}}>|</span>
+          <ExtLink href="https://www.ox.ac.uk/students/life/it/guidance-safe-and-responsible-use-gen-ai-tools">Student AI Guidance</ExtLink>
+        </div>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(210px,1fr))',gap:10,marginBottom:'1.25rem'}}>
+        {[
+          {sec:'faculty_policy',aud:'Faculty',title:'Course AI Policy',desc:'Guided decision tree leading to accurate policy recommendations and ready-to-copy handbook language',col:C.navy},
+          {sec:'faculty_assessment',aud:'Faculty',title:'Assessment Redesign',desc:'Tailored redesign strategies for your specific assessment format and AI permission level',col:C.navyMd},
+          {sec:'faculty_handbook',aud:'Faculty',title:'Handbook Generator',desc:'Generate the exact assessment policy language and student declaration format for your module',col:'#1a3d6e'},
+          {sec:'faculty_obligations',aud:'Faculty',title:'My Obligations',desc:"Interactive checklist of the six things you are required to do as an assessment setter",col:'#2a4d7e'},
+          {sec:'students',aud:'Students',title:'Student Guide',desc:'Know the rules, check your planned AI use, and generate your required declaration',col:C.ok},
+          {sec:'researchers',aud:'Researchers',title:'Research AI Policy',desc:"Oxford's September 2025 research AI policy: seven expectations, substantive use, and declaration guidance",col:'#4a1a7a'},
+          {sec:'checker',aud:'Everyone',title:'Can I Do This?',desc:'Quick answers to common AI use questions for staff and students at Oxford',col:'#1a5a5a'},
+          {sec:'tools',aud:'Everyone',title:'Tools and Training',desc:'Oxford-licensed AI tools, the AI Competency Centre, and free training available from Michaelmas 2025',col:'#5a3a00'},
+        ].map(c => (
+          <button key={c.sec} onClick={()=>setSec(c.sec)}
+            style={{background:C.white,border:`1px solid ${C.bd}`,borderRadius:8,padding:'1rem',textAlign:'left',cursor:'pointer',transition:'box-shadow 0.15s'}}
+            onMouseEnter={e=>{e.currentTarget.style.boxShadow='0 2px 10px rgba(0,33,71,0.1)';e.currentTarget.style.transform='translateY(-1px)'}}
+            onMouseLeave={e=>{e.currentTarget.style.boxShadow='none';e.currentTarget.style.transform='translateY(0)'}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.gold,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:4}}>{c.aud}</div>
+            <div style={{fontFamily:serif,fontSize:15,fontWeight:600,color:c.col,marginBottom:4}}>{c.title}</div>
+            <div style={{fontSize:13,color:C.muted,lineHeight:1.5,marginBottom:8}}>{c.desc}</div>
+            <div style={{fontSize:13,fontWeight:600,color:C.gold}}>Open &#8594;</div>
+          </button>
+        ))}
+      </div>
+
+      <Card style={{borderLeft:`4px solid ${C.gold}`}}>
+        <div style={{fontSize:13,fontWeight:600,color:C.gold,textTransform:'uppercase',letterSpacing:'0.07em',marginBottom:'0.75rem'}}>The three principles governing Oxford's AI policy in assessment</div>
+        <div style={{fontSize:13,color:C.muted,marginBottom:'0.75rem',lineHeight:1.5}}>Endorsed by the Education Committee, Trinity Term 2025. All assessment AI policy must be consistent with these principles.</div>
+        {PRINCIPLES.map(p => <PrincipleBox key={p.n} n={p.n} title={p.title}>{p.body}</PrincipleBox>)}
+      </Card>
+
+      <div style={{marginTop:'1rem',padding:'0.875rem 1rem',background:'#eef0f4',borderRadius:8,fontSize:13,color:C.muted,lineHeight:1.7}}>
+        <strong style={{color:C.tx}}>Policy currency: </strong>This toolkit reflects Oxford's AI policies as of October 2025. The AI policy landscape at Oxford is under active development and reviewed termly. Always check <ExtLink href="https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment">governance.admin.ox.ac.uk</ExtLink> and <ExtLink href="https://www.ox.ac.uk/gen-ai">ox.ac.uk/gen-ai</ExtLink> for the most current guidance. Where this toolkit and an official Oxford source conflict, the official source governs.
+      </div>
+    </div>
+  );
+}
+
+// ─── SECTION: FACULTY POLICY (DECISION TREE) ─────────────────────────────────
+function FacultyPolicySection() {
+  const [path, setPath] = useState(['start']);
+  const node = TREE[path[path.length-1]];
+  const isResult = node && node.type === 'result';
+  const [copiedLang, setCopiedLang] = useState(false);
+
+  const choose = (next) => setPath([...path, next]);
+  const back = () => { if(path.length > 1) setPath(path.slice(0,-1)); };
+  const reset = () => setPath(['start']);
+
+  const copyLang = () => {
+    if(node && node.lang) {
+      navigator.clipboard.writeText(node.lang).then(() => {
+        setCopiedLang(true);
+        setTimeout(() => setCopiedLang(false), 2000);
+      });
+    }
+  };
+
+  const stanceStyle = {
+    ok:{bg:C.okBg,bd:C.okBd,dot:C.ok,col:C.ok},
+    warn:{bg:C.warnBg,bd:C.warnBd,dot:C.gold,col:C.warn},
+    err:{bg:C.errBg,bd:C.errBd,dot:C.err,col:C.err},
+    info:{bg:C.infoBg,bd:C.infoBd,dot:C.info,col:C.info},
+    purple:{bg:C.purpleBg,bd:C.purpleBd,dot:C.purple,col:C.purple},
+  };
+
+  return (
+    <div>
+      <SectionTitle>Course AI Policy Decision Tool</SectionTitle>
+      <Alert type="err" title="Critical accuracy note before you begin">
+        The default position at Oxford is that <strong>all AI use in assessed work is unauthorised unless you explicitly state otherwise in writing before the assessment</strong>. This tool helps you decide what your policy should be and generates the language to communicate it. Whatever you decide must be stated per-assessment, not just at module level.
+      </Alert>
+      <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:'1rem',flexWrap:'wrap'}}>
+        {path.map((id,i) => (
+          <span key={i} style={{display:'flex',alignItems:'center',gap:5}}>
+            {i > 0 && <span style={{color:C.light,fontSize:13}}>&#8250;</span>}
+            <span style={{fontSize:13,padding:'2px 9px',borderRadius:10,background:i===path.length-1?C.navy:'#e8e4da',color:i===path.length-1?C.white:C.muted,fontWeight:i===path.length-1?500:400}}>
+              {i===0?'Start':`Step ${i}`}
+            </span>
+          </span>
+        ))}
+      </div>
+
+      {!isResult ? (
+        <Card>
+          <div style={{fontFamily:serif,fontSize:19,fontWeight:600,color:C.navy,marginBottom:'0.375rem',lineHeight:1.3}}>{node && node.q}</div>
+          {node && node.sub && <p style={{fontSize:13,color:C.muted,marginBottom:'1rem',lineHeight:1.55}}>{node.sub}</p>}
+          <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:'1rem'}}>
+            {node && node.opts && node.opts.map(o => (
+              <button key={o.id} onClick={()=>choose(o.next)}
+                style={{background:C.cream,border:`1.5px solid ${C.bd}`,borderRadius:7,padding:'0.875rem 1rem',textAlign:'left',cursor:'pointer'}}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.gold;e.currentTarget.style.background=C.goldPale}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor=C.bd;e.currentTarget.style.background=C.cream}}>
+                <div style={{fontSize:14,fontWeight:500,color:C.tx,marginBottom:o.desc?2:0}}>{o.label}</div>
+                {o.desc && <div style={{fontSize:13,color:C.muted,lineHeight:1.5}}>{o.desc}</div>}
+              </button>
+            ))}
+          </div>
+          {path.length > 1 && <button onClick={back} style={{fontSize:13,color:C.muted,padding:0}}>&larr; Back</button>}
+        </Card>
+      ) : (
+        <div>
+          {(()=>{const s=stanceStyle[node.stance]||stanceStyle.info; return (
+            <div style={{background:s.bg,border:`1px solid ${s.bd}`,borderRadius:8,padding:'0.875rem 1.1rem',marginBottom:'1rem',display:'flex',gap:10,alignItems:'flex-start'}}>
+              <div style={{width:9,height:9,borderRadius:'50%',background:s.dot,flexShrink:0,marginTop:5}}/>
+              <div>
+                <div style={{fontSize:13,fontWeight:600,color:s.col,textTransform:'uppercase',letterSpacing:'0.05em',marginBottom:3}}>{node.stanceLabel}</div>
+                <div style={{fontFamily:serif,fontSize:18,fontWeight:600,color:C.navy,lineHeight:1.3}}>{node.title}</div>
+              </div>
+            </div>
+          );})()}
+          <Card style={{marginBottom:'0.875rem'}}>
+            <p style={{fontSize:14,color:C.muted,lineHeight:1.7}}>{node.summary}</p>
+          </Card>
+          <Card style={{marginBottom:'0.875rem'}}>
+            <div style={{fontSize:13,fontWeight:600,color:C.navy,textTransform:'uppercase',letterSpacing:'0.06em',marginBottom:'0.875rem'}}>Specific recommendations for your context</div>
+            {node.recs && node.recs.map((r,i) => <NumRow key={i} n={i+1}>{r}</NumRow>)}
+          </Card>
+          <Card style={{marginBottom:'0.875rem'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.625rem',flexWrap:'wrap',gap:8}}>
+              <div style={{fontSize:13,fontWeight:600,color:C.navy,textTransform:'uppercase',letterSpacing:'0.06em'}}>Suggested module handbook language</div>
+              <button onClick={copyLang} style={{fontSize:13,padding:'4px 10px',border:`1px solid ${C.bd}`,borderRadius:6,color:copiedLang?C.ok:C.muted,background:copiedLang?C.okBg:C.cream}}>
+                {copiedLang?'Copied!':'Copy text'}
+              </button>
+            </div>
+            <QuoteBlock>{node.lang}</QuoteBlock>
+            <p style={{fontSize:13,color:C.muted}}>Edit this text for your module. Text in [brackets] should be completed or selected. This language satisfies the requirement to specify AI permissions in writing, in advance, for each assessment.</p>
+          </Card>
+          <Card style={{marginBottom:'1rem'}}>
+            <div style={{fontSize:13,fontWeight:600,color:C.navy,textTransform:'uppercase',letterSpacing:'0.06em',marginBottom:'0.75rem'}}>Key points to communicate to students in this context</div>
+            {node.stupts && node.stupts.map((p,i) => <BulletRow key={i}>{p}</BulletRow>)}
+          </Card>
+          <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+            <button onClick={back} style={{padding:'7px 14px',border:`1px solid ${C.bd}`,borderRadius:7,fontSize:13,color:C.muted,background:C.white}}>&larr; Back</button>
+            <button onClick={reset} style={{padding:'7px 14px',background:C.navy,border:'none',borderRadius:7,fontSize:13,color:C.white,fontWeight:500}}>Start again</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: FACULTY ASSESSMENT REDESIGN ────────────────────────────────────
+function FacultyAssessmentSection() {
+  const [form, setForm] = useState({type:'',ai:'',level:''});
+  const [results, setResults] = useState(null);
+
+  const generate = () => {
+    const key = `${form.type}_${form.ai}`;
+    const r = REDESIGN[key] || REDESIGN[`${form.type}_none`] || [];
+    setResults(r);
+  };
+
+  return (
+    <div>
+      <SectionTitle sub="Select your assessment format and intended AI permission level to receive specific redesign recommendations and assessment brief guidance.">Assessment Redesign Wizard</SectionTitle>
+      {!results ? (
+        <Card>
+          <div style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
+            {[
+              {label:"Current assessment format",key:'type',opts:[
+                {v:'',l:'Select format'},
+                {v:'essay',l:'Take-home essay or written assignment'},
+                {v:'exam',l:'Examination (closed or open book)'},
+                {v:'project',l:'Research project or dissertation'},
+                {v:'oral',l:'Oral, presentation, or viva'},
+              ]},
+              {label:"Level of AI use you intend to permit",key:'ai',opts:[
+                {v:'',l:'Select AI permission level'},
+                {v:'none',l:'No AI use permitted in this assessment'},
+                {v:'limited',l:'Limited, specified AI use with mandatory declaration'},
+                {v:'open',l:'AI freely permitted as a tool, with full transparency'},
+              ]},
+              {label:"Student level",key:'level',opts:[
+                {v:'',l:'Select student level'},
+                {v:'ug12',l:'Undergraduate Years 1 and 2'},
+                {v:'ug34',l:'Undergraduate Years 3 and 4'},
+                {v:'pgt',l:'Postgraduate taught (MSc, MPhil, MBA)'},
+                {v:'dphil',l:'Doctoral research (DPhil)'},
+              ]},
+            ].map(f => (
+              <div key={f.key}>
+                <label style={{display:'block',fontSize:13,fontWeight:600,color:C.navy,marginBottom:5}}>{f.label}</label>
+                <select value={form[f.key]} onChange={e=>setForm({...form,[f.key]:e.target.value})}
+                  style={{width:'100%',padding:'8px 10px',border:`1px solid ${C.bd}`,borderRadius:7,fontSize:13,color:form[f.key]?C.tx:C.muted,background:C.cream}}>
+                  {f.opts.map(o => <option key={o.v} value={o.v}>{o.l}</option>)}
+                </select>
+              </div>
+            ))}
+            <button onClick={generate} disabled={!form.type||!form.ai||!form.level}
+              style={{background:form.type&&form.ai&&form.level?C.navy:'#c0bbb5',border:'none',borderRadius:7,padding:'9px 16px',color:C.white,fontSize:13,fontWeight:500,cursor:form.type&&form.ai&&form.level?'pointer':'not-allowed'}}>
+              Generate recommendations &#8594;
+            </button>
+          </div>
+        </Card>
+      ) : (
+        <div>
+          <div style={{fontFamily:serif,fontSize:18,fontWeight:600,color:C.navy,marginBottom:'1rem'}}>Recommended redesign strategies</div>
+          <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:'1.25rem'}}>
+            {results.map((s,i) => (
+              <Card key={i}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:10,marginBottom:6,flexWrap:'wrap'}}>
+                  <div style={{fontFamily:serif,fontSize:15,fontWeight:600,color:C.navy}}>{s.t}</div>
+                  <span style={{background:C.goldPale,color:C.warn,fontSize:13,padding:'2px 8px',borderRadius:10,fontWeight:600,border:`1px solid ${C.goldBd}`,whiteSpace:'nowrap'}}>{s.b}</span>
+                </div>
+                <p style={{fontSize:13,color:C.muted,lineHeight:1.65}}>{s.d}</p>
+              </Card>
+            ))}
+          </div>
+          <Card style={{marginBottom:'1rem'}}>
+            <div style={{fontSize:13,fontWeight:600,color:C.navy,textTransform:'uppercase',letterSpacing:'0.06em',marginBottom:'0.75rem'}}>What every assessment brief must include (all formats)</div>
+            {[
+              "The explicit AI policy for this assessment: what is permitted, what is restricted, what is prohibited.",
+              "The precise declaration format you require, stating: tool name and version, how it was used, and how outputs were evaluated.",
+              form.ai==='none'?"The pedagogical rationale for restricting AI: students who understand why they matter are far more likely to engage honestly.":"A specification of exactly which AI uses are in and out of scope, without ambiguity.",
+              "A link to or citation of the University's academic integrity policy and your department's specific conduct guidance.",
+              "Clear statement of the consequences of undisclosed or unauthorised AI use.",
+              "Confirmation that this policy applies to this specific assessment only, and that students must check the policy for each assessment independently.",
+            ].map((item,i) => <BulletRow key={i}>{item}</BulletRow>)}
+          </Card>
+          <Alert type="err" title="Detection tools: do not use them">
+            As of October 2025, no AI detection tool has received University endorsement. Do not use Turnitin's AI detection feature or any similar tool for misconduct purposes. Identify suspected cases through your own reading of the work.
+          </Alert>
+          <div style={{display:'flex',gap:8}}>
+            <button onClick={()=>{setResults(null);setForm({type:'',ai:'',level:''}); }} style={{padding:'7px 14px',border:`1px solid ${C.bd}`,borderRadius:7,fontSize:13,color:C.muted,background:C.white}}>&larr; Start again</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: FACULTY HANDBOOK GENERATOR ─────────────────────────────────────
+function FacultyHandbookSection() {
+  const [f, setF] = useState({module:'',level:'',assessment:'',permission:'', decl:'full'});
+  const [gen, setGen] = useState(false);
+  const [copied, setCopied] = useState('');
+
+  const levelLabels = {ug1:'Undergraduate Year 1', ug2:'Undergraduate Year 2', ug3:'Undergraduate Year 3', ug4:'Undergraduate Year 4', pgt:'Postgraduate taught', dphil:'Doctoral (DPhil)'};
+  const assessLabels = {essay:'take-home essay',exam:'unseen examination',project:'research project or dissertation',presentation:'oral presentation or seminar',viva:'viva voce',portfolio:'portfolio',mixed:'mixed assessment'};
+  const permLabels = {none:'not permitted',limited:'permitted only as specified below',open:'permitted as a tool, subject to declaration'};
+
+  const makePolicy = () => {
+    const mod = f.module || '[Module Name]';
+    const level = levelLabels[f.level] || '[Level]';
+    const assess = assessLabels[f.assessment] || '[Assessment type]';
+    const perm = permLabels[f.permission] || '[specify]';
+    return `AI Use Policy for ${mod} (${level})\n\nIn this ${assess}, use of generative AI tools is ${perm}.\n\n${f.permission==='none'?`The purpose of this assessment is to develop and demonstrate [specify learning outcomes]. Achieving these outcomes requires sustained independent engagement with the material. Use of generative AI tools would undermine this purpose and is therefore not permitted.\n\nAny use of AI in submitted work constitutes cheating under the University's academic integrity regulations and will be handled accordingly.`:f.permission==='limited'?`AI tools may be used only for the following specified purposes: [specify, e.g. grammar checking and proofreading / literature discovery / specified coding tasks]. AI may not be used for [specify excluded uses, e.g. generating or structuring arguments / writing sections of text / analysing data].\n\nAll AI use must be declared using the format below before or alongside submission.`:f.permission==='open'?`AI tools may be used to support your work in this assessment. You are required to declare all substantive AI use using the format below.\n\nThe intellectual substance of your submitted work, including your analysis, argument, and conclusions, must be your own. AI tools may assist your process; they may not substitute for your thinking.`:''}\n\n---\nRequired Declaration Format\n\nAll students must submit the following declaration alongside their work [even where AI was not used / where AI was used]:\n\n"I declare that in completing this assessment I [did not use / used] generative AI tools. ${f.permission!=='none'?'[If used:] The tools I used were: [name and version]. I used them for: [specific purpose]. I evaluated and modified the AI output as follows: [brief description]. The analysis, argument, and conclusions in this work are my own.':''}"\n\nFalse declaration constitutes academic misconduct under the University's disciplinary regulations.`;
+  };
+
+  const makeBrief = () => {
+    const mod = f.module || '[Module Name]';
+    return `AI Declaration Form\n${mod}\n\nStudent name: ______________________________\nOxford ID: ________________________________\nAssessment: ________________________________\nDate of submission: ________________________\n\nSection 1: AI Use Declaration\n\nDid you use any generative AI tools in completing this assessment?\n[ ] No. I confirm that I did not use any generative AI tools.\n[ ] Yes. I confirm that I used AI tools as declared below.\n\nSection 2: Details of AI Use (complete only if you answered Yes above)\n\nTool(s) used (name and version): ___________________________\nDate(s) of use: ___________________________________________\nPurpose (what you used the AI for): _________________________\n________________________________________________________\nHow you evaluated and modified the AI output: _______________\n________________________________________________________\nSections of your work where AI assistance was used: __________\n________________________________________________________\n\nSection 3: Declaration and Signature\n\nI confirm that the information above is accurate and complete. I understand that false declaration constitutes academic misconduct under the University's disciplinary regulations.\n\nSignature: _______________________ Date: _________________`;
+  };
+
+  const copy = (text, key) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(key);
+      setTimeout(() => setCopied(''), 2000);
+    });
+  };
+
+  return (
+    <div>
+      <SectionTitle sub="Fill in the details below to generate ready-to-use handbook language and a student declaration form for your module.">Handbook Language Generator</SectionTitle>
+      <Card style={{marginBottom:'1rem'}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem'}}>
+          {[
+            {label:"Module name (optional)",key:'module',type:'text',placeholder:'e.g. HT4027 Political Theory'},
+            {label:"Student level",key:'level',type:'select',opts:[
+              {v:'',l:'Select level'},
+              {v:'ug1',l:'Undergraduate Year 1'},{v:'ug2',l:'Undergraduate Year 2'},
+              {v:'ug3',l:'Undergraduate Year 3'},{v:'ug4',l:'Undergraduate Year 4'},
+              {v:'pgt',l:'Postgraduate taught'},{v:'dphil',l:'Doctoral (DPhil)'},
+            ]},
+            {label:"Assessment type",key:'assessment',type:'select',opts:[
+              {v:'',l:'Select assessment type'},{v:'essay',l:'Take-home essay'},{v:'exam',l:'Examination'},
+              {v:'project',l:'Research project or dissertation'},{v:'presentation',l:'Oral presentation'},
+              {v:'viva',l:'Viva voce'},{v:'portfolio',l:'Portfolio'},{v:'mixed',l:'Mixed assessment'},
+            ]},
+            {label:"AI permission level",key:'permission',type:'select',opts:[
+              {v:'',l:'Select AI permission level'},
+              {v:'none',l:'Not permitted'},{v:'limited',l:'Permitted: specified uses only'},{v:'open',l:'Freely permitted with declaration'},
+            ]},
+          ].map(fi => (
+            <div key={fi.key}>
+              <label style={{display:'block',fontSize:13,fontWeight:600,color:C.navy,marginBottom:5}}>{fi.label}</label>
+              {fi.type==='text'
+                ? <input value={f[fi.key]} onChange={e=>setF({...f,[fi.key]:e.target.value})} placeholder={fi.placeholder}
+                    style={{width:'100%',padding:'7px 9px',border:`1px solid ${C.bd}`,borderRadius:6,fontSize:13,background:C.cream}}/>
+                : <select value={f[fi.key]} onChange={e=>setF({...f,[fi.key]:e.target.value})}
+                    style={{width:'100%',padding:'7px 9px',border:`1px solid ${C.bd}`,borderRadius:6,fontSize:13,background:C.cream}}>
+                    {fi.opts.map(o => <option key={o.v} value={o.v}>{o.l}</option>)}
+                  </select>
+              }
+            </div>
+          ))}
+        </div>
+        <div style={{marginTop:'1rem'}}>
+          <button onClick={()=>setGen(true)} disabled={!f.level||!f.assessment||!f.permission}
+            style={{background:f.level&&f.assessment&&f.permission?C.navy:'#c0bbb5',border:'none',borderRadius:7,padding:'8px 16px',color:C.white,fontSize:13,fontWeight:500,cursor:f.level&&f.assessment&&f.permission?'pointer':'not-allowed'}}>
+            Generate documents &#8594;
+          </button>
+        </div>
+      </Card>
+      {gen && (
+        <div>
+          {[
+            {key:'policy',label:'Module Handbook Policy Statement',text:makePolicy()},
+            {key:'declaration',label:'Student Declaration Form',text:makeBrief()},
+          ].map(doc => (
+            <Card key={doc.key} style={{marginBottom:'1rem'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem',flexWrap:'wrap',gap:8}}>
+                <div style={{fontSize:13,fontWeight:600,color:C.navy,textTransform:'uppercase',letterSpacing:'0.06em'}}>{doc.label}</div>
+                <button onClick={()=>copy(doc.text,doc.key)} style={{fontSize:13,padding:'4px 10px',border:`1px solid ${C.bd}`,borderRadius:6,color:copied===doc.key?C.ok:C.muted,background:copied===doc.key?C.okBg:C.cream}}>
+                  {copied===doc.key?'Copied!':'Copy text'}
+                </button>
+              </div>
+              <pre style={{fontSize:13,color:C.tx,lineHeight:1.75,whiteSpace:'pre-wrap',background:C.cream,padding:'1rem',borderRadius:6,border:`1px solid ${C.bd}`,fontFamily:'inherit'}}>
+                {doc.text}
+              </pre>
+            </Card>
+          ))}
+          <Alert type="info" title="Before using this language">
+            Edit the text carefully for your specific module. Bracketed sections require completion. Share these documents with your department's Director of Studies or academic administrator before the assessment is set to ensure compliance with any additional departmental or divisional requirements.
+          </Alert>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: FACULTY OBLIGATIONS ────────────────────────────────────────────
+function FacultyObligationsSection() {
+  const [checked, setChecked] = useState({});
+  const toggle = (n) => setChecked(p => ({...p,[n]:!p[n]}));
+  const done = Object.values(checked).filter(Boolean).length;
+
+  return (
+    <div>
+      <SectionTitle sub="Six things you are required to do as an assessment setter. Work through them as a checklist before your assessment is finalised.">My Assessment Obligations</SectionTitle>
+      <div style={{background:C.navy,borderRadius:8,padding:'1rem 1.25rem',marginBottom:'1.25rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div style={{fontFamily:serif,fontSize:15,color:C.white,fontWeight:600}}>Progress: {done} of {OBLIGATIONS.length} obligations addressed</div>
+        <div style={{display:'flex',gap:4}}>
+          {OBLIGATIONS.map((_,i) => (
+            <div key={i} style={{width:10,height:10,borderRadius:'50%',background:checked[i+1]?C.gold:'rgba(255,255,255,0.2)'}}/>
+          ))}
+        </div>
+      </div>
+      <div style={{display:'flex',flexDirection:'column',gap:10}}>
+        {OBLIGATIONS.map(ob => (
+          <div key={ob.n} style={{background:C.white,border:`1px solid ${checked[ob.n]?C.goldBd:C.bd}`,borderRadius:8,padding:'1rem',cursor:'pointer',transition:'all 0.15s'}}
+            onClick={()=>toggle(ob.n)}>
+            <div style={{display:'flex',gap:12,alignItems:'flex-start'}}>
+              <div style={{width:22,height:22,borderRadius:5,border:`2px solid ${checked[ob.n]?C.gold:C.bd}`,background:checked[ob.n]?C.goldPale:'transparent',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,marginTop:1,transition:'all 0.15s'}}>
+                {checked[ob.n] && <span style={{color:C.gold,fontSize:14,fontWeight:600}}>&#10003;</span>}
+              </div>
+              <div style={{flex:1}}>
+                <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4,flexWrap:'wrap'}}>
+                  <span style={{fontSize:10,fontWeight:600,color:C.muted}}>Obligation {ob.n}</span>
+                  {ob.important && <span style={{background:C.errBg,color:C.err,fontSize:10,padding:'1px 6px',borderRadius:8,fontWeight:600}}>Critical</span>}
+                </div>
+                <div style={{fontFamily:serif,fontSize:15,fontWeight:600,color:C.navy,marginBottom:4}}>{ob.title}</div>
+                <div style={{fontSize:13,color:C.muted,lineHeight:1.65}}>{ob.detail}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <Alert type="err" title="On AI detection tools (Obligation 5)">
+        As of October 2025, <strong>no AI detection tool has received University endorsement</strong>. This includes Turnitin's AI detection feature. You must not use unapproved tools to identify suspected AI use. Identify concerns through your own reading of the work and refer under standard academic misconduct procedures.
+      </Alert>
+      <div style={{marginTop:'0.5rem'}}>
+        <button onClick={()=>setChecked({})} style={{fontSize:13,color:C.muted,padding:0,background:'none',border:'none',cursor:'pointer'}}>Reset checklist</button>
+      </div>
+    </div>
+  );
+}
+
+// ─── SECTION: STUDENTS ────────────────────────────────────────────────────────
+function StudentsSection() {
+  const [tab, setTab] = useState('guide');
+  const [ruleQ, setRuleQ] = useState(null);
+  const [ruleQ2, setRuleQ2] = useState(null);
+  const [declForm, setDeclForm] = useState({module:'',assessment:'',tool:'',version:'',date:'',purpose:'',output:'',eval:'',sections:''});
+  const [declDone, setDeclDone] = useState(false);
+  const [declCopied, setDeclCopied] = useState(false);
+
+  const makeDeclText = () =>
+    `Generative AI Use Declaration\n\nModule: ${declForm.module||'[Module]'}\nAssessment: ${declForm.assessment||'[Assessment title]'}\nStudent name: [Your name]\nOxford ID: [Your ID]\nDate of submission: ${declForm.date||'[Date]'}\n\nDeclaration:\n\nI confirm that in completing this assessment I used the following generative AI tool(s):\n\nTool name and version: ${declForm.tool||'[Tool name]'} ${declForm.version?`(${declForm.version})`:''}\nPurpose of use: ${declForm.purpose||'[Describe what you used the AI for]'}\nWhat the AI produced: ${declForm.output||'[Describe what the AI generated]'}\nHow I evaluated and modified the AI output: ${declForm.eval||'[Describe how you critically assessed and changed the AI output]'}\nSections of my work where AI assistance was used: ${declForm.sections||'[Specify sections]'}\n\nI confirm that the analysis, argument, and conclusions in this work are my own. I have critically evaluated all AI outputs and taken full responsibility for the accuracy and integrity of this submission. I understand that false declaration constitutes academic misconduct.\n\nSignature: _______________________ Date: _________________`;
+
+  const copyDecl = () => {
+    navigator.clipboard.writeText(makeDeclText()).then(() => {
+      setDeclCopied(true);
+      setTimeout(() => setDeclCopied(false), 2000);
+    });
+  };
+
+  const tabs = [{id:'guide',l:'Student Guide'},{id:'checker',l:'Rules Checker'},{id:'declaration',l:'Declaration Generator'},{id:'support',l:'Study with AI'}];
+
+  return (
+    <div>
+      <SectionTitle>For Students: AI at Oxford</SectionTitle>
+      <div style={{display:'flex',gap:0,marginBottom:'1.25rem',background:C.white,border:`1px solid ${C.bd}`,borderRadius:8,overflow:'hidden'}}>
+        {tabs.map(t => (
+          <button key={t.id} onClick={()=>setTab(t.id)}
+            style={{flex:1,padding:'9px 4px',fontSize:13,fontWeight:tab===t.id?600:400,color:tab===t.id?C.white:C.muted,background:tab===t.id?C.navy:'transparent',border:'none',cursor:'pointer',transition:'all 0.15s',borderRight:`1px solid ${C.bd}`}}>
+            {t.l}
+          </button>
+        ))}
+      </div>
+
+      {tab==='guide' && (
+        <div>
+          <Alert type="err" title="The most important thing to understand">
+            <strong>Any use of AI in work submitted for assessment is unauthorised unless you are specifically told otherwise in writing, in advance, for that specific assessment.</strong> This is not vague: it means that if your assessment instructions do not explicitly state that AI use is permitted, it is not. The default is always prohibition.
+          </Alert>
+          <Alert type="err" title="Even if AI was allowed before, do not assume it is allowed again">
+            Even if AI use was permitted for a previous assessment, or for formative work, you cannot assume it is permitted for the current assessment. You must check the instructions for each specific piece of assessed work independently.
+          </Alert>
+          <SubHead>What you must do</SubHead>
+          <Card style={{marginBottom:'1rem'}}>
+            {[
+              "For every assessment, read the AI policy stated in the assessment instructions before you begin.",
+              "Complete your summative assessment in line with that specific declaration of what is and is not permitted.",
+              "If AI use is permitted, acknowledge it using the declaration format specified in the assessment instructions.",
+              "Take full responsibility for the accuracy, originality, and quality of everything you submit, regardless of whether AI assistance was used.",
+              "If you are unsure whether a particular use of AI is permitted, ask your tutor or module lead before using it, not after.",
+            ].map((item,i) => <NumRow key={i} n={i+1}>{item}</NumRow>)}
+          </Card>
+          <SubHead>What the consequences are</SubHead>
+          <Card style={{marginBottom:'1rem'}}>
+            <BulletRow color={C.err}>Submitting work that breaches the AI use specification for that assessment constitutes cheating and may also constitute plagiarism under University rules.</BulletRow>
+            <BulletRow color={C.err}>Penalties include failing the relevant assessment and, in appropriate cases, suspension or expulsion.</BulletRow>
+            <BulletRow color={C.err}>Cases are handled under the University's standard academic disciplinary procedures.</BulletRow>
+            <BulletRow color={C.warn}>The absence of any specific statement about AI in your assessment instructions is not ambiguous: it means AI is not permitted.</BulletRow>
+          </Card>
+          <SubHead>A note on AI detection</SubHead>
+          <Card>
+            <p style={{fontSize:13,color:C.muted,lineHeight:1.65}}>As of October 2025, no AI detection tool has received University endorsement. Your tutors should be identifying concerns through their reading of your work, not through detection software. However, this is not reassurance: AI use that is identifiable through the work itself remains misconduct and will be referred under standard procedures. The absence of detection technology does not mean that AI use cannot be identified.</p>
+          </Card>
+        </div>
+      )}
+
+      {tab==='checker' && (
+        <div>
+          <SectionTitle sub="Answer three questions to find out whether your planned AI use is permitted." />
+          {ruleQ === null && (
+            <Card>
+              <div style={{fontFamily:serif,fontSize:17,fontWeight:600,color:C.navy,marginBottom:'0.75rem'}}>Have you received written assessment instructions that explicitly state AI use is permitted for this specific assessment?</div>
+              <p style={{fontSize:13,color:C.muted,marginBottom:'1rem',lineHeight:1.6}}>This means: the instructions for this specific piece of work state, in writing, that AI use is permitted. General statements from previous assessments or formative work do not count.</p>
+              <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                {[{v:'yes',l:'Yes, the instructions explicitly permit AI use',col:C.ok},{v:'no',l:'No, or I am not sure',col:C.err}].map(opt => (
+                  <button key={opt.v} onClick={()=>setRuleQ(opt.v)}
+                    style={{flex:1,minWidth:160,padding:'0.875rem',border:`2px solid ${opt.col}`,borderRadius:8,background:opt.v==='yes'?C.okBg:C.errBg,color:opt.col,fontSize:13,fontWeight:600,cursor:'pointer'}}>
+                    {opt.l}
+                  </button>
+                ))}
+              </div>
+            </Card>
+          )}
+          {ruleQ==='no' && (
+            <Alert type="err" title="AI use is not permitted for this assessment">
+              The default position at Oxford is that all AI use is unauthorised unless explicitly permitted in writing for that specific assessment. Since you have not received explicit written permission for this assessment, any AI use in your submitted work would constitute academic misconduct. Do not use AI tools for this assessment. If you believe permission should have been given and was not, contact your tutor or module lead before the assessment deadline.
+            </Alert>
+          )}
+          {ruleQ==='yes' && ruleQ2===null && (
+            <Card>
+              <div style={{fontFamily:serif,fontSize:17,fontWeight:600,color:C.navy,marginBottom:'0.75rem'}}>Does your planned use fall within what was explicitly permitted in the instructions?</div>
+              <p style={{fontSize:13,color:C.muted,marginBottom:'1rem',lineHeight:1.6}}>Only the specific uses listed in the instructions are permitted. For example, if the instructions permit grammar checking but your planned use involves getting AI to structure your argument, this is outside what was permitted.</p>
+              <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                {[{v:'yes',l:'Yes, my planned use is within what was permitted'},{v:'no',l:'No, my planned use goes beyond what was permitted'},{v:'unsure',l:'I am not sure what falls within the permitted uses'}].map(opt => (
+                  <button key={opt.v} onClick={()=>setRuleQ2(opt.v)}
+                    style={{flex:1,minWidth:140,padding:'0.75rem',border:`1.5px solid ${C.bd}`,borderRadius:7,background:C.cream,color:C.tx,fontSize:13,fontWeight:500,cursor:'pointer'}}
+                    onMouseEnter={e=>{e.currentTarget.style.borderColor=C.gold;e.currentTarget.style.background=C.goldPale}}
+                    onMouseLeave={e=>{e.currentTarget.style.borderColor=C.bd;e.currentTarget.style.background=C.cream}}>
+                    {opt.l}
+                  </button>
+                ))}
+              </div>
+            </Card>
+          )}
+          {ruleQ==='yes' && ruleQ2==='yes' && (
+            <div>
+              <Alert type="ok" title="Your planned use appears to be permitted">
+                Your planned use falls within what was explicitly permitted for this assessment. You must still declare your AI use in the format specified in the assessment instructions. Use the Declaration Generator tab to prepare your declaration.
+              </Alert>
+              <Alert type="warn" title="Remember your ongoing obligations">
+                You remain fully responsible for the accuracy, originality, and quality of all submitted work. Declaring AI use does not transfer responsibility for the content to the AI tool. Your analysis, argument, and conclusions must be genuinely yours.
+              </Alert>
+            </div>
+          )}
+          {ruleQ==='yes' && ruleQ2==='no' && (
+            <Alert type="err" title="Your planned use is not permitted">
+              Your planned use goes beyond what was explicitly permitted in the assessment instructions. Using AI in a way that goes beyond the stated permissions constitutes a breach of the assessment rules, even if AI use itself was partially permitted. Do not proceed with the use you planned. If in doubt, contact your tutor or module lead before the deadline.
+            </Alert>
+          )}
+          {ruleQ==='yes' && ruleQ2==='unsure' && (
+            <Alert type="warn" title="Ask your tutor before proceeding">
+              If you are not sure whether your planned use falls within the permitted scope, the safest course of action is to contact your tutor or module lead and ask explicitly, before the deadline. Do not assume that a use not explicitly excluded is permitted: only uses that are explicitly permitted are authorised.
+            </Alert>
+          )}
+          {ruleQ !== null && (
+            <button onClick={()=>{setRuleQ(null);setRuleQ2(null);}} style={{fontSize:13,color:C.muted,padding:0,background:'none',border:'none',cursor:'pointer',marginTop:'0.5rem'}}>&#8592; Start again</button>
+          )}
+        </div>
+      )}
+
+      {tab==='declaration' && (
+        <div>
+          <p style={{fontSize:13,color:C.muted,lineHeight:1.6,marginBottom:'1rem'}}>Use this tool to generate a formatted declaration of your AI use to submit alongside your assessment. Complete the fields below and copy the generated text. You must also use the specific declaration format prescribed by your assessment setter if one was provided.</p>
+          <Card style={{marginBottom:'1rem'}}>
+            <div style={{display:'flex',flexDirection:'column',gap:'0.875rem'}}>
+              {[
+                {label:'Module name',key:'module',ph:'e.g. HT4027 Political Theory'},
+                {label:'Assessment title',key:'assessment',ph:'e.g. Essay: The limits of constitutional review'},
+                {label:'AI tool name',key:'tool',ph:'e.g. ChatGPT Edu'},
+                {label:'Tool version (if known)',key:'version',ph:'e.g. GPT-4o'},
+                {label:'Date(s) of use',key:'date',ph:'e.g. 12 November 2025'},
+                {label:'What you used the AI for (purpose)',key:'purpose',ph:'Describe the specific task for which you used the AI'},
+                {label:'What the AI produced',key:'output',ph:'Describe what the AI generated: a draft, a structure, code, suggestions, etc.'},
+                {label:'How you evaluated and modified the AI output',key:'eval',ph:'Describe how you critically assessed, changed, and took responsibility for the AI output'},
+                {label:'Which sections of your work involved AI assistance',key:'sections',ph:'e.g. Introduction structure, bibliography formatting'},
+              ].map(fi => (
+                <div key={fi.key}>
+                  <label style={{display:'block',fontSize:13,fontWeight:600,color:C.navy,marginBottom:4}}>{fi.label}</label>
+                  {['purpose','output','eval'].includes(fi.key)
+                    ? <textarea value={declForm[fi.key]} onChange={e=>setDeclForm({...declForm,[fi.key]:e.target.value})} placeholder={fi.ph} rows={2}
+                        style={{width:'100%',padding:'7px 9px',border:`1px solid ${C.bd}`,borderRadius:6,fontSize:13,background:C.cream,resize:'vertical'}}/>
+                    : <input value={declForm[fi.key]} onChange={e=>setDeclForm({...declForm,[fi.key]:e.target.value})} placeholder={fi.ph}
+                        style={{width:'100%',padding:'7px 9px',border:`1px solid ${C.bd}`,borderRadius:6,fontSize:13,background:C.cream}}/>
+                  }
+                </div>
+              ))}
+              <button onClick={()=>setDeclDone(true)} style={{background:C.navy,border:'none',borderRadius:7,padding:'8px 16px',color:C.white,fontSize:13,fontWeight:500,cursor:'pointer'}}>
+                Generate declaration &#8594;
+              </button>
+            </div>
+          </Card>
+          {declDone && (
+            <Card>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem',flexWrap:'wrap',gap:8}}>
+                <div style={{fontSize:13,fontWeight:600,color:C.navy,textTransform:'uppercase',letterSpacing:'0.06em'}}>Your AI Use Declaration</div>
+                <button onClick={copyDecl} style={{fontSize:13,padding:'4px 10px',border:`1px solid ${C.bd}`,borderRadius:6,color:declCopied?C.ok:C.muted,background:declCopied?C.okBg:C.cream}}>
+                  {declCopied?'Copied!':'Copy text'}
+                </button>
+              </div>
+              <pre style={{fontSize:13,lineHeight:1.75,whiteSpace:'pre-wrap',background:C.cream,padding:'1rem',borderRadius:6,border:`1px solid ${C.bd}`,fontFamily:'inherit',color:C.tx}}>
+                {makeDeclText()}
+              </pre>
+              <p style={{fontSize:13,color:C.muted,marginTop:8}}>Edit this text before submitting. Add your name and Oxford ID. If your assessment setter provided a specific declaration format, use that format instead and treat this as a guide.</p>
+            </Card>
+          )}
+        </div>
+      )}
+
+      {tab==='support' && (
+        <div>
+          <Alert type="ok" title="Using AI to support your learning (not for assessment)">
+            Oxford provides access to AI tools for legitimate study support. The key distinction is between using AI to develop your understanding outside assessment, and using AI in assessed work. The first is generally encouraged; the second is governed by the rules for each specific assessment.
+          </Alert>
+          <SubHead>Oxford-licensed tools available to you</SubHead>
+          <Card style={{marginBottom:'1rem'}}>
+            {[
+              {name:"ChatGPT Edu",use:"Explaining concepts, generating practice questions, discussing ideas, coding support, language practice"},
+              {name:"Microsoft Copilot",use:"Summarising lecture notes, drafting non-assessed writing, finding information, study planning"},
+              {name:"NotebookLM",use:"Querying your own notes and readings, creating personalised study aids, synthesising your uploaded sources"},
+              {name:"Google Gemini",use:"Study support in Google Docs, brainstorming, formatting and structuring notes"},
+            ].map((t,i) => (
+              <div key={i} style={{display:'flex',gap:10,alignItems:'flex-start',marginBottom:10,paddingBottom:10,borderBottom:i<3?`1px solid ${C.bd}`:'none'}}>
+                <div style={{minWidth:110,fontWeight:600,fontSize:13,color:C.navy}}>{t.name}</div>
+                <div style={{fontSize:13,color:C.muted,lineHeight:1.6}}>{t.use}</div>
+              </div>
+            ))}
+          </Card>
+          <SubHead>How to use AI effectively for learning</SubHead>
+          <Card style={{marginBottom:'1rem'}}>
+            <BulletRow>Use AI to explain concepts you find difficult, then check the explanation against your lecture notes and readings. AI makes errors: always verify.</BulletRow>
+            <BulletRow>Ask AI to generate practice questions or scenarios, then attempt them yourself without AI assistance. This is how learning happens.</BulletRow>
+            <BulletRow>Discuss ideas with AI as a thinking partner: challenge its responses, argue against its positions, ask it to steelman the opposing view.</BulletRow>
+            <BulletRow>Never use AI to summarise a reading you have not yet engaged with: you lose the benefit of the reading and may absorb AI errors as fact.</BulletRow>
+            <BulletRow>Bring questions that AI could not answer, or where AI contradicted your understanding, to tutorials. These become the most productive conversations.</BulletRow>
+          </Card>
+          <Alert type="warn" title="A note on your wellbeing">
+            AI tools are not equipped to provide mental health or welfare support. They lack emotional nuance and clinical awareness. If you are struggling, contact your college welfare team, your tutor, or the University's Student Welfare and Support Services. There are also anonymous services available including Togetherall. See <ExtLink href="https://www.ox.ac.uk/students/welfare">ox.ac.uk/students/welfare</ExtLink> for support options.
+          </Alert>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: RESEARCHERS ────────────────────────────────────────────────────
+function ResearchersSection() {
+  const [exp, setExp] = useState(null);
+  const [subUse, setSubUse] = useState(null);
+  const [declForm, setDeclForm] = useState({context:'',tool:'',version:'',date:'',use:'',impact:'',repro:''});
+  const [declDone, setDeclDone] = useState(false);
+  const [tab, setTab] = useState('policy');
+  const [copied, setCopied] = useState(false);
+
+  const makeDecl = () =>
+    `Generative AI Use Declaration\n\nResearch context: ${declForm.context||'[Specify: paper, thesis, grant application, etc.]'}\nAI tool: ${declForm.tool||'[Tool name]'} ${declForm.version?`version ${declForm.version}`:''}\nDate of use: ${declForm.date||'[Date or period]'}\n\nHow the tool was used:\n${declForm.use||'[Describe the specific task for which the AI tool was used]'}\n\nHow it affected the research process and outputs:\n${declForm.impact||'[Describe how AI use influenced the work, including any modifications made to AI outputs]'}\n\nNotes on reproducibility and limitations:\n${declForm.repro||'[Note any limitations of the AI tool relevant to reproducibility, e.g. probabilistic outputs, tool version, inability to archive]'}\n\nI confirm that I remain accountable for the integrity of all content produced with AI assistance in this work.`;
+
+  const copyDecl = () => {
+    navigator.clipboard.writeText(makeDecl()).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  const tabs = [{id:'policy',l:'Seven Expectations'},{id:'substantive',l:'Substantive Use?'},{id:'declaration',l:'Declaration Generator'}];
+
+  return (
+    <div>
+      <SectionTitle sub="Oxford's Policy for using Generative AI in Research (September 2025) applies to all researchers including DPhil students and professional staff supporting research.">Research AI Policy</SectionTitle>
+      <Alert type="info" title="This policy applies to you if you are conducting research">
+        The research AI policy applies to all members of the University conducting research, including DPhil students, postdocs, academic staff, and professional staff supporting research. It covers the full research lifecycle: funding applications, conducting research, disseminating outputs, and review and assessment.
+      </Alert>
+      <div style={{display:'flex',gap:0,marginBottom:'1.25rem',background:C.white,border:`1px solid ${C.bd}`,borderRadius:8,overflow:'hidden'}}>
+        {tabs.map(t => (
+          <button key={t.id} onClick={()=>setTab(t.id)}
+            style={{flex:1,padding:'9px 4px',fontSize:13,fontWeight:tab===t.id?600:400,color:tab===t.id?C.white:C.muted,background:tab===t.id?C.navy:'transparent',border:'none',cursor:'pointer',borderRight:`1px solid ${C.bd}`}}>
+            {t.l}
+          </button>
+        ))}
+      </div>
+
+      {tab==='policy' && (
+        <div>
+          <div style={{fontSize:13,color:C.muted,lineHeight:1.6,marginBottom:'1rem'}}>All researchers and professional staff supporting research are expected to meet the following seven expectations. Click each to expand the detail.</div>
+          {RESEARCH_EXPECTATIONS.map(e => (
+            <div key={e.n} style={{background:C.white,border:`1px solid ${C.bd}`,borderRadius:8,marginBottom:8,overflow:'hidden'}}>
+              <button onClick={()=>setExp(exp===e.n?null:e.n)}
+                style={{width:'100%',padding:'0.875rem 1rem',display:'flex',alignItems:'center',gap:12,textAlign:'left',cursor:'pointer',background:'none',border:'none'}}>
+                <div style={{minWidth:26,height:26,borderRadius:'50%',background:C.navy,color:C.white,fontSize:13,fontWeight:600,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>{e.n}</div>
+                <div style={{flex:1,fontFamily:serif,fontSize:14,fontWeight:600,color:C.navy}}>{e.title}</div>
+                <span style={{color:C.light,fontSize:14,flexShrink:0}}>{exp===e.n?'&#8722;':'+'}</span>
+              </button>
+              {exp===e.n && (
+                <div style={{padding:'0 1rem 1rem 1rem',borderTop:`1px solid ${C.bd}`}}>
+                  <p style={{fontSize:13,color:C.muted,lineHeight:1.7,paddingTop:'0.75rem'}}>{e.detail}</p>
+                </div>
+              )}
+            </div>
+          ))}
+          <div style={{marginTop:'1rem',display:'flex',flexWrap:'wrap',gap:10}}>
+            <ExtLink href="https://www.ox.ac.uk/research/support-researchers/research-practice/policy-generative-ai-research">Full Research AI Policy (Oxford)</ExtLink>
+            <ExtLink href="https://www.ox.ac.uk/research/support-researchers/research-practice/faqs-policy-generative-ai-research">Research AI Policy FAQs</ExtLink>
+            <ExtLink href="https://staff.web.ox.ac.uk/ai-and-machine-learning-competency-centre">AI Competency Centre</ExtLink>
+          </div>
+        </div>
+      )}
+
+      {tab==='substantive' && (
+        <div>
+          <p style={{fontSize:13,color:C.muted,lineHeight:1.65,marginBottom:'1rem'}}>Substantive use of GenAI in research must be declared. Use this checker to determine whether your planned use counts as substantive under Oxford's definition.</p>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:'1rem'}}>
+            <Card style={{borderTop:`3px solid ${C.err}`}}>
+              <div style={{fontSize:13,fontWeight:600,color:C.err,textTransform:'uppercase',letterSpacing:'0.06em',marginBottom:'0.75rem'}}>Substantive use: must declare</div>
+              {SUBSTANTIVE_USE_YES.map((item,i) => (
+                <div key={i} style={{display:'flex',gap:6,alignItems:'flex-start',marginBottom:6}}>
+                  <span style={{color:C.err,fontSize:13,flexShrink:0,marginTop:3}}>&#9654;</span>
+                  <span style={{fontSize:13,color:C.tx,lineHeight:1.55}}>{item}</span>
+                </div>
+              ))}
+            </Card>
+            <Card style={{borderTop:`3px solid ${C.ok}`}}>
+              <div style={{fontSize:13,fontWeight:600,color:C.ok,textTransform:'uppercase',letterSpacing:'0.06em',marginBottom:'0.75rem'}}>Not substantive: declaration not required</div>
+              {SUBSTANTIVE_USE_NO.map((item,i) => (
+                <div key={i} style={{display:'flex',gap:6,alignItems:'flex-start',marginBottom:6}}>
+                  <span style={{color:C.ok,fontSize:13,flexShrink:0,marginTop:3}}>&#10003;</span>
+                  <span style={{fontSize:13,color:C.tx,lineHeight:1.55}}>{item}</span>
+                </div>
+              ))}
+            </Card>
+          </div>
+          <Alert type="info" title="When in doubt, declare">
+            The policy covers use of standalone GenAI tools (ChatGPT, Copilot, Gemini, Claude). AI functionality embedded within existing software does not require declaration. If your use is borderline, err on the side of declaration: transparency is always preferable to ambiguity in research contexts.
+          </Alert>
+          <Alert type="warn" title="Check your funder and publisher requirements separately">
+            Oxford's policy sets a university baseline. Your funder (UKRI, Wellcome, CRUK) and your target publications may have different or stricter requirements. Check these independently before submitting any work where AI was used.
+          </Alert>
+        </div>
+      )}
+
+      {tab==='declaration' && (
+        <div>
+          <p style={{fontSize:13,color:C.muted,lineHeight:1.65,marginBottom:'1rem'}}>Generate a formatted declaration for your methods section, acknowledgements, or supervisor disclosure. Adapt the output to meet the specific requirements of your publication venue, funder, or programme.</p>
+          <Card style={{marginBottom:'1rem'}}>
+            <div style={{display:'flex',flexDirection:'column',gap:'0.875rem'}}>
+              {[
+                {label:'Research context',key:'context',ph:'e.g. DPhil thesis chapter, journal article, grant application'},
+                {label:'AI tool name',key:'tool',ph:'e.g. ChatGPT Edu'},
+                {label:'Tool version (if known)',key:'version',ph:'e.g. GPT-4o, May 2025'},
+                {label:'Date or period of use',key:'date',ph:'e.g. September to November 2025'},
+                {label:'How the tool was used (purpose)',key:'use',ph:'Describe the specific research task'},
+                {label:'How it affected the research process and outputs',key:'impact',ph:'Describe its influence and any modifications you made'},
+                {label:'Notes on reproducibility and limitations',key:'repro',ph:'Note any limitations relevant to reproducibility'},
+              ].map(fi => (
+                <div key={fi.key}>
+                  <label style={{display:'block',fontSize:13,fontWeight:600,color:C.navy,marginBottom:4}}>{fi.label}</label>
+                  {['use','impact','repro'].includes(fi.key)
+                    ? <textarea value={declForm[fi.key]} onChange={e=>setDeclForm({...declForm,[fi.key]:e.target.value})} placeholder={fi.ph} rows={2}
+                        style={{width:'100%',padding:'7px 9px',border:`1px solid ${C.bd}`,borderRadius:6,fontSize:13,background:C.cream,resize:'vertical'}}/>
+                    : <input value={declForm[fi.key]} onChange={e=>setDeclForm({...declForm,[fi.key]:e.target.value})} placeholder={fi.ph}
+                        style={{width:'100%',padding:'7px 9px',border:`1px solid ${C.bd}`,borderRadius:6,fontSize:13,background:C.cream}}/>
+                  }
+                </div>
+              ))}
+              <button onClick={()=>setDeclDone(true)} style={{background:C.navy,border:'none',borderRadius:7,padding:'8px 16px',color:C.white,fontSize:13,fontWeight:500,cursor:'pointer'}}>
+                Generate declaration &#8594;
+              </button>
+            </div>
+          </Card>
+          {declDone && (
+            <Card>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem',flexWrap:'wrap',gap:8}}>
+                <div style={{fontSize:13,fontWeight:600,color:C.navy,textTransform:'uppercase',letterSpacing:'0.06em'}}>Your Research AI Declaration</div>
+                <button onClick={copyDecl} style={{fontSize:13,padding:'4px 10px',border:`1px solid ${C.bd}`,borderRadius:6,color:copied?C.ok:C.muted,background:copied?C.okBg:C.cream}}>
+                  {copied?'Copied!':'Copy text'}
+                </button>
+              </div>
+              <pre style={{fontSize:13,lineHeight:1.75,whiteSpace:'pre-wrap',background:C.cream,padding:'1rem',borderRadius:6,border:`1px solid ${C.bd}`,fontFamily:'inherit',color:C.tx}}>
+                {makeDecl()}
+              </pre>
+            </Card>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SECTION: CAN I DO THIS ──────────────────────────────────────────────────
+function CheckerSection() {
+  const [exp, setExp] = useState(null);
+  const vc = {
+    yes:{bg:C.okBg,col:C.ok,bd:C.okBd},
+    no:{bg:C.errBg,col:C.err,bd:C.errBd},
+    dep:{bg:C.warnBg,col:C.warn,bd:C.warnBd},
+  };
+  return (
+    <div>
+      <SectionTitle sub="Quick answers to common AI use questions for Oxford staff and students. Every answer reflects Oxford's official policy as of October 2025.">Can I Do This?</SectionTitle>
+      <div style={{display:'flex',flexDirection:'column',gap:8}}>
+        {SCENARIOS.map(s => {
+          const v = vc[s.v];
+          const open = exp === s.id;
+          return (
+            <div key={s.id} style={{background:C.white,border:`1px solid ${C.bd}`,borderRadius:8,overflow:'hidden'}}>
+              <button onClick={()=>setExp(open?null:s.id)}
+                style={{width:'100%',background:'none',border:'none',padding:'0.875rem 1rem',display:'flex',alignItems:'center',justifyContent:'space-between',gap:10,textAlign:'left',cursor:'pointer'}}>
+                <div style={{display:'flex',alignItems:'center',gap:8,flex:1}}>
+                  <span style={{...v,fontSize:13,padding:'2px 8px',borderRadius:10,fontWeight:600,whiteSpace:'nowrap',border:`1px solid ${v.bd}`,flexShrink:0}}>{s.vl}</span>
+                  <span style={{fontSize:13,color:C.tx,lineHeight:1.45}}>{s.q}</span>
+                </div>
+                <span style={{color:C.light,fontSize:14,flexShrink:0}}>{open?'&#8722;':'+'}</span>
+              </button>
+              {open && (
+                <div style={{padding:'0 1rem 1rem',borderTop:`1px solid ${C.bd}`}}>
+                  <p style={{fontSize:13,color:C.tx,lineHeight:1.7,paddingTop:'0.875rem'}}>{s.a}</p>
+                  {s.cav && (
+                    <div style={{marginTop:10,background:C.warnBg,border:`1px solid ${C.warnBd}`,borderRadius:6,padding:'0.625rem 0.875rem',fontSize:13,color:C.warn,lineHeight:1.6}}>
+                      <strong>Note: </strong>{s.cav}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── SECTION: TOOLS AND TRAINING ─────────────────────────────────────────────
+function ToolsSection() {
+  const [tab, setTab] = useState('tools');
+  const tabs = [{id:'tools',l:'AI Tools at Oxford'},{id:'training',l:'Training and Support'},{id:'copyright',l:'Copyright and Data'}];
+
+  const COPYRIGHT = [
+    {title:"Inputting content into AI tools",col:C.info,bg:C.infoBg,items:[
+      {q:"Published texts and books",a:"Check the licence. Many publishers prohibit inputting their content into AI tools. This is an evolving area of UK copyright law. When in doubt, do not input. Contact the Bodleian copyright team (copyright@bodleian.ox.ac.uk) for guidance."},
+      {q:"Your own written work",a:"Generally permitted for tools within your control. Check data retention terms: some AI providers may use inputs for model training. Use Oxford-licensed tools where possible. ChatGPT Edu is governed by an Oxford-OpenAI agreement that prevents use of inputs for training."},
+      {q:"Student work (essays, scripts, drafts)",a:"Not permitted without explicit consent and data governance approval. Student work is personal data under UK GDPR. Use anonymised text only, through Oxford-licensed platforms. This is a legal obligation."},
+      {q:"Research data involving human participants",a:"Requires ethics approval and data protection compliance before AI processing. Contact the Information Compliance team (infosec@it.ox.ac.uk) before proceeding."},
+    ]},
+    {title:"AI-generated outputs: copyright and ownership",col:C.ok,bg:C.okBg,items:[
+      {q:"Does AI-generated content have copyright?",a:"Under current UK law, AI-generated content with no human creative input may not attract copyright protection. Content where a human made genuine creative choices about the output may qualify for protection. This area is legally unsettled and under active legislative consideration."},
+      {q:"Who owns AI content created using Oxford resources?",a:"Content created using your professional judgment and Oxford resources may be subject to Oxford's Intellectual Property Policy. Consult your contract and Oxford's IP Policy (ox.ac.uk/students/academic/guidance/intellectual-property) for commercially valuable outputs."},
+      {q:"AI-generated images",a:"AI image generators may have been trained on copyrighted images. The copyright status of outputs varies by tool and use. Check the specific tool licence before using AI images in published or commercially distributed materials."},
+      {q:"Citing AI tools in academic work",a:"AI tools cannot be cited as authors: they cannot be held accountable for claims and they do not constitute a reliable stable source. Disclose AI use in the acknowledgements or methods section. Follow the disclosure requirements of your target journal, funder, or publisher, many of which now mandate AI use disclosure."},
+    ]},
+    {title:"Data protection (UK GDPR)",col:C.err,bg:C.errBg,items:[
+      {q:"Processing personal data through AI",a:"Personal data including student names, emails, grades, and work that could identify individuals may only be processed through AI tools that are covered by Oxford's data processor agreements. External consumer AI tools do not satisfy this requirement."},
+      {q:"External AI tools and student data",a:"Do not upload identifiable student data to any external AI tool including consumer ChatGPT, personal Google accounts, or other consumer services without explicit consent and a data processing agreement. This is a legal obligation under UK GDPR, not a guideline."},
+      {q:"Anonymisation vs pseudonymisation",a:"Genuinely anonymised data (all direct and indirect identifiers removed, re-identification not possible) does not fall under GDPR. Pseudonymised data (where re-identification remains possible) remains personal data subject to GDPR and the same restrictions apply."},
+      {q:"Which tools are safe for work involving students?",a:"Tools within Oxford's Nexus365 (Microsoft Copilot, Teams, SharePoint) and ChatGPT Edu (Oxford enterprise licence) operate under Oxford's data processor agreements. Contact the Information Compliance team (infosec@it.ox.ac.uk) for specific queries."},
+    ]},
+  ];
+
+  return (
+    <div>
+      <SectionTitle>AI Tools and Support at Oxford</SectionTitle>
+      <div style={{display:'flex',gap:0,marginBottom:'1.25rem',background:C.white,border:`1px solid ${C.bd}`,borderRadius:8,overflow:'hidden'}}>
+        {tabs.map(t => (
+          <button key={t.id} onClick={()=>setTab(t.id)}
+            style={{flex:1,padding:'9px 4px',fontSize:13,fontWeight:tab===t.id?600:400,color:tab===t.id?C.white:C.muted,background:tab===t.id?C.navy:'transparent',border:'none',cursor:'pointer',borderRight:`1px solid ${C.bd}`}}>
+            {t.l}
+          </button>
+        ))}
+      </div>
+
+      {tab==='tools' && (
+        <div>
+          <Alert type="warn" title="Always use Oxford-licensed tools for sensitive or personal data">
+            Consumer AI tools (personal ChatGPT, personal Gemini, Claude.ai personal accounts) do not carry Oxford's data governance protections. For any work involving student data, research data, or confidential information, use only Oxford-licensed tools.
+          </Alert>
+          <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:'1.25rem'}}>
+            {TOOLS_DATA.map(t => (
+              <div key={t.name} style={{background:C.white,border:`1px solid ${C.bd}`,borderRadius:8,overflow:'hidden'}}>
+                <div style={{padding:'0.875rem 1.25rem',borderBottom:`1px solid ${C.bd}`,display:'flex',alignItems:'flex-start',gap:10,flexWrap:'wrap'}}>
+                  <div style={{flex:1}}>
+                    <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:3,flexWrap:'wrap'}}>
+                      <span style={{fontFamily:serif,fontSize:16,fontWeight:600,color:C.navy}}>{t.name}</span>
+                      <span style={{background:t.bc,color:C.white,fontSize:10,padding:'2px 8px',borderRadius:10,fontWeight:500}}>{t.badge}</span>
+                    </div>
+                    <p style={{fontSize:13,color:C.muted,lineHeight:1.55}}>{t.desc}</p>
+                  </div>
+                </div>
+                <div style={{padding:'0.875rem 1.25rem',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem'}}>
+                  <div>
+                    <div style={{fontSize:10,fontWeight:600,color:C.ok,textTransform:'uppercase',letterSpacing:'0.06em',marginBottom:7}}>Appropriate for</div>
+                    {t.can.map((item,i) => <div key={i} style={{display:'flex',gap:6,marginBottom:5}}><span style={{color:C.ok,fontSize:13,marginTop:2,flexShrink:0}}>&#10003;</span><span style={{fontSize:13,color:C.tx,lineHeight:1.5}}>{item}</span></div>)}
+                  </div>
+                  <div>
+                    <div style={{fontSize:10,fontWeight:600,color:C.err,textTransform:'uppercase',letterSpacing:'0.06em',marginBottom:7}}>Not appropriate for</div>
+                    {t.cant.map((item,i) => <div key={i} style={{display:'flex',gap:6,marginBottom:5}}><span style={{color:C.err,fontSize:13,marginTop:2,flexShrink:0}}>&#215;</span><span style={{fontSize:13,color:C.tx,lineHeight:1.5}}>{item}</span></div>)}
+                  </div>
+                </div>
+                <div style={{padding:'0.625rem 1.25rem',background:C.cream,borderTop:`1px solid ${C.bd}`,display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:8}}>
+                  <span style={{fontSize:13,color:C.muted}}><strong style={{color:C.navy}}>Access: </strong>{t.acc}</span>
+                  <ExtLink href={t.link}>Documentation</ExtLink>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Card style={{borderLeft:`4px solid ${C.gold}`}}>
+            <div style={{fontFamily:serif,fontSize:15,fontWeight:600,color:C.navy,marginBottom:6}}>AI and Machine Learning Competency Centre</div>
+            <p style={{fontSize:13,color:C.muted,lineHeight:1.65,marginBottom:10}}>Oxford's AI Competency Centre provides up-to-date support, advice, and guidance on all aspects of using AI tools across teaching, research, and administration. They run the Generative AI Special Interest Group on Teams, offer in-depth tool support, and can advise on locally deployed models for sensitive research data.</p>
+            <ExtLink href="https://staff.web.ox.ac.uk/ai-and-machine-learning-competency-centre">Visit the AI Competency Centre</ExtLink>
+          </Card>
+        </div>
+      )}
+
+      {tab==='training' && (
+        <div>
+          <Alert type="ok" title="Free training is available to all staff and students from Michaelmas Term 2025">
+            The University provides free AI training across the University and colleges for all students and staff from the start of Michaelmas term 2025. This includes training on all four university-supported AI tools.
+          </Alert>
+          <div style={{display:'flex',flexDirection:'column',gap:10}}>
+            {[
+              {provider:"AI and Machine Learning Competency Centre",who:"Staff and researchers",what:"In-depth tool training, research AI guidance, the Generative AI Special Interest Group on Teams, locally deployed model advice",link:"https://staff.admin.ox.ac.uk/ai-and-ml-competency-centre-training",linkText:"Competency Centre Training"},
+              {provider:"Bodleian Libraries",who:"Staff, students, and researchers",what:"Training on using AI tools for research and study, copyright and licensing guidance for AI, information literacy in an AI context",link:"https://www.bodleian.ox.ac.uk/ask/workshops",linkText:"Bodleian Workshops"},
+              {provider:"IT Services: Digital Skills",who:"All staff and students",what:"Foundational AI literacy, using ChatGPT Edu, Microsoft Copilot, and Google Workspace AI tools effectively",link:"https://skills.it.ox.ac.uk/home",linkText:"Digital Capabilities Training"},
+              {provider:"Centre for Teaching and Learning",who:"Academic staff",what:"Pedagogical approaches to AI in higher education, assessment redesign, curriculum development in an AI context",link:"https://www.ctl.ox.ac.uk/",linkText:"Centre for Teaching and Learning"},
+              {provider:"OpenAI (ChatGPT Edu support)",who:"All users",what:"Direct support for ChatGPT Edu access, activation, and usage queries",link:"https://help.openai.com/",linkText:"OpenAI Help Portal"},
+            ].map((t,i) => (
+              <Card key={i}>
+                <div style={{fontFamily:serif,fontSize:14,fontWeight:600,color:C.navy,marginBottom:3}}>{t.provider}</div>
+                <div style={{fontSize:13,color:C.gold,fontWeight:600,marginBottom:6}}>{t.who}</div>
+                <p style={{fontSize:13,color:C.muted,lineHeight:1.6,marginBottom:8}}>{t.what}</p>
+                <ExtLink href={t.link}>{t.linkText}</ExtLink>
+              </Card>
+            ))}
+          </div>
+          <div style={{marginTop:'1rem',padding:'0.875rem',background:'#eef0f4',borderRadius:8}}>
+            <p style={{fontSize:13,color:C.muted,lineHeight:1.65}}>
+              <strong style={{color:C.tx}}>Need help right now? </strong>
+              Use the <ExtLink href="https://oerc.ox.ac.uk/ai-centre/">AI Competency Centre chatbot</ExtLink> for quick guidance on University-supported tools. For IT support, contact the <ExtLink href="https://help.it.ox.ac.uk/service-desk">IT Service Desk</ExtLink>. For policy questions, contact your department's Director of Studies or academic administrator.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {tab==='copyright' && (
+        <div>
+          {COPYRIGHT.map(sec2 => (
+            <div key={sec2.title} style={{background:C.white,border:`1px solid ${C.bd}`,borderRadius:8,marginBottom:'0.875rem',overflow:'hidden'}}>
+              <div style={{background:sec2.bg,padding:'0.875rem 1.25rem',borderBottom:`1px solid ${C.bd}`}}>
+                <div style={{fontFamily:serif,fontSize:16,fontWeight:600,color:sec2.col}}>{sec2.title}</div>
+              </div>
+              <div style={{padding:'1rem 1.25rem'}}>
+                {sec2.items.map((item,i) => (
+                  <div key={i} style={{borderLeft:`3px solid ${sec2.bg}`,paddingLeft:'0.875rem',marginBottom:i<sec2.items.length-1?'1rem':0}}>
+                    <div style={{fontSize:13,fontWeight:600,color:C.navy,marginBottom:3}}>{item.q}</div>
+                    <p style={{fontSize:13,color:C.muted,lineHeight:1.65}}>{item.a}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+          <Alert type="warn" title="Where to get specific advice">
+            For data protection and GDPR queries: Information Compliance team at infosec@it.ox.ac.uk. For copyright queries: Bodleian Libraries copyright team at copyright@bodleian.ox.ac.uk. For IP ownership queries: Research Services. This toolkit provides a summary and does not constitute legal advice.
+          </Alert>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+const NAV = [
+  {id:'home',label:'Home',group:''},
+  {id:'faculty_policy',label:'Policy Decision Tree',group:'Faculty'},
+  {id:'faculty_assessment',label:'Assessment Redesign',group:'Faculty'},
+  {id:'faculty_handbook',label:'Handbook Generator',group:'Faculty'},
+  {id:'faculty_obligations',label:'My Obligations',group:'Faculty'},
+  {id:'students',label:'Student Guide',group:'Students'},
+  {id:'researchers',label:'Research Policy',group:'Researchers'},
+  {id:'checker',label:'Can I Do This?',group:'Everyone'},
+  {id:'tools',label:'Tools and Training',group:'Everyone'},
+];
+
+function App() {
+  const [sec, setSec] = useState('home');
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const current = NAV.find(n => n.id === sec);
+
+  return (
+    <div style={{minHeight:'100vh',background:'#f7f8fa'}}>
+      {/* HEADER */}
+      <div style={{background:C.navy}}>
+        <div style={{maxWidth:880,margin:'0 auto',padding:'1rem 1rem 0.875rem',display:'flex',alignItems:'flex-end',gap:14}}>
+          <div>
+            <div style={{fontFamily:serif,fontSize:21,fontWeight:600,color:C.white,letterSpacing:'-0.01em',lineHeight:1.15}}>Oxford AI Toolkit</div>
+            <div style={{width:32,height:2,background:C.gold,margin:'5px 0 4px'}}/>
+            <div style={{fontSize:13,color:'rgba(255,255,255,0.45)',marginTop:0}}>Generative AI: Teaching, Assessment and Research</div>
+          </div>
+          <div style={{flex:1}}/>
+          <div style={{fontSize:10,color:'rgba(255,255,255,0.3)',textAlign:'right',lineHeight:1.5}} className="hide-mobile">
+            Reflects official<br/>policy Oct 2025
+          </div>
+        </div>
+      </div>
+
+      {/* NAVIGATION */}
+      <div style={{background:'#001530',borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+        <div style={{maxWidth:880,margin:'0 auto'}}>
+          {/* Group headers + items on desktop */}
+          <div style={{display:'flex',overflowX:'auto',WebkitOverflowScrolling:'touch'}}>
+            {NAV.map((n,idx) => {
+              const prevGroup = idx > 0 ? NAV[idx-1].group : null;
+              const showSep = n.group && n.group !== prevGroup && idx > 0;
+              return (
+                <React.Fragment key={n.id}>
+                  {showSep && (
+                    <div style={{width:1,background:'rgba(255,255,255,0.08)',margin:'4px 0',flexShrink:0}}/>
+                  )}
+                  <button onClick={()=>{setSec(n.id);setMenuOpen(false);}}
+                    style={{padding:'8px 12px',fontSize:13,fontWeight:sec===n.id?600:400,color:sec===n.id?C.white:'rgba(255,255,255,0.45)',borderBottom:sec===n.id?`2px solid ${C.gold}`:'2px solid transparent',whiteSpace:'nowrap',cursor:'pointer',background:'none',border:'none',borderBottom:sec===n.id?`2px solid ${C.gold}`:'2px solid transparent',transition:'color 0.1s'}}>
+                    {n.group && n.group !== (idx > 0 ? NAV[idx-1].group : null) && (
+                      <span style={{display:'block',fontSize:9,color:'rgba(255,255,255,0.25)',marginBottom:1,textTransform:'uppercase',letterSpacing:'0.08em'}}>{n.group}</span>
+                    )}
+                    {n.label}
+                  </button>
+                </React.Fragment>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* CONTENT */}
+      <div style={{maxWidth:880,margin:'0 auto',padding:'1.5rem 1rem 4rem'}}>
+        {sec==='home' && <HomeSection setSec={setSec}/>}
+        {sec==='faculty_policy' && <FacultyPolicySection/>}
+        {sec==='faculty_assessment' && <FacultyAssessmentSection/>}
+        {sec==='faculty_handbook' && <FacultyHandbookSection/>}
+        {sec==='faculty_obligations' && <FacultyObligationsSection/>}
+        {sec==='students' && <StudentsSection/>}
+        {sec==='researchers' && <ResearchersSection/>}
+        {sec==='checker' && <CheckerSection/>}
+        {sec==='tools' && <ToolsSection/>}
+      </div>
+
+      {/* FOOTER */}
+      <div style={{background:C.navy,padding:'1.25rem 1rem',marginTop:'2rem'}}>
+        <div style={{maxWidth:880,margin:'0 auto'}}>
+          {/* Top row: toolkit name left, attribution right */}
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:'1rem'}}>
+            <div style={{fontFamily:serif,fontSize:14,fontWeight:600,color:'rgba(255,255,255,0.75)'}}>Oxford AI Toolkit</div>
+            <div style={{fontSize:11,color:'rgba(255,255,255,0.35)',textAlign:'right',lineHeight:1.75,flexShrink:0}}>
+              <div style={{color:'rgba(255,255,255,0.55)',fontFamily:serif,fontWeight:600}}>Developed by David Dodick</div>
+              <div>Head of Teaching and Learning</div>
+              <div>Saïd Business School, University of Oxford</div>
+            </div>
+          </div>
+          {/* Divider */}
+          <div style={{height:1,background:'rgba(255,255,255,0.08)',margin:'0.875rem 0'}}/>
+          {/* Bottom row: disclaimer full width */}
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',flexWrap:'wrap',gap:'0.5rem'}}>
+            <div style={{fontSize:11,color:'rgba(255,255,255,0.3)',lineHeight:1.7}}>
+              An unofficial reference resource. Not an official University of Oxford publication.<br/>
+              For authoritative guidance, consult <a href="https://governance.admin.ox.ac.uk/education-committee/policies/ai-use-in-summative-assessment" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,0.4)'}}>governance.admin.ox.ac.uk</a> and <a href="https://www.ox.ac.uk/gen-ai" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,0.4)'}}>ox.ac.uk/gen-ai</a>. Where this toolkit and an official source conflict, the official source governs.
+            </div>
+            <div style={{fontSize:11,color:'rgba(255,255,255,0.25)',flexShrink:0}}>Policy updated: October 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('app')).render(<App/>);
+</script>
+</body>
+</html>
