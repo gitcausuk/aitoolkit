@@ -3,6 +3,8 @@ name: Build Assessment Designer review
 on:
   push:
     branches: [assessment-designer-review]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -19,6 +21,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Repair one-time builder tail
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tools/build_assessment_designer.py')
+          s=p.read_text(encoding='utf-8')
+          marker="\n'''\n\n(ROOT / 'tools' / 'build_assessment_designer.py')"
+          if marker in s:
+              s=s.split(marker,1)[0]+'\n'
+              p.write_text(s,encoding='utf-8')
+          PY
       - name: Validate builder syntax
         run: python -m py_compile tools/build_assessment_designer.py
       - name: Build site files
@@ -36,10 +49,11 @@ jobs:
           grep -q "Assessment design resources" index.html
           ! grep -q "hubTab: 'redesign'" index.html
       - name: Commit generated site
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html assessment-designer CHANGELOG.md QA-REPORT.md
+          git add index.html assessment-designer CHANGELOG.md QA-REPORT.md tools/build_assessment_designer.py
           if ! git diff --cached --quiet; then
             git commit -m "Integrate and validate Assessment Designer"
             git push origin assessment-designer-review
