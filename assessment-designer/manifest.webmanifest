@@ -1,9 +1,0 @@
-{
-  "name": "Oxford Assessment Designer",
-  "short_name": "Assessment Designer",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#f5f3ee",
-  "theme_color": "#002147",
-  "icons": [{"src":"assets/favicon.svg","sizes":"any","type":"image/svg+xml"}]
-}
