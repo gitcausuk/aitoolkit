@@ -1,0 +1,46 @@
+name: Build Assessment Designer review
+
+on:
+  push:
+    branches: [assessment-designer-review]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: assessment-designer-review
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate builder syntax
+        run: python -m py_compile tools/build_assessment_designer.py
+      - name: Build site files
+        run: python tools/build_assessment_designer.py
+      - name: Check JavaScript syntax
+        run: node --check assessment-designer/assets/app.js
+      - name: Check required files and links
+        run: |
+          test -f index.html
+          test -f assessment-designer/index.html
+          test -f assessment-designer/assets/styles.css
+          test -f assessment-designer/assets/app.js
+          test -f assessment-designer/assets/oxford-formats.js
+          grep -q "assessment-designer/index.html" index.html
+          grep -q "Assessment design resources" index.html
+          ! grep -q "hubTab: 'redesign'" index.html
+      - name: Commit generated site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html assessment-designer CHANGELOG.md QA-REPORT.md
+          if ! git diff --cached --quiet; then
+            git commit -m "Integrate and validate Assessment Designer"
+            git push origin assessment-designer-review
+          fi
