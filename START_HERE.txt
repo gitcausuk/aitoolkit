@@ -1,0 +1,38 @@
+OXFORD AI TOOLKIT — REVIEWED 5 SEPTEMBER 2026
+
+Extract the whole ZIP, then open index.html in a current browser.
+For the guided tool, open assessment-designer/index.html.
+Keep the directory structure intact. A ZIP, Teams or SharePoint preview may not execute HTML.
+
+This revision preserves the existing branding and accessibility implementation.
+The logos, palette, fonts, CSS, layout, accessibility statement, accessible text
+alternatives, PDF guides and keyboard-navigation routines were not redesigned.
+
+What improved
+- Assessment advice no longer treats process records, writing style or a single
+  oral exchange as proof of authorship. Several policy/approval overclaims were corrected.
+- The Designer starts independently of optional external document readers.
+- Uploaded brief text, local guidance, learning outcomes and constraints travel
+  into the educator draft. Long excerpts are explicitly labelled if shortened.
+- Selected evidence and permissions are respected; studying AI does not trigger
+  an automatic requirement to use an AI tool.
+- Workload and no-oral constraints are better reflected in the options.
+- Generated marking weights are explicitly illustrative, not approved replacements.
+- Public policy and current CTL hub links are included in report exports.
+
+Important limits
+The Designer uses rules, keyword matching and templates, not an AI model. It
+cannot fully interpret or reconcile local regulations, preserve an approved rubric
+semantically, validate learning outcomes, certify accessibility or approve a design.
+The educator must edit the draft and resolve every local decision before release.
+
+Text/paste and rule-based generation do not require an AI service. Optional PDF
+and DOCX readers, online fonts/resources and the optional AI Adviser may require
+network access. If a file reader is unavailable, paste the text or use TXT.
+The optional Adviser is a separate service, not part of the local rule-based engine.
+
+Checks: 27 source/function checks passed, including all 40 assessment formats.
+This is not a browser/device certification or a new accessibility compliance audit.
+Rehearse on the actual device and confirm the hosting/security arrangements before use.
+
+See REVIEW_NOTES.md for scope, sources and limitations. Nothing was published or deployed.
