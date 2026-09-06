@@ -1,0 +1,44 @@
+:root {
+  --oxford-blue: #002147;
+  --viridian: #15616D;
+  --sky-blue: #B9D6F2;
+  --shell-grey: #F1EEE9;
+  --off-white: #F2F0F0;
+  --stone-grey: #D9D8D6;
+  --ash-grey: #61615F;
+  --charcoal: #211D1C;
+  --white: #FFFFFF;
+  --serif: 'Noto Serif', Georgia, serif;
+  --sans: 'Roboto', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--off-white); color: var(--charcoal); font-family: var(--sans); line-height: 1.65; }
+a { color: var(--viridian); text-underline-offset: 3px; }
+a:hover { color: var(--oxford-blue); }
+a:focus-visible { outline: 3px solid var(--viridian); outline-offset: 3px; }
+.skip-link { position: absolute; left: -9999px; }
+.skip-link:focus { position: fixed; top: 0; left: 0; z-index: 10; padding: 10px 16px; background: var(--white); color: var(--oxford-blue); }
+header { background: var(--oxford-blue); color: var(--white); }
+.header-inner { max-width: 900px; margin: 0 auto; padding: 18px 24px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.school-logo { width: 220px; max-width: 64vw; height: auto; display: block; }
+.site-name { color: var(--white); font-family: var(--serif); font-size: 28px; text-decoration: none; }
+.site-summary { margin: 5px 0 0; color: var(--sky-blue); font-size: 13px; }
+main { max-width: 760px; margin: 0 auto; padding: 48px 24px 70px; }
+h1, h2 { color: var(--oxford-blue); font-family: var(--serif); font-weight: 600; line-height: 1.2; }
+h1 { margin: 0 0 22px; font-size: clamp(34px, 6vw, 46px); }
+h2 { margin: 34px 0 10px; font-size: 24px; }
+p, li { max-width: 70ch; }
+.intro { color: var(--ash-grey); font-size: 18px; }
+.notice { margin: 26px 0; padding: 18px 20px; border-left: 4px solid var(--viridian); background: var(--white); }
+ul { padding-left: 22px; }
+li + li { margin-top: 8px; }
+.updated { margin-top: 40px; color: var(--ash-grey); font-size: 13px; }
+footer { background: var(--oxford-blue); color: var(--sky-blue); }
+.footer-inner { max-width: 900px; margin: 0 auto; padding: 24px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+footer a { color: var(--white); }
+@media (max-width: 600px) {
+  .site-name { font-size: 23px; }
+  main { padding-top: 36px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
