@@ -1,0 +1,1607 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Assessment Design Lab | Oxford AI Toolkit</title>
+<meta name="description" content="Explore relationships between student capability, AI use, evidence of learning, assessment risk, verification and assessment design patterns.">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#002147">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="../assessment-designer/assets/favicon.svg" type="image/svg+xml">
+<script>(function(){try{if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embedded');}catch(e){}})();</script>
+<style>
+:root{
+  --serif:'Noto Serif', Georgia, serif;
+  --sans:'Roboto', Arial, sans-serif;
+  --bg:#F2F0F0; --paper:#FFFFFF; --ink:#211D1C; --ink2:#61615F; --ink3:#61615F; --rule:#D9D8D6; --wash:#F1EEE9;
+  --edge:#89827A; --halo:#F2F0F0;
+  --cap:#002147; --ai:#15616D; --ev:#15616D; --risk:#61615F; --pat:#E2C044; --ver:#789E9E; --con:#89827A;
+  --accent:#15616D;
+  --navy:#002147; --navy-mid:#15616D; --mist:#B9D6F2; --gold:#E2C044; --gold-pale:#F1EEE9; --border:#D9D8D6; --white:#FFFFFF;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;overflow:hidden;display:flex;flex-direction:column}
+.skip-link{position:fixed;top:8px;left:8px;z-index:999;transform:translateY(-150%);background:var(--white);color:var(--navy);padding:10px 14px;border:2px solid var(--navy);border-radius:6px}
+.skip-link:focus{transform:translateY(0)}
+.site-header{flex:0 0 auto;background:var(--navy);border-bottom:2px solid rgba(185,214,242,.35);box-shadow:0 3px 18px rgba(0,33,71,.28);color:var(--white)}
+.header-inner{max-width:1160px;margin:0 auto;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:14px;color:var(--white);text-decoration:none}
+.school-logo{width:210px;max-width:42vw;height:auto;display:block}
+.brand-copy{min-width:95px}.eyebrow{display:block;color:var(--mist);letter-spacing:.02em;font-size:10px;font-weight:500}.brand-title{display:block;font-family:var(--serif);font-size:21px;line-height:1.2}
+.header-actions{display:flex;align-items:center;gap:20px}.quiet-link{color:rgba(255,255,255,.82);text-decoration:none;font-size:13px}.quiet-link:hover{color:var(--white);text-decoration:underline}.header-button{color:var(--white);text-decoration:none;border:1px solid rgba(185,214,242,.65);border-radius:999px;padding:9px 14px;font-size:13px}.header-button:hover{background:rgba(255,255,255,.08)}
+.status-strip{flex:0 0 auto;background:#F1EEE9;border-bottom:1px solid #B9D6F2}.status-inner{max-width:1160px;margin:0 auto;padding:9px 24px;color:var(--ink2);font-size:12.5px}
+.lab-shell{flex:1 1 auto;min-height:0}
+html.embedded .site-header,html.embedded .status-strip,html.embedded .skip-link{display:none!important}
+html.embedded body{display:block}
+html.embedded .lab-shell{height:100vh}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(21,97,109,.38)!important;outline-offset:2px!important}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.app{height:100%;display:grid;grid-template-rows:auto 1fr;grid-template-columns:minmax(0,1fr) 400px}
+.labbar{grid-column:1/-1;display:flex;align-items:center;gap:20px;padding:14px 22px;border-bottom:1px solid var(--rule);background:var(--paper);flex-wrap:wrap}
+.title{display:flex;flex-direction:column;min-width:0}
+.title h1{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.1;margin:0;letter-spacing:-.005em}
+.title span{font-size:12.5px;color:var(--ink3)}
+.modes{display:flex;gap:2px;background:var(--wash);border-radius:9px;padding:3px;margin-left:auto;overflow-x:auto;max-width:100%}
+.modes button{border:0;background:transparent;padding:7px 13px;border-radius:7px;font-size:13.5px;font-weight:500;color:var(--ink2);cursor:pointer;white-space:nowrap}
+.modes button[aria-pressed="true"]{background:var(--navy);color:var(--white);font-weight:600;box-shadow:0 1px 2px rgba(0,33,71,.12)}
+.search{position:relative;width:250px}
+.search input{width:100%;border:1px solid var(--rule);background:var(--bg);border-radius:9px;padding:8px 12px 8px 34px;font-size:14px}
+.search input::placeholder{color:var(--ink3)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--ink3);fill:none;stroke-width:2}
+.results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--paper);border:1px solid var(--rule);border-radius:10px;box-shadow:0 12px 28px rgba(19,33,58,.14);padding:5px;z-index:30;display:none;max-height:360px;overflow:auto}
+.results.open{display:block}
+.results button{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0;background:transparent;padding:8px 9px;border-radius:7px;cursor:pointer}
+.results button[aria-selected="true"],.results button:hover{background:var(--wash)}
+.results small{display:block;color:var(--ink3);font-size:12px}
+.results .empty{padding:10px;color:var(--ink3);font-size:13px}
+
+/* Map */
+.stage{position:relative;overflow:hidden;min-height:0;touch-action:none}
+#map{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;user-select:none;-webkit-user-select:none}
+#map.dragging{cursor:grabbing}
+.q-line{position:absolute;left:22px;top:16px;right:22px;font-family:var(--serif);font-style:italic;font-size:15.5px;color:var(--ink2);max-width:62ch;pointer-events:none;transition:opacity .4s}
+.q-line.hide{opacity:0}
+
+.node{cursor:pointer}
+.node.off{pointer-events:none}
+.node .shape{stroke-width:1.6}
+.t-cap .shape{fill:var(--cap);stroke:var(--cap)}
+.t-ai .shape{fill:var(--ai);stroke:var(--ai)}
+.t-ev .shape{fill:var(--paper);stroke:var(--ev);stroke-width:2.2}
+.t-risk .shape{fill:var(--risk);stroke:var(--risk);stroke-linejoin:round}
+.t-pat .shape{fill:var(--pat);stroke:var(--pat);stroke-linejoin:round}
+.t-ver .shape{fill:var(--ver);stroke:var(--ver);stroke-linejoin:round}
+.t-con .shape{fill:var(--paper);stroke:var(--con);stroke-width:2}
+.node .ring{fill:none;stroke:var(--ink);stroke-width:1.3;display:none}
+.node.tier-focus .ring,.node.tier-anchor .ring{display:block}
+.node.visited .ring{display:block;stroke:var(--ink3);stroke-dasharray:2 3}
+.node.best .ring{display:block;stroke:var(--pat);stroke-width:1.2}
+.node text{font-family:var(--sans);font-size:12.5px;font-weight:500;fill:var(--ink2);paint-order:stroke;stroke:var(--halo);stroke-width:4.5px;stroke-linejoin:round;pointer-events:none}
+.node.tier-focus text{font-family:var(--serif);font-size:22px;font-weight:600;fill:var(--ink)}
+.node.tier-anchor text{font-family:var(--serif);font-size:18px;font-weight:600;fill:var(--ink)}
+.node.tier-t3 text{font-size:14.5px;font-weight:600;fill:var(--ink)}
+.node.tier-t2 text{font-size:13.5px}
+.node.tier-t1 text{font-size:12.5px;fill:var(--ink3)}
+.node.tier-col text{font-size:15.5px;fill:var(--ink)}
+.node.tier-faint text,.node.tier-dot text,.node.lab-none text{display:none}
+.node.dim text{fill:var(--ink3)}
+.node.hl text{fill:var(--ink);font-weight:600}
+#map.far .node.tier-t1 text,#map.far .edge text{display:none}
+#map.near .node.tier-faint text{display:block;font-size:11.5px;fill:var(--ink3)}
+.node:hover text,.node:focus-visible text{fill:var(--ink)}
+.node:focus{outline:none}
+.node:focus-visible .ring{display:block;stroke:var(--accent);stroke-width:2}
+
+.edge path{fill:none;stroke:var(--edge);stroke-linecap:round}
+.edge.neg path{stroke:var(--risk);stroke-dasharray:5 4}
+.edge.mesh path{stroke:var(--ink3)}
+.edge.trail path{stroke:var(--ink);stroke-dasharray:1 6;stroke-width:1.6}
+.edge.hot path{stroke:var(--ink)}
+.edge.neg.hot path{stroke:var(--risk)}
+.edge text{font-family:var(--serif);font-style:italic;font-size:13px;fill:var(--ink2);paint-order:stroke;stroke:var(--halo);stroke-width:5px;stroke-linejoin:round;pointer-events:none}
+.edge.nolab text{display:none}
+.edge.hot text{display:block;fill:var(--ink)}
+.arrow{fill:var(--edge)} .arrow-neg{fill:var(--risk)}
+
+.hub{cursor:pointer;transition:opacity .45s}
+.hub.off{opacity:0;pointer-events:none}
+.hub .hit{fill:transparent}
+.hub:hover .hit{fill:var(--wash)}
+.hub .hname{font-family:var(--serif);font-size:19px;font-weight:500;fill:var(--ink)}
+.hub .hcount{font-size:12px;fill:var(--ink3)}
+.hub:focus{outline:none}
+.hub:focus-visible .hit{stroke:var(--accent);stroke-width:2}
+.olink{fill:none;stroke:var(--ink3);transition:opacity .45s}
+.olink.off{opacity:0}
+
+.annot{animation:fadein .6s ease both;pointer-events:none}
+.annot text{fill:var(--ink2)}
+.annot .q{font-family:var(--serif);font-size:25px;fill:var(--ink);font-weight:400;paint-order:stroke;stroke:var(--halo);stroke-width:8px;stroke-linejoin:round}
+.annot .qsmall{font-size:13px;fill:var(--ink3)}
+.annot .ctitle{font-family:var(--serif);font-size:28px;fill:var(--ink)}
+.annot .cdesc{font-size:14px;fill:var(--ink2)}
+.annot .coltitle{font-family:var(--serif);font-size:18px;fill:var(--ink)}
+.annot .arc{font-family:var(--serif);font-style:italic;font-size:15px;fill:var(--ink3)}
+.annot .tri{fill:none;stroke:var(--rule);stroke-width:1.5}
+.annot .placeholder{font-family:var(--serif);font-style:italic;font-size:17px;fill:var(--ink3)}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+/* Controls on map */
+.ctrl{position:absolute;right:16px;bottom:16px;display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--rule);border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(19,33,58,.08)}
+.ctrl button{width:38px;height:38px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--ink2)}
+.ctrl button+button{border-top:1px solid var(--rule)}
+.ctrl button:hover{background:var(--wash);color:var(--ink)}
+.ctrl svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.trail{position:absolute;left:16px;bottom:16px;right:76px;display:flex;align-items:center;gap:8px;pointer-events:none}
+.trail>*{pointer-events:auto}
+.back{border:1px solid var(--rule);background:var(--paper);border-radius:9px;padding:7px 12px 7px 9px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:5px;cursor:pointer;color:var(--ink2);flex-shrink:0}
+.back:disabled{opacity:.45;cursor:default}
+.back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+.crumbs{display:flex;align-items:center;gap:0;overflow-x:auto;background:var(--paper);border:1px solid var(--rule);border-radius:9px;padding:4px 6px;scrollbar-width:thin;max-width:100%}
+.crumbs:empty{display:none}
+.crumb{border:0;background:transparent;padding:4px 7px;border-radius:6px;font-size:13px;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--ink2)}
+.crumb:hover{background:var(--wash)}
+.crumb.current{color:var(--ink);font-weight:600}
+.rel{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--ink3);white-space:nowrap;padding:0 2px}
+
+.glyph{width:12px;height:12px;flex-shrink:0;display:inline-block;vertical-align:-1px}
+
+.tip{position:absolute;pointer-events:none;background:var(--paper);border:1px solid var(--rule);border-radius:9px;padding:9px 12px;max-width:270px;box-shadow:0 10px 26px rgba(19,33,58,.16);font-size:13px;line-height:1.45;opacity:0;transition:opacity .12s;z-index:20}
+.tip.show{opacity:1}
+.tip b{display:block;font-weight:600;font-size:14px;margin-bottom:2px;color:var(--ink)}
+.tip i{font-style:normal;color:var(--ink3);font-size:12px;display:block;margin-bottom:4px}
+.tip span{color:var(--ink2)}
+
+.journey{position:absolute;left:50%;transform:translateX(-50%);bottom:68px;width:min(520px,calc(100% - 32px));background:var(--navy);color:var(--white);border-radius:12px;padding:14px 16px;display:none;gap:14px;align-items:center;box-shadow:0 14px 34px rgba(19,33,58,.25)}
+.journey.open{display:flex}
+.journey p{margin:0;font-family:var(--serif);font-size:17px;line-height:1.35;flex:1}
+.journey small{display:block;font-family:var(--sans);font-size:12px;opacity:.7;margin-bottom:3px}
+.journey .jbtns{display:flex;gap:6px;flex-shrink:0}
+.journey button{border:1px solid rgba(255,255,255,.35);background:transparent;color:inherit;border-radius:8px;padding:6px 11px;font-size:13px;cursor:pointer}
+.journey button.primary{background:var(--white);color:var(--navy);border-color:var(--white);font-weight:600}
+.journey{--jink:var(--ink)}
+
+/* Panel */
+aside{background:var(--paper);border-left:1px solid var(--rule);overflow-y:auto;min-height:0;position:relative}
+.ptoggle{display:none}
+.pbody{padding:24px 26px 40px}
+.pbody h2{font-family:var(--serif);font-weight:500;font-size:28px;line-height:1.15;margin:4px 0 10px;letter-spacing:-.01em}
+.pbody h3{font-size:13.5px;font-weight:600;margin:26px 0 8px;color:var(--ink)}
+.pbody p{margin:0 0 12px;color:var(--ink2)}
+.pbody .lede{font-size:16.5px;color:var(--ink);font-family:var(--serif);line-height:1.45}
+.kind{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink3)}
+.question{font-family:var(--serif);font-size:19px;line-height:1.4;color:var(--ink);border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:16px 0 18px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1px solid var(--rule);background:var(--paper);border-radius:999px;padding:6px 12px;font-size:13.5px;cursor:pointer;display:flex;align-items:center;gap:7px;text-align:left}
+.chip:hover{border-color:var(--ink3)}
+.chip[aria-pressed="true"]{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.chip[aria-pressed="true"] .glyph .shape{stroke:var(--paper);fill:var(--paper)}
+.btn{border:1px solid var(--navy);background:var(--navy);color:var(--white);border-radius:9px;padding:9px 15px;font-weight:600;font-size:14px;cursor:pointer}
+.btn.quiet{background:transparent;color:var(--navy);border-color:var(--rule)}
+.btn.quiet:hover{border-color:var(--ink3)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.legend{list-style:none;margin:0;padding:0}
+.legend li button{display:grid;grid-template-columns:16px 1fr;gap:10px;align-items:start;border:0;background:transparent;text-align:left;width:100%;padding:7px 6px;border-radius:7px;cursor:pointer}
+.legend li button:hover{background:var(--wash)}
+.legend b{font-weight:600;font-size:14px;display:block}
+.legend span{font-size:13px;color:var(--ink3);display:block}
+.legend .glyph{margin-top:4px}
+.keyline{font-size:13px;color:var(--ink3);display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+.keyline span{display:flex;align-items:center;gap:6px}
+.conn{list-style:none;margin:0;padding:0}
+.conn li{border-top:1px solid var(--rule)}
+.conn li:first-child{border-top:0}
+.conn button{display:block;width:100%;text-align:left;border:0;background:transparent;padding:9px 6px;cursor:pointer;border-radius:6px}
+.conn button:hover{background:var(--wash)}
+.conn .row{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.conn .row .name{flex:1}
+.conn .note{display:block;font-size:13px;color:var(--ink2);margin-top:2px;padding-left:20px}
+.str{display:inline-flex;gap:2px;flex-shrink:0}
+.str i{width:4px;height:11px;border-radius:1px;background:var(--rule)}
+.str[data-w="1"] i:nth-child(-n+1),.str[data-w="2"] i:nth-child(-n+2),.str[data-w="3"] i{background:var(--ink2)}
+.seq{margin:0 0 6px;padding-left:20px;color:var(--ink2)}
+.seq li{margin-bottom:5px}
+.why{background:var(--wash);border-radius:10px;padding:12px 14px;margin:14px 0}
+.why b{display:block;font-size:13px;margin-bottom:3px}
+.why p{margin:0;color:var(--ink)}
+.watch{border-left:3px solid var(--risk);padding:2px 0 2px 12px;margin:10px 0 0}
+.watch b{display:block;font-size:13px}
+.watch p{margin:0}
+.linkbtn{border:0;background:none;color:var(--accent);font-weight:600;font-size:13.5px;padding:0;cursor:pointer;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px}
+.group-label{font-size:13px;color:var(--ink3);margin:14px 0 4px;font-family:var(--serif);font-style:italic;font-size:15px}
+.fit{display:block;height:4px;background:var(--wash);border-radius:2px;margin:6px 0 4px;overflow:hidden}
+.fit i{display:block;height:100%;background:var(--pat);border-radius:2px}
+.rank{list-style:none;padding:0;margin:0}
+.rank li{border-top:1px solid var(--rule)}
+.rank li:first-child{border-top:0}
+.rank button{display:block;width:100%;text-align:left;border:0;background:transparent;padding:11px 6px;cursor:pointer;border-radius:6px}
+.rank button:hover{background:var(--wash)}
+.rank .nm{font-weight:600;font-size:15px}
+.rank .rs{font-size:13px;color:var(--ink2);display:block}
+.pick h3{margin-top:18px}
+.muted{color:var(--ink3);font-size:13px}
+
+@media (max-width: 980px){
+  .app{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto}
+  aside{border-left:0;border-top:1px solid var(--rule);max-height:38vh;transition:max-height .3s}
+  aside.collapsed{max-height:46px;overflow:hidden}
+  .ptoggle{display:flex;width:100%;justify-content:center;align-items:center;gap:8px;border:0;background:var(--paper);padding:10px;font-size:13px;color:var(--ink2);cursor:pointer;position:sticky;top:0;z-index:2;border-bottom:1px solid var(--rule)}
+  .pbody{padding:16px 20px 28px}
+  .pbody h2{font-size:24px}
+  .search{width:100%;order:3}
+  .modes{margin-left:0;order:2}
+  .labbar{gap:10px 16px;padding:12px 16px}
+  .q-line{font-size:14px;left:16px;top:12px}
+}
+@media (min-width:760px){
+  html.embedded .app{grid-template-columns:minmax(0,1fr) 320px;grid-template-rows:auto 1fr}
+  html.embedded aside{border-left:1px solid var(--rule);border-top:0;max-height:none;overflow-y:auto}
+  html.embedded .ptoggle{display:none}
+}
+
+@media (max-width:720px){
+  .header-inner{padding:16px 18px}
+  .header-actions .quiet-link{display:none}
+  .header-button{font-size:12px;padding:8px 11px}
+  .school-logo{width:185px;max-width:56vw}
+}
+@media (max-width:470px){
+  .brand-title{font-size:17px}
+  .school-logo{width:170px;max-width:64vw}
+  .header-button{padding:7px 9px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#lab-main">Skip to main content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../#home" aria-label="Return to the Oxford AI Toolkit">
+      <img class="school-logo" src="../assets/oxford-said-logo-on-blue.png" alt="University of Oxford and Saïd Business School">
+      <span class="brand-copy"><span class="eyebrow">Oxford AI Toolkit</span><span class="brand-title">Assessment Design Lab</span></span>
+    </a>
+    <div class="header-actions">
+      <a class="quiet-link" href="../#faculty_assessment_hub">Assessment guidance</a>
+      <a class="header-button" href="../assessment-redesign/index.html">Check an assessment</a>
+    </div>
+  </div>
+</header>
+<div class="status-strip"><div class="status-inner">Practical guidance, not University policy. Assessment instructions, official policy and local requirements govern. Working version: comments welcome.</div></div>
+<div class="lab-shell" id="lab-main">
+<div class="app">
+  <div class="labbar">
+    <div class="title">
+      <h1>Assessment Design Lab</h1>
+      <span>Evidence of learning when AI can produce the work</span>
+    </div>
+    <nav class="modes" aria-label="Views" id="modes">
+      <button data-mode="explore" aria-pressed="true">Explore</button>
+      <button data-mode="design" aria-pressed="false">Design an assessment</button>
+      <button data-mode="risks" aria-pressed="false">See AI risks</button>
+      <button data-mode="evidence" aria-pressed="false">See evidence of learning</button>
+    </nav>
+    <div class="search" role="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input id="q" type="search" placeholder="Search, e.g. oral defence" autocomplete="off" aria-label="Search concepts" aria-controls="results" aria-expanded="false">
+      <div class="results" id="results" role="listbox"></div>
+    </div>
+  </div>
+
+  <main class="stage" id="stage">
+    <svg id="map" role="application" aria-label="Concept map. Select a concept to explore its connections.">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path class="arrow" d="M0,1 L9,5 L0,9 Z"/></marker>
+        <marker id="arrNeg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path class="arrow-neg" d="M0,1 L9,5 L0,9 Z"/></marker>
+      </defs>
+      <g id="world">
+        <g id="linkLayer"></g>
+        <g id="annotLayer"></g>
+        <g id="edgeLayer"></g>
+        <g id="hubLayer"></g>
+        <g id="nodeLayer"></g>
+      </g>
+    </svg>
+    <div class="q-line hide" id="qline">What would count as convincing evidence that this student actually knows, can judge, can do, or can account for what they have produced, in a world where AI can generate sophisticated work?</div>
+    <div class="tip" id="tip" role="tooltip"></div>
+    <div class="journey" id="journey" aria-live="polite"></div>
+    <div class="trail">
+      <button class="back" id="back" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Back</button>
+      <nav class="crumbs" id="crumbs" aria-label="Exploration path"></nav>
+    </div>
+    <div class="ctrl" role="group" aria-label="Map controls">
+      <button id="zin" title="Zoom in" aria-label="Zoom in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button id="zout" title="Zoom out" aria-label="Zoom out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+      <button id="zfit" title="Fit to screen" aria-label="Fit to screen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      <button id="home" title="Back to the overview" aria-label="Back to the overview"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 9.5V20h12V9.5"/></svg></button>
+    </div>
+  </main>
+
+  <aside id="panel" aria-live="polite">
+    <button class="ptoggle" id="ptoggle" aria-expanded="true">Details</button>
+    <div class="pbody" id="pbody"></div>
+  </aside>
+</div>
+</div>
+<script>
+/* ===== Knowledge model =====
+   Node types are fixed; nodes and edges are data. Adding patterns means adding
+   node objects plus edges. Layouts pack by type sector, so 40 patterns fit
+   without redesign. */
+const ORDER = ['cap','ev','ver','pat','risk','ai','con'];
+const TYPES = {
+  cap:  {name:'Student capability', plural:'Student capabilities', desc:'What the student must be able to show: know, judge, do, or account for their work.'},
+  ev:   {name:'Evidence of learning', plural:'Evidence we need', desc:'What you would need to see before believing the capability is there.'},
+  ver:  {name:'Verification', plural:'Verification mechanisms', desc:'Checks that test whether the evidence really belongs to the student.'},
+  pat:  {name:'Assessment pattern', plural:'Assessment patterns', desc:'Whole designs that combine a task with the checks that make it trustworthy.'},
+  risk: {name:'Risk from generative AI', plural:'Risks from generative AI', desc:'Ways AI weakens the link between submitted work and the learner.'},
+  ai:   {name:'AI role', plural:'AI roles', desc:'How AI is positioned in the task, from fully permitted to not permitted.'},
+  con:  {name:'Design consideration', plural:'Design considerations', desc:'Qualities every assessment trades off against each other.'}
+};
+ORDER.forEach((t,i)=>{ TYPES[t].angle = -90 + i*360/ORDER.length; });
+
+const NODES = [
+ // Capabilities
+ {id:'know',t:'cap',label:'Know',alias:['knowledge','understanding'],short:'Holds accurate, usable disciplinary knowledge.',
+  long:'Knowing is more than recall. It shows up as using concepts correctly, recognising when they apply, and explaining them without a script. When AI can produce fluent knowledge statements, the submitted product alone tells you little about what the student holds.'},
+ {id:'judge',t:'cap',label:'Judge',alias:['judgement','judgment','decision'],short:'Weighs evidence and commits to a defensible choice.',
+  long:"Judgement is the capability business programmes care about most and the one most exposed to AI. A sound judgement weighs incomplete evidence, sets priorities and commits. The assessment question is whether the judgement in the work is the student's, and whether it would survive a challenge."},
+ {id:'do',t:'cap',label:'Do',alias:['perform','practice','skill'],short:'Performs a task or practice competently.',
+  long:'Doing covers practical and interpersonal performance: negotiating, presenting, building a model, running a meeting. A written account of doing is a weak proxy. The strongest evidence comes from watching the performance or its direct traces.'},
+ {id:'account',t:'cap',label:'Account',alias:['accountability','explain','responsibility'],short:'Explains and takes responsibility for how the work was produced.',
+  long:'Accounting is the capability to explain your own work: what you decided, what you used, what you changed, and why. It has become central because AI blurs authorship. A student who can account for their process gives you grounds to trust the product.'},
+ // AI roles
+ {id:'ai_permitted',t:'ai',label:'AI permitted (authentic use)',alias:['ai permitted','authentic ai','open ai use'],short:'Students use AI the way a professional would.',
+  long:"AI is part of the task because it is part of the practice. This raises authenticity but weakens the link between product and the student's own capability, so the design needs another source of evidence about what the student contributed."},
+ {id:'ai_verify',t:'ai',label:'AI used, then verified',alias:['use then verify','verified ai'],short:"AI may help, and a deliberate check tests the student's grasp.",
+  long:'Students can use AI to produce work, and the assessment includes a planned check: a defence, follow-up questions or a supervised component. The check carries much of the evidential weight, so it needs designing with the same care as the task.'},
+ {id:'ai_partial',t:'ai',label:'AI restricted for part',alias:['restricted','partial restriction','split'],short:'Some components allow AI; at least one does not.',
+  long:'A split design. An open component allows AI, and a bounded component (in class, supervised or live) does not. Authenticity stays where it matters and direct evidence is secured where you need it.'},
+ {id:'ai_none',t:'ai',label:'AI not permitted',alias:['ai ban','no ai','prohibited'],short:'The task must be completed without AI.',
+  long:'Prohibition only produces reliable evidence when conditions make it enforceable, which usually means supervision. An unsupervised take-home task with an AI ban gives weak assurance and can penalise honest students. It can also reduce authenticity where AI is part of professional practice.'},
+ {id:'ai_undecided',t:'ai',label:'AI use undecided',alias:['undecided','unclear policy'],short:'The role of AI has not been set yet.',
+  long:'Many courses are here. The risk is ambiguity: students cannot tell what is legitimate, and markers apply different standards. One useful move is to choose designs that hold up whatever the policy becomes, then decide the policy deliberately.'},
+ // Evidence
+ {id:'ev_knowledge',t:'ev',label:'Knowledge',alias:['knowledge evidence'],short:'Concepts used accurately without support.',
+  long:'Evidence that understanding sits with the student: correct use of concepts in a fresh context, not only inside a polished written product.'},
+ {id:'ev_reasoning',t:'ev',label:'Reasoning',alias:['rationale','logic'],short:'The steps from evidence to conclusion are visible.',
+  long:'Reasoning evidence shows how the student got from information to a claim. It is easy to fake in final prose and hard to fake under questioning or when it must be traced through specific decisions.'},
+ {id:'ev_judgement',t:'ev',label:'Judgement',alias:['judgment','judgement evidence'],short:'Options weighed and a defensible choice made.',
+  long:'Evidence of judgement is a choice made under uncertainty, with priorities stated and trade-offs acknowledged. Generic output tends to hedge. Real judgement commits.'},
+ {id:'ev_ownership',t:'ev',label:'Ownership',alias:['attribution','authorship'],short:'The work and its thinking can be attributed to the student.',
+  long:'Ownership evidence supports the claim that the student, not a tool or another person, did the thinking that matters. It rarely comes from the product itself. It comes from defence, process traces, supervised work or live adaptation.'},
+ {id:'ev_adaptation',t:'ev',label:'Adaptation',alias:['transfer','revision','update'],short:'Thinking revised sensibly when conditions change.',
+  long:'If a student can update a position sensibly when given a new fact or a credible counterargument, you learn that they understood why they held it. Adaptation is hard to outsource in real time.'},
+ {id:'ev_process',t:'ev',label:'Process',alias:['development','drafts'],short:'How the work developed is visible.',
+  long:'Process evidence shows decisions, drafts, revisions and the part AI played. It should capture meaningful decision points, not every keystroke.'},
+ {id:'ev_performance',t:'ev',label:'Performance',alias:['demonstration','action'],short:'The capability shown in action.',
+  long:'Direct evidence of doing: an observed negotiation, a live analysis, a demonstrated procedure. It answers questions a written account cannot.'},
+ {id:'ev_defend',t:'ev',label:'Ability to defend a decision',alias:['defend','defence','justify'],short:'The student can explain and stand behind a decision under challenge.',
+  long:'Defence evidence comes from questioning. Can the student say why they chose this, what would change their mind, and how they would answer a sceptical stakeholder?'},
+ // Risks
+ {id:'r_generate',t:'risk',label:'AI can generate the answer',alias:['generate','outsourcing'],short:'A tool can produce an acceptable response to the task.',
+  long:'If a competent answer can be generated from the prompt alone, a submitted answer is weak evidence of anything the student knows or can do. This is the starting risk for most take-home tasks.'},
+ {id:'r_attribution',t:'risk',label:'Weak attribution to the learner',alias:['attribution','authorship risk'],short:"You cannot tell whose thinking the work shows.",
+  long:'The product may be good, but the inference from product to student is weak. This matters most when the grade certifies individual capability.'},
+ {id:'r_reasoning_invisible',t:'risk',label:'Reasoning is invisible',alias:['hidden reasoning'],short:'Only conclusions are assessed, not how they were reached.',
+  long:'When a task rewards the final answer, reasoning can be skipped or supplied by a tool. Designs that require reasoning to be traced or explained close this gap.'},
+ {id:'r_generic',t:'risk',label:'Generic output can satisfy the task',alias:['generic','boilerplate'],short:'A plausible, context-free answer would pass.',
+  long:'Tasks that accept a general, well-structured response invite generic AI output. Specific context, changed facts and forced prioritisation make generic answers fail.'},
+ {id:'r_cannot_defend',t:'risk',label:'Student cannot explain or defend the output',alias:['cannot explain','cannot defend'],short:'The work exists but the student cannot stand behind it.',
+  long:'A common pattern with heavy AI use: a fluent submission the student cannot explain. Only some form of questioning reveals it.'},
+ {id:'r_process_hidden',t:'risk',label:'Process is hidden',alias:['hidden process'],short:'You see the product, not how it was made.',
+  long:'Without process evidence you cannot see what the student decided, what AI contributed, or how the work improved. Hidden process also makes useful feedback harder.'},
+ {id:'r_conflict',t:'risk',label:'Authentic AI use conflicts with reliable assessment',alias:['conflict','tension','authenticity vs reliability'],short:'Allowing realistic AI use weakens the evidence you get.',
+  long:"The more the task mirrors professional AI use, the harder it is to isolate the student's contribution. Good designs keep authentic use in one place and secure reliable evidence in another."},
+ // Patterns (from the prototype)
+ {id:'p_decision',t:'pat',label:'Decision + defence',alias:['decision and defence'],short:'Students commit to a decision, then defend the reasoning and evidence behind it.',
+  why:'Makes judgement attributable to the learner without treating a polished product as sufficient evidence.',
+  watch:'Keep the defence focused and criterion-referenced. Avoid rewarding confidence or verbal fluency for their own sake.',
+  seq:['Submit a concise decision or recommendation.','Identify the evidence and assumptions that matter most.','A short oral or written defence probes one or two consequential choices.']},
+ {id:'p_countercase',t:'pat',label:'Countercase challenge',alias:['countercase','counter case'],short:'After an initial judgement, students receive a credible countercase or changed fact and must reassess.',
+  why:'Shows whether the learner can update a position rather than preserve an answer already produced.',
+  watch:'The new information should be genuinely consequential, not a trick question.',
+  seq:['Student commits to an initial judgement.','Introduce a common countercase, changed constraint or new evidence.','Student explains what changes, what stays, and why.']},
+ {id:'p_aicritique',t:'pat',label:'AI critique and correction',alias:['ai critique','critique'],short:'Students use or receive an AI-generated response, find its weaknesses, and produce a justified correction.',
+  why:'Treats AI as an object of professional judgement rather than a hidden shortcut.',
+  watch:'A generic "spot the hallucination" task is too thin. Tie critique to course evidence and disciplinary standards.',
+  seq:['Provide or permit an AI-generated analysis.','Students identify errors, missing evidence and misplaced confidence.','A corrected response gives reasons for each material change.']},
+ {id:'p_microviva',t:'pat',label:'Micro-viva',alias:['viva','oral check'],short:'A short, structured oral check samples understanding, ownership and reasoning.',
+  why:'Adds targeted evidence where a take-home product alone cannot support the inference you need to make.',
+  watch:'Plan accessibility, consistency and assessor workload. Use a predictable structure and a narrow evidential purpose.',
+  seq:['Select the one or two capabilities the viva must verify.','Ask a small bank of structured questions linked to the submitted work.','Record a concise judgement against explicit criteria.']},
+ {id:'p_unseen',t:'pat',label:'Supervised unseen case',alias:['unseen case','exam'],short:'Students respond to a fresh case or data set under controlled conditions.',
+  why:'Provides direct evidence of independent performance on a capability that matters.',
+  watch:'Do not confuse time pressure with rigour. Give enough time and accessible conditions for the intended capability.',
+  seq:['Define the capability that needs independent evidence.','Give a fresh but representative case in supervised conditions.','Ask for a bounded decision, analysis or practical response.']},
+ {id:'p_log',t:'pat',label:'Annotated decision log',alias:['decision log','process log'],short:'Students capture key decisions, revisions and AI-supported steps, then annotate why they mattered.',
+  why:'Makes the development process visible without demanding a transcript of every interaction.',
+  watch:'Avoid surveillance by design. Ask for meaningful decision points, not exhaustive logging.',
+  seq:['Specify three to five decision points worth documenting.','Allow concise evidence such as screenshots, excerpts or version notes.','Each annotation explains the decision, the evidence and the revision.']},
+ {id:'p_twostage',t:'pat',label:'Two-stage recommendation',alias:['two stage','revision'],short:'Students submit a recommendation, receive new information or critique, then revise with an account of what changed.',
+  why:'Produces evidence of judgement, response to challenge and responsible revision in one coherent sequence.',
+  watch:'Replace weaker activity rather than adding a second full assignment on top of the first.',
+  seq:['Stage 1: concise recommendation with evidence.','Introduce a new fact, stakeholder challenge or AI critique.','Stage 2: revised recommendation plus a short rationale for the change.']},
+ {id:'p_simulation',t:'pat',label:'Scenario simulation',alias:['simulation','role play'],short:'Students act in a role, make decisions in context and respond to consequences or stakeholder reactions.',
+  why:'Captures practical and interpersonal capability that is hard to infer from a written product.',
+  watch:'Keep role-play conditions fair and mark the intended capability, not theatrical performance.',
+  seq:['Give the student a realistic role and decision context.','Introduce one or more responses or consequences.','The student acts, explains or revises in role.']},
+ {id:'p_compare',t:'pat',label:'Comparative case judgement',alias:['comparison','compare cases'],short:'Students compare two cases or recommendations and justify which difference matters most.',
+  why:'Requires discrimination and prioritisation rather than generic description.',
+  watch:'Cases need enough similarity to make comparison meaningful and enough difference to require judgement.',
+  seq:['Present two plausible cases or recommendations.','Students identify the consequential differences.','A justified judgement says which option or interpretation is stronger.']},
+ {id:'p_demo',t:'pat',label:'Observed demonstration',alias:['demonstration','practical'],short:'Students demonstrate a practical procedure or skill while making key choices visible.',
+  why:'Directly observes performance where a written account would be a weak proxy.',
+  watch:'Separate essential performance from incidental speed, confidence or presentation style.',
+  seq:['Define the observable capability.','Provide appropriate tools, time and accessible conditions.','Observe the performance and probe one or two decisions if needed.']},
+ // Verification
+ {id:'v_oral',t:'ver',label:'Oral defence',alias:['oral','viva','defence'],short:'The student explains and defends the work in conversation.',
+  long:'A structured conversation about submitted work. Short and focused works better than a full viva: two or three questions on consequential choices, marked against explicit criteria.'},
+ {id:'v_supervised',t:'ver',label:'Supervised element',alias:['supervised','in class','invigilated'],short:'Part of the work is done under observed conditions.',
+  long:'A bounded component completed in class or under supervision. It gives direct evidence for one capability and anchors confidence in the rest of the work.'},
+ {id:'v_countercase',t:'ver',label:'Countercase',alias:['changed fact','challenge'],short:'A credible challenge or changed fact the student must answer.',
+  long:'New information introduced after the student commits. The response shows whether the original position was understood or merely produced.'},
+ {id:'v_followup',t:'ver',label:'Follow-up questioning',alias:['follow up','questions'],short:'Targeted questions probe specific choices in the work.',
+  long:'Questions tied to specific decisions in the submission. They can be oral or written, live or asynchronous, and are lighter than a full defence.'},
+ {id:'v_process',t:'ver',label:'Process evidence',alias:['version history','drafts','log'],short:'Drafts, versions or logs that show how the work developed.',
+  long:'Selected traces of development: version notes, key prompts and responses, annotated drafts. Ask for meaningful decision points rather than exhaustive records.'},
+ {id:'v_reflection',t:'ver',label:'Reflection linked to decisions',alias:['reflection'],short:'Reflection anchored to named choices, not general feelings.',
+  long:'Generic reflection is easy to generate. Reflection tied to named decisions in the work (what you chose at point X and why) is harder to fake and more useful for learning.'},
+ {id:'v_observation',t:'ver',label:'Performance or observation',alias:['observation','observed'],short:'The assessor watches the capability being used.',
+  long:'Direct observation of a performance, live or recorded. It is the most direct evidence for doing, and costly in assessor time.'},
+ {id:'v_unseen',t:'ver',label:'Comparison with unseen material',alias:['unseen','transfer task'],short:'The student applies their thinking to material they have not prepared.',
+  long:'A fresh case, data set or interpretation. Transfer to the unseen is strong evidence that understanding, not a prepared answer, is doing the work.'},
+ // Considerations
+ {id:'c_validity',t:'con',label:'Validity',alias:['valid'],short:'Does the evidence support the claim you want to make?',
+  long:'Validity is about inference. The question is not whether the task is hard or secure, but whether its results justify saying the student can do what the outcome describes.'},
+ {id:'c_inclusivity',t:'con',label:'Inclusivity',alias:['accessibility','fairness'],short:'Can every student show their capability fairly?',
+  long:'Oral, timed and supervised formats can disadvantage students for reasons unrelated to the capability. Predictable structure, adjustments and a choice of modality reduce this.'},
+ {id:'c_visibility',t:'con',label:'Visibility of learning',alias:['visible learning'],short:'Can you see the learning, not just the product?',
+  long:'Designs that make thinking and development visible support feedback as well as assurance.'},
+ {id:'c_accountability',t:'con',label:'Accountability',alias:['answerable'],short:'Is the student answerable for what they submit?',
+  long:'Accountability means the student can be asked about the work and is expected to answer. It mirrors how professional work is held to account.'},
+ {id:'c_faculty',t:'con',label:'Faculty workload',alias:['workload','marking load','staff time'],short:'What does this cost in marking and contact time?',
+  long:'Verification adds assessor time. The sustainable approach is the smallest additional evidence that strengthens a material claim, with weaker activity removed to make room.'},
+ {id:'c_student',t:'con',label:'Student workload',alias:['student load'],short:'Is the total demand on students reasonable?',
+  long:'Process logs, two-stage tasks and reflections add load. Replace rather than add.'},
+ {id:'c_authenticity',t:'con',label:'Authenticity',alias:['authentic','real world'],short:'Does the task resemble real practice?',
+  long:'Authentic tasks mirror the conditions and tools of professional work, including AI where practitioners use it.'}
+];
+
+/* Relation types: f = forward phrase (source → target), r = reverse (seen from target).
+   neg marks relations that describe a threat or a cost. */
+const REL = {
+  evidenced_by: {f:'is evidenced by', r:'provides evidence of'},
+  creates_risk: {f:'creates risk of', r:'arises under', neg:true},
+  undermines:   {f:'undermines', r:'is undermined by', neg:true},
+  provides:     {f:'provides evidence of', r:'is shown through'},
+  assesses:     {f:'assesses', r:'is assessed by'},
+  reduces:      {f:'reduces risk of', r:'is reduced by'},
+  suits:        {f:'works with', r:'suits'},
+  built_on:     {f:'is built around', r:'is the core of'},
+  verified_by:  {f:'can be verified by', r:'verifies'},
+  makes_visible:{f:'makes visible', r:'is made visible by'},
+  supports_c:   {f:'supports', r:'is supported by'},
+  strains:      {f:'puts pressure on', r:'is pressured by', neg:true},
+  supports:     {f:'supports', r:'is supported by'},
+  tension:      {f:'creates tension for', r:'is in tension under', neg:true}
+};
+
+/* [source, target, relation, weight 1–3, optional note] */
+const EDGES = [
+ // capability → evidence
+ ['know','ev_knowledge','evidenced_by',3,'The direct evidence for knowing: concepts used correctly without support.'],
+ ['know','ev_reasoning','evidenced_by',2,'Explaining why a concept applies shows understanding beyond recall.'],
+ ['know','ev_adaptation','evidenced_by',1,'Applying knowledge to an unfamiliar case confirms it transfers.'],
+ ['judge','ev_judgement','evidenced_by',3,'A committed, justified choice is the visible form of judgement.'],
+ ['judge','ev_reasoning','evidenced_by',3,'Without visible reasoning, a judgement cannot be told apart from a lucky or generated answer.'],
+ ['judge','ev_defend','evidenced_by',3,'Defending a decision under challenge tests whether the judgement is held, not just stated.'],
+ ['judge','ev_adaptation','evidenced_by',2,'Good judgement updates when the facts change.'],
+ ['judge','ev_ownership','evidenced_by',2,'Credit for judgement depends on knowing it came from the student.'],
+ ['do','ev_performance','evidenced_by',3,'Doing is best evidenced by seeing it done.'],
+ ['do','ev_process','evidenced_by',2,'Traces of how a task was carried out stand in when live observation is not possible.'],
+ ['do','ev_adaptation','evidenced_by',2,'Competent practice responds to what happens, not only to the plan.'],
+ ['do','ev_ownership','evidenced_by',1],
+ ['account','ev_ownership','evidenced_by',3,'Accounting for work is the main route to showing it belongs to the student.'],
+ ['account','ev_process','evidenced_by',3,'You cannot account for work without showing how it developed.'],
+ ['account','ev_defend','evidenced_by',2],
+ ['account','ev_reasoning','evidenced_by',2],
+ // AI role → risk
+ ['ai_permitted','r_generate','creates_risk',3,'With open AI use, the core product may be produced by the tool.'],
+ ['ai_permitted','r_attribution','creates_risk',3,'When AI contributes freely, the product says little about the individual.'],
+ ['ai_permitted','r_conflict','creates_risk',3,'This is the defining tension of permitted use.'],
+ ['ai_permitted','r_generic','creates_risk',2],
+ ['ai_permitted','r_cannot_defend','creates_risk',2],
+ ['ai_permitted','r_reasoning_invisible','creates_risk',2],
+ ['ai_permitted','r_process_hidden','creates_risk',2],
+ ['ai_verify','r_attribution','creates_risk',2,'Verification narrows this risk, but only for what the check actually samples.'],
+ ['ai_verify','r_cannot_defend','creates_risk',2,'The check exists to catch this. It stays a risk until the check is done well.'],
+ ['ai_verify','r_reasoning_invisible','creates_risk',1],
+ ['ai_verify','r_process_hidden','creates_risk',1],
+ ['ai_partial','r_attribution','creates_risk',1,'Applies to the open component only.'],
+ ['ai_partial','r_process_hidden','creates_risk',1],
+ ['ai_none','r_generate','creates_risk',2,'A ban does not stop generation in unsupervised work. It changes who is disadvantaged.'],
+ ['ai_none','r_attribution','creates_risk',2],
+ ['ai_undecided','r_attribution','creates_risk',2,"Without a stated position, nobody can say what counts as the student's own work."],
+ ['ai_undecided','r_conflict','creates_risk',2],
+ // AI role → considerations
+ ['ai_permitted','c_authenticity','supports_c',2],
+ ['ai_none','c_authenticity','strains',2,'Where practitioners use AI, a blanket ban makes the task less like the work.'],
+ ['ai_undecided','c_accountability','strains',2,'Students cannot be held to a standard nobody has set.'],
+ // risk → evidence / considerations
+ ['r_generate','ev_knowledge','undermines',3,'A generated answer breaks the inference from correct content to student knowledge.'],
+ ['r_generate','ev_judgement','undermines',2],
+ ['r_generate','ev_reasoning','undermines',1],
+ ['r_attribution','ev_ownership','undermines',3,'This risk is, in effect, missing ownership evidence.'],
+ ['r_reasoning_invisible','ev_reasoning','undermines',3],
+ ['r_reasoning_invisible','ev_judgement','undermines',2],
+ ['r_generic','ev_judgement','undermines',2,'Generic answers hedge, so they look like judgement without committing to anything.'],
+ ['r_generic','ev_adaptation','undermines',2],
+ ['r_cannot_defend','ev_defend','undermines',3],
+ ['r_cannot_defend','ev_ownership','undermines',2],
+ ['r_process_hidden','ev_process','undermines',3],
+ ['r_process_hidden','ev_ownership','undermines',1],
+ ['r_conflict','c_validity','tension',3,'Realistic AI use can make results harder to read as evidence of individual capability.'],
+ ['r_conflict','c_authenticity','tension',3,'Restricting AI to protect validity can make the task less like real practice.'],
+ // evidence ↔ evidence
+ ['ev_process','ev_ownership','supports',2,'Visible development is one of the main grounds for attribution.'],
+ ['ev_defend','ev_ownership','supports',2,'A student who can defend a decision under challenge almost certainly made it.'],
+ ['ev_reasoning','ev_judgement','supports',2,'Judgement is only assessable when the reasoning behind it can be seen.'],
+
+ // Decision + defence
+ ['p_decision','judge','assesses',3],
+ ['p_decision','ev_judgement','provides',3,'The committed decision is the judgement, on the record.'],
+ ['p_decision','ev_reasoning','provides',3,'Students must name the evidence and assumptions that matter most.'],
+ ['p_decision','ev_defend','provides',3,'The defence is the point of the design.'],
+ ['p_decision','ev_ownership','provides',2,'A defence that holds up is good grounds for attribution.'],
+ ['p_decision','ai_verify','suits',3,'AI can help draft the decision; the defence checks the student owns it.'],
+ ['p_decision','ai_permitted','suits',2],
+ ['p_decision','ai_undecided','suits',1],
+ ['p_decision','r_cannot_defend','reduces',3,'Students who cannot defend the work are found out in the defence.'],
+ ['p_decision','r_reasoning_invisible','reduces',2],
+ ['p_decision','r_attribution','reduces',2],
+ ['p_decision','v_oral','verified_by',3,'A short oral defence is the most direct form.'],
+ ['p_decision','v_followup','verified_by',3,'Written follow-up questions work where orals are impractical.'],
+ ['p_decision','c_accountability','supports_c',3],
+ ['p_decision','c_authenticity','supports_c',2,'Committing to and defending a recommendation is what managers do.'],
+ // Countercase challenge
+ ['p_countercase','judge','assesses',3],
+ ['p_countercase','know','assesses',1],
+ ['p_countercase','ev_adaptation','provides',3,'The changed fact forces a visible update.'],
+ ['p_countercase','ev_judgement','provides',3,'Students show which parts of their judgement survive and which do not.'],
+ ['p_countercase','ev_reasoning','provides',2,'Explaining what changes and why exposes the original reasoning.'],
+ ['p_countercase','ev_ownership','provides',2,'If the countercase stage is live, the update has to come from the student.'],
+ ['p_countercase','ev_defend','provides',2,'Students must say what still stands and why.'],
+ ['p_countercase','ai_verify','suits',3],
+ ['p_countercase','ai_partial','suits',3,'The first judgement can be open; the countercase response is done in class.'],
+ ['p_countercase','ai_permitted','suits',2,'Even when AI drafts the first position, a live countercase tests whether the student understands it.'],
+ ['p_countercase','r_generic','reduces',3,'A generic answer has nothing specific to update, so it fails visibly.'],
+ ['p_countercase','r_generate','reduces',2,'A tool can draft the first answer, but the live update has to come from the student.'],
+ ['p_countercase','r_cannot_defend','reduces',2],
+ ['p_countercase','r_attribution','reduces',2,'Live adaptation is hard to outsource, so it strengthens attribution.'],
+ ['p_countercase','v_countercase','built_on',3],
+ ['p_countercase','v_supervised','verified_by',2,'Run the countercase stage under supervision to secure the update.'],
+ ['p_countercase','v_oral','verified_by',2,'Or ask for the update orally, in a few minutes.'],
+ ['p_countercase','c_validity','supports_c',3,'It tests understanding of why a position holds, which is the inference you want.'],
+ ['p_countercase','c_authenticity','supports_c',2,'Plans meeting new facts is ordinary professional life.'],
+ // AI critique and correction
+ ['p_aicritique','judge','assesses',3],
+ ['p_aicritique','account','assesses',2],
+ ['p_aicritique','know','assesses',2],
+ ['p_aicritique','ev_reasoning','provides',3,'Each correction needs a reason grounded in course evidence.'],
+ ['p_aicritique','ev_judgement','provides',2],
+ ['p_aicritique','ev_knowledge','provides',2,'Spotting errors needs real knowledge of the domain.'],
+ ['p_aicritique','ev_process','provides',1],
+ ['p_aicritique','ai_permitted','suits',3,'AI output becomes the object of assessment rather than a hidden shortcut.'],
+ ['p_aicritique','ai_verify','suits',3],
+ ['p_aicritique','r_conflict','reduces',3,'AI use is the task, so authenticity and evidence point the same way.'],
+ ['p_aicritique','r_generic','reduces',2],
+ ['p_aicritique','r_reasoning_invisible','reduces',2],
+ ['p_aicritique','v_reflection','verified_by',2],
+ ['p_aicritique','v_followup','verified_by',2],
+ ['p_aicritique','c_authenticity','supports_c',3],
+ ['p_aicritique','c_visibility','supports_c',2],
+ // Micro-viva
+ ['p_microviva','account','assesses',3],
+ ['p_microviva','know','assesses',2],
+ ['p_microviva','judge','assesses',2],
+ ['p_microviva','ev_ownership','provides',3,'Talking through the work is strong evidence it belongs to the student.'],
+ ['p_microviva','ev_defend','provides',3],
+ ['p_microviva','ev_knowledge','provides',2],
+ ['p_microviva','ev_reasoning','provides',2],
+ ['p_microviva','ai_verify','suits',3,'This is the verification step in its simplest form.'],
+ ['p_microviva','ai_partial','suits',2],
+ ['p_microviva','ai_permitted','suits',2],
+ ['p_microviva','ai_undecided','suits',1],
+ ['p_microviva','r_attribution','reduces',3,'Direct conversation is one of the few reliable attribution checks.'],
+ ['p_microviva','r_cannot_defend','reduces',3],
+ ['p_microviva','v_oral','built_on',3],
+ ['p_microviva','v_followup','built_on',3],
+ ['p_microviva','c_accountability','supports_c',3],
+ ['p_microviva','c_faculty','strains',3,'Even five minutes per student adds up quickly in a large cohort.'],
+ ['p_microviva','c_inclusivity','strains',2,'Oral formats can disadvantage anxious students and non-native speakers. A predictable structure helps.'],
+ // Supervised unseen case
+ ['p_unseen','know','assesses',3],
+ ['p_unseen','judge','assesses',2],
+ ['p_unseen','do','assesses',2],
+ ['p_unseen','ev_knowledge','provides',3],
+ ['p_unseen','ev_ownership','provides',3,'Supervised conditions make attribution straightforward.'],
+ ['p_unseen','ev_performance','provides',2],
+ ['p_unseen','ev_adaptation','provides',2],
+ ['p_unseen','ai_none','suits',3,'This is where an AI ban is enforceable.'],
+ ['p_unseen','ai_partial','suits',2],
+ ['p_unseen','r_generate','reduces',3],
+ ['p_unseen','r_attribution','reduces',3],
+ ['p_unseen','v_supervised','built_on',3],
+ ['p_unseen','v_unseen','built_on',3],
+ ['p_unseen','c_validity','supports_c',2],
+ ['p_unseen','c_authenticity','strains',2,'Working without tools can be unlike professional practice.'],
+ ['p_unseen','c_inclusivity','strains',2,'Time pressure is not rigour. Give enough time for the intended capability.'],
+ // Annotated decision log
+ ['p_log','account','assesses',3],
+ ['p_log','judge','assesses',1],
+ ['p_log','do','assesses',1],
+ ['p_log','ev_process','provides',3,'Decision points, revisions and AI-supported steps are recorded and explained.'],
+ ['p_log','ev_reasoning','provides',2],
+ ['p_log','ev_ownership','provides',2],
+ ['p_log','ai_permitted','suits',3,'AI use is disclosed and explained rather than hidden.'],
+ ['p_log','ai_verify','suits',2],
+ ['p_log','r_process_hidden','reduces',3],
+ ['p_log','r_reasoning_invisible','reduces',2],
+ ['p_log','r_conflict','reduces',2],
+ ['p_log','v_process','built_on',3],
+ ['p_log','v_reflection','built_on',2],
+ ['p_log','c_visibility','supports_c',3],
+ ['p_log','c_student','strains',2,'Ask for three to five decision points, not an exhaustive log.'],
+ // Two-stage recommendation
+ ['p_twostage','judge','assesses',3],
+ ['p_twostage','account','assesses',2],
+ ['p_twostage','ev_adaptation','provides',3,'The revision shows how the student responds to new information.'],
+ ['p_twostage','ev_reasoning','provides',2],
+ ['p_twostage','ev_process','provides',2],
+ ['p_twostage','ev_judgement','provides',2],
+ ['p_twostage','ai_verify','suits',3],
+ ['p_twostage','ai_permitted','suits',2],
+ ['p_twostage','r_generic','reduces',2],
+ ['p_twostage','r_process_hidden','reduces',2],
+ ['p_twostage','r_cannot_defend','reduces',1],
+ ['p_twostage','r_conflict','reduces',1],
+ ['p_twostage','v_countercase','verified_by',2],
+ ['p_twostage','v_reflection','verified_by',2],
+ ['p_twostage','v_process','verified_by',1],
+ ['p_twostage','c_visibility','supports_c',2],
+ ['p_twostage','c_student','strains',2,'Replace a weaker task rather than adding a second full assignment.'],
+ ['p_twostage','c_faculty','strains',1],
+ // Scenario simulation
+ ['p_simulation','do','assesses',3],
+ ['p_simulation','judge','assesses',2],
+ ['p_simulation','ev_performance','provides',3],
+ ['p_simulation','ev_adaptation','provides',3,'Consequences and stakeholder reactions force responses in the moment.'],
+ ['p_simulation','ev_judgement','provides',2],
+ ['p_simulation','ai_verify','suits',2],
+ ['p_simulation','ai_partial','suits',2],
+ ['p_simulation','ai_permitted','suits',1],
+ ['p_simulation','r_generate','reduces',2],
+ ['p_simulation','r_generic','reduces',2],
+ ['p_simulation','r_attribution','reduces',2],
+ ['p_simulation','v_observation','built_on',3],
+ ['p_simulation','v_followup','verified_by',2],
+ ['p_simulation','c_authenticity','supports_c',3],
+ ['p_simulation','c_faculty','strains',2],
+ // Comparative case judgement
+ ['p_compare','judge','assesses',3],
+ ['p_compare','know','assesses',2],
+ ['p_compare','ev_judgement','provides',3,'Choosing which difference matters most is judgement made explicit.'],
+ ['p_compare','ev_reasoning','provides',2],
+ ['p_compare','ev_knowledge','provides',1],
+ ['p_compare','ai_permitted','suits',2],
+ ['p_compare','ai_verify','suits',2],
+ ['p_compare','ai_undecided','suits',2,'Prioritising between specific cases holds up under most AI policies.'],
+ ['p_compare','r_generic','reduces',3,'Generic description cannot say which difference matters most.'],
+ ['p_compare','r_reasoning_invisible','reduces',1],
+ ['p_compare','v_unseen','verified_by',2],
+ ['p_compare','v_oral','verified_by',1],
+ ['p_compare','c_validity','supports_c',2],
+ ['p_compare','c_faculty','supports_c',1,'Short comparative answers are quick to mark.'],
+ // Observed demonstration
+ ['p_demo','do','assesses',3],
+ ['p_demo','know','assesses',1],
+ ['p_demo','ev_performance','provides',3],
+ ['p_demo','ev_ownership','provides',2],
+ ['p_demo','ev_process','provides',2],
+ ['p_demo','ai_partial','suits',3],
+ ['p_demo','ai_none','suits',2],
+ ['p_demo','r_generate','reduces',3],
+ ['p_demo','r_attribution','reduces',3],
+ ['p_demo','r_process_hidden','reduces',2],
+ ['p_demo','v_observation','built_on',3],
+ ['p_demo','v_supervised','verified_by',2],
+ ['p_demo','v_followup','verified_by',1],
+ ['p_demo','c_authenticity','supports_c',2],
+ ['p_demo','c_validity','supports_c',2],
+ ['p_demo','c_faculty','strains',2],
+
+ // Verification mechanisms
+ ['v_oral','ev_ownership','makes_visible',3,'A student who can talk through the work in their own terms almost certainly owns it.'],
+ ['v_oral','ev_defend','makes_visible',3],
+ ['v_oral','ev_reasoning','makes_visible',2],
+ ['v_oral','ev_knowledge','makes_visible',2],
+ ['v_oral','r_cannot_defend','reduces',3,'Questioning is the only reliable way to surface this risk.'],
+ ['v_oral','r_attribution','reduces',3],
+ ['v_oral','c_validity','supports_c',2],
+ ['v_oral','c_accountability','supports_c',2],
+ ['v_oral','c_faculty','strains',3],
+ ['v_oral','c_inclusivity','strains',2,'Offer preparation time, a predictable structure and reasonable adjustments.'],
+ ['v_supervised','ev_ownership','makes_visible',3],
+ ['v_supervised','ev_knowledge','makes_visible',2],
+ ['v_supervised','ev_performance','makes_visible',2],
+ ['v_supervised','r_generate','reduces',3,'Under supervision, the tool cannot produce the answer.'],
+ ['v_supervised','r_attribution','reduces',3],
+ ['v_supervised','c_validity','supports_c',2],
+ ['v_supervised','c_authenticity','strains',2],
+ ['v_supervised','c_inclusivity','strains',1],
+ ['v_supervised','c_faculty','strains',1],
+ ['v_countercase','ev_adaptation','makes_visible',3,'The response to new facts is adaptation, observed directly.'],
+ ['v_countercase','ev_judgement','makes_visible',2],
+ ['v_countercase','ev_reasoning','makes_visible',2],
+ ['v_countercase','r_generic','reduces',3,'A specific change exposes answers that were never tied to the case.'],
+ ['v_countercase','r_generate','reduces',2],
+ ['v_countercase','c_validity','supports_c',2],
+ ['v_countercase','c_authenticity','supports_c',2],
+ ['v_followup','ev_reasoning','makes_visible',3],
+ ['v_followup','ev_defend','makes_visible',2],
+ ['v_followup','ev_ownership','makes_visible',2],
+ ['v_followup','r_cannot_defend','reduces',3],
+ ['v_followup','r_reasoning_invisible','reduces',2],
+ ['v_followup','c_accountability','supports_c',2],
+ ['v_followup','c_faculty','strains',2],
+ ['v_process','ev_process','makes_visible',3],
+ ['v_process','ev_ownership','makes_visible',2],
+ ['v_process','r_process_hidden','reduces',3],
+ ['v_process','r_attribution','reduces',1],
+ ['v_process','c_visibility','supports_c',3],
+ ['v_process','c_student','strains',2],
+ ['v_reflection','ev_reasoning','makes_visible',2],
+ ['v_reflection','ev_judgement','makes_visible',2],
+ ['v_reflection','ev_process','makes_visible',1],
+ ['v_reflection','r_reasoning_invisible','reduces',2],
+ ['v_reflection','r_generic','reduces',1,'Only when anchored to named decisions. Open reflection is easy to generate.'],
+ ['v_reflection','c_visibility','supports_c',2],
+ ['v_reflection','c_student','strains',1],
+ ['v_observation','ev_performance','makes_visible',3],
+ ['v_observation','ev_process','makes_visible',2],
+ ['v_observation','ev_ownership','makes_visible',2],
+ ['v_observation','r_attribution','reduces',3],
+ ['v_observation','r_generate','reduces',2],
+ ['v_observation','r_process_hidden','reduces',2],
+ ['v_observation','c_authenticity','supports_c',2],
+ ['v_observation','c_validity','supports_c',2],
+ ['v_observation','c_faculty','strains',3],
+ ['v_unseen','ev_adaptation','makes_visible',3,'Transfer to unprepared material is adaptation by definition.'],
+ ['v_unseen','ev_knowledge','makes_visible',2],
+ ['v_unseen','ev_ownership','makes_visible',2],
+ ['v_unseen','r_generate','reduces',2],
+ ['v_unseen','r_generic','reduces',2],
+ ['v_unseen','c_validity','supports_c',2]
+];
+
+const JOURNEY = [
+ {id:'judge', text:'Start with what the student must show. Here, judgement.'},
+ {id:'ai_permitted', text:'Suppose AI is permitted, as it would be in practice.'},
+ {id:'r_attribution', text:'That weakens attribution. You now need evidence of ownership and reasoning.'},
+ {id:'p_countercase', text:'A countercase challenge makes the student update their own judgement.'},
+ {id:'v_oral', text:'An oral defence (or a supervised follow-up) checks the update is theirs.'},
+ {id:'ev_defend', text:'The result: evidence that the student can defend and adapt the judgement.'}
+];
+
+const ENTRY_POINTS = ['judge','ev_ownership','r_generate','p_countercase','v_oral','ai_permitted'];
+
+</script>
+<script>
+(function(){
+'use strict';
+const SVGNS='http://www.w3.org/2000/svg';
+const $=s=>document.querySelector(s);
+const byId={}; NODES.forEach(n=>byId[n.id]=n);
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DUR=reduceMotion?1:720;
+
+/* ---------- Graph indexes ---------- */
+const edges=EDGES.map(([a,b,rel,w,note])=>({a,b,rel,w,note:note||'',key:a+'|'+b}));
+const adj={}; NODES.forEach(n=>adj[n.id]=[]);
+edges.forEach(e=>{ adj[e.a].push({o:e.b,e,dir:'f'}); adj[e.b].push({o:e.a,e,dir:'r'}); });
+function edgeBetween(a,b){ return edges.find(e=>(e.a===a&&e.b===b)||(e.a===b&&e.b===a)); }
+function w(a,b){ const e=edgeBetween(a,b); return e?e.w:0; }
+const ofType=t=>NODES.filter(n=>n.t===t);
+
+/* ---------- Shapes (unit size 10) ---------- */
+const hex=(()=>{let p=[];for(let i=0;i<6;i++){const a=Math.PI/3*i+Math.PI/6;p.push((10.5*Math.cos(a)).toFixed(2)+','+(10.5*Math.sin(a)).toFixed(2));}return 'M'+p.join('L')+'Z';})();
+const SHAPES={
+  cap:'M-10,0a10,10 0 1,0 20,0a10,10 0 1,0 -20,0',
+  ev:'M-9,0a9,9 0 1,0 18,0a9,9 0 1,0 -18,0',
+  ai:'M0,-12L12,0L0,12L-12,0Z',
+  risk:'M0,-11L11.5,8.5L-11.5,8.5Z',
+  pat:'M-9,-9H9V9H-9Z',
+  ver:hex,
+  con:'M-7.5,-7.5H7.5V7.5H-7.5Z'
+};
+function glyph(t){
+  return `<svg class="glyph t-${t}" viewBox="-13 -13 26 26" aria-hidden="true"><path class="shape" d="${SHAPES[t]}"/></svg>`;
+}
+function el(tag,attrs){ const e=document.createElementNS(SVGNS,tag); if(attrs) for(const k in attrs) e.setAttribute(k,attrs[k]); return e; }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function wrap(text,max){
+  const words=text.split(' '); const lines=[]; let cur='';
+  words.forEach(wd=>{ if((cur+' '+wd).trim().length>max && cur){ lines.push(cur); cur=wd; } else cur=(cur+' '+wd).trim(); });
+  if(cur) lines.push(cur); return lines;
+}
+const rad=d=>d*Math.PI/180;
+const polar=(r,deg)=>({x:r*Math.cos(rad(deg)),y:r*Math.sin(rad(deg))});
+const normA=a=>((a%360)+540)%360-180;
+
+/* ---------- DOM refs ---------- */
+const svg=$('#map'), world=$('#world'), nodeLayer=$('#nodeLayer'), edgeLayer=$('#edgeLayer'), hubLayer=$('#hubLayer'), linkLayer=$('#linkLayer'), annotLayer=$('#annotLayer');
+const tip=$('#tip'), pbody=$('#pbody'), qline=$('#qline');
+
+/* ---------- Node elements ---------- */
+const NV={}; // id → view state
+NODES.forEach(n=>{
+  const g=el('g',{class:`node t-${n.t} off`,tabindex:'-1',role:'button','aria-label':`${n.label}. ${TYPES[n.t].name}.`});
+  const sh=el('g',{class:'sh'});
+  sh.appendChild(el('circle',{class:'ring',r:'17','vector-effect':'non-scaling-stroke'}));
+  sh.appendChild(el('path',{class:'shape',d:SHAPES[n.t],'vector-effect':'non-scaling-stroke'}));
+  sh.appendChild(el('circle',{r:'16',fill:'transparent'})); // larger hit area
+  const tx=el('text');
+  g.appendChild(sh); g.appendChild(tx); nodeLayer.appendChild(g);
+  NV[n.id]={g,sh,tx,cur:{x:0,y:0,s:4,o:0},from:null,to:{x:0,y:0,s:4,o:0},labKey:''};
+  g.addEventListener('click',ev=>{ if(dragMoved) return; ev.stopPropagation(); activate(n.id); });
+  g.addEventListener('keydown',ev=>{ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); activate(n.id);} });
+  g.addEventListener('pointerenter',ev=>{ if(ev.pointerType==='touch') return; hoverNode(n.id,ev); });
+  g.addEventListener('pointermove',ev=>{ if(ev.pointerType==='touch') return; moveTip(ev); });
+  g.addEventListener('pointerleave',()=>unhover());
+  g.addEventListener('focus',()=>{ const r=g.getBoundingClientRect(); hoverNode(n.id,{clientX:r.left+r.width/2,clientY:r.bottom}); });
+  g.addEventListener('blur',()=>unhover());
+});
+
+function setLabel(id,spec){
+  const v=NV[id], n=byId[id];
+  const side=spec.lab||'none';
+  const max=spec.wrapAt||(spec.tier==='focus'?26:22);
+  const key=side+'|'+spec.tier+'|'+Math.round(spec.s)+'|'+max;
+  v.g.setAttribute('class',`node t-${n.t} tier-${spec.tier} lab-${side}${spec.cls?' '+spec.cls:''}${spec.o<0.05?' off':''}`);
+  v.g.setAttribute('tabindex',spec.o>=0.5?'0':'-1');
+  if(key===v.labKey) return; v.labKey=key;
+  const tx=v.tx; while(tx.firstChild) tx.removeChild(tx.firstChild);
+  if(side==='none') return;
+  const lines=wrap(n.label,max);
+  const fs=spec.tier==='focus'?22:spec.tier==='anchor'?18:spec.tier==='t3'?14.5:spec.tier==='col'?15.5:13;
+  const lh=fs*1.18, gap=spec.s+7;
+  let x=0,y=0,anchor='start';
+  if(side==='right'){x=gap; y=-(lines.length-1)*lh/2+fs*0.34;}
+  else if(side==='left'){x=-gap; anchor='end'; y=-(lines.length-1)*lh/2+fs*0.34;}
+  else if(side==='below'){anchor='middle'; y=gap+fs*0.8;}
+  else if(side==='above'){anchor='middle'; y=-gap-(lines.length-1)*lh-fs*0.25;}
+  tx.setAttribute('text-anchor',anchor);
+  lines.forEach((ln,i)=>{ const ts=el('tspan',{x:x,y:(y+i*lh).toFixed(1)}); ts.textContent=ln; tx.appendChild(ts); });
+}
+
+/* ---------- Hubs (overview) ---------- */
+const HV={};
+ORDER.forEach(t=>{
+  const g=el('g',{class:'hub off',tabindex:'-1',role:'button','aria-label':`${TYPES[t].plural}. Open this group.`});
+  const hit=el('circle',{class:'hit',r:'50'});
+  const name=el('text',{class:'hname'}); name.textContent=TYPES[t].plural;
+  const count=el('text',{class:'hcount'}); count.textContent=countLabel(t);
+  g.appendChild(hit); g.appendChild(name); g.appendChild(count); hubLayer.appendChild(g);
+  HV[t]={g,hit,name,count};
+  g.addEventListener('click',ev=>{ if(dragMoved) return; ev.stopPropagation(); navigate({mode:'explore',focus:null,category:t,sel:null}); });
+  g.addEventListener('keydown',ev=>{ if(ev.key==='Enter'||ev.key===' '){ev.preventDefault(); navigate({mode:'explore',focus:null,category:t,sel:null});} });
+  g.addEventListener('pointerenter',ev=>{ if(ev.pointerType==='touch') return; showTip(`<b>${esc(TYPES[t].plural)}</b><span>${esc(TYPES[t].desc)}</span>`,ev); });
+  g.addEventListener('pointermove',ev=>moveTip(ev));
+  g.addEventListener('pointerleave',()=>hideTip());
+});
+function countLabel(t){ const c=ofType(t).length; const unit={cap:'capabilities',ev:'kinds of evidence',ver:'mechanisms',pat:'patterns',risk:'risks',ai:'roles',con:'considerations'}[t]; return `${c} ${unit}`; }
+
+/* ---------- Edge elements ---------- */
+const EV={}; // key → {g,path,text,spec,cur:{o},from,to,dying}
+
+/* ---------- State ---------- */
+let state={mode:'explore',focus:null,category:null,sel:null,design:{cap:null,ai:null,ev:null}};
+let trail=[]; let history=[]; let journeyStep=-1;
+let L=null; // current layout
+const snap=()=>JSON.parse(JSON.stringify({state,trail}));
+
+function navigate(patch,opts={}){
+  if(opts.push!==false) history.push(snap());
+  if(patch.design) patch.design=Object.assign({},state.design,patch.design);
+  state=Object.assign({},state,patch);
+  if(state.mode==='explore' && state.focus && trail[trail.length-1]!==state.focus){ trail.push(state.focus); if(trail.length>40) trail.shift(); }
+  if(opts.endJourney!==false && !opts.fromJourney) closeJourney(true);
+  render();
+}
+function goBack(){
+  if(!history.length) return;
+  const s=history.pop(); state=s.state; trail=s.trail; closeJourney(true); render();
+}
+function goHome(){ history.push(snap()); state=Object.assign({},state,{mode:'explore',focus:null,category:null,sel:null}); trail=[]; closeJourney(true); render(); }
+
+function activate(id){
+  const n=byId[id];
+  if(state.mode==='explore'){ navigate({focus:id,category:null,sel:null}); return; }
+  if(state.mode==='design'){
+    if(n.t==='cap'||n.t==='ai'||n.t==='ev'){ const d={}; d[n.t]=state.design[n.t]===id?null:id; navigate({design:d,sel:null}); }
+    else navigate({sel:id});
+    return;
+  }
+  navigate({sel:state.sel===id?null:id});
+}
+
+function render(){
+  document.querySelectorAll('#modes button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===state.mode?'true':'false'));
+  L=computeLayout();
+  applyLayout(L);
+  renderPanel();
+  renderTrail();
+  qline.classList.toggle('hide', L.kind==='overview');
+  $('#back').disabled=!history.length;
+}
+
+/* ================= LAYOUTS ================= */
+function computeLayout(){
+  if(state.mode==='design') return designLayout();
+  if(state.mode==='risks') return columnLayout('risks');
+  if(state.mode==='evidence') return columnLayout('evidence');
+  if(state.focus) return focusLayout(state.focus);
+  if(state.category) return categoryLayout(state.category);
+  return overviewLayout();
+}
+function baseLayout(kind){ return {kind,nodes:{},edges:[],hubs:null,links:[],annot:[],style:'radial',bounds:[]}; }
+
+function labSide(deg){ const c=Math.cos(rad(deg)), s=Math.sin(rad(deg)); if(c>0.3) return 'right'; if(c<-0.3) return 'left'; return s>0?'below':'above'; }
+
+function faintRing(Lo,exclude,R,opa){
+  ORDER.forEach(t=>{
+    const rest=ofType(t).filter(n=>!exclude.has(n.id)); const c=rest.length; if(!c) return;
+    const step=Math.min(4.2,46/c);
+    rest.forEach((n,i)=>{ const a=TYPES[t].angle+(i-(c-1)/2)*step; const p=polar(R,a);
+      Lo.nodes[n.id]={x:p.x,y:p.y,s:3.4,o:opa||0.3,tier:'faint',lab:labSide(a)}; });
+  });
+}
+
+function overviewLayout(){
+  const Lo=baseLayout('overview'); Lo.hubs={};
+  const rx=420, ry=300;
+  ORDER.forEach(t=>{
+    const a=TYPES[t].angle, c={x:rx*Math.cos(rad(a)),y:ry*Math.sin(rad(a))};
+    const mem=ofType(t), k=mem.length, rr=20+k*2.6;
+    mem.forEach((n,i)=>{ const ang=-90+i*360/k; const p=polar(rr,ang);
+      Lo.nodes[n.id]={x:c.x+p.x,y:c.y+p.y,s:t==='pat'?4.6:4.2,o:0.95,tier:'dot',lab:'none'}; });
+    const cs=Math.cos(rad(a)), sn=Math.sin(rad(a));
+    let lx=0,ly=0,anchor='middle';
+    if(sn<-0.5){ ly=-rr-30; } else if(sn>0.5){ ly=rr+34; }
+    else { lx=(rr+20)*(cs>0?1:-1); anchor=cs>0?'start':'end'; ly=0; }
+    Lo.hubs[t]={x:c.x,y:c.y,rr,lx,ly,anchor};
+    Lo.bounds.push({x:c.x+lx+(anchor==='end'?-190:anchor==='middle'?-95:0),y:c.y+ly-22},{x:c.x+lx+(anchor==='start'?190:anchor==='middle'?95:0),y:c.y+ly+22});
+  });
+  // aggregated links between groups: total relationship weight
+  const agg={};
+  edges.forEach(e=>{ const ta=byId[e.a].t, tb=byId[e.b].t; if(ta===tb) return; const k=[ta,tb].sort().join('|'); agg[k]=(agg[k]||0)+e.w; });
+  Object.entries(agg).forEach(([k,v])=>{ if(v<8) return; const [a,b]=k.split('|'); Lo.links.push({a,b,v}); });
+  const q=['What would count as convincing','evidence that this student actually','knows, can judge, can do, or can account','for what they have produced, in a world','where AI can generate sophisticated work?'];
+  Lo.annot.push({kind:'question',lines:q});
+  Lo.bounds.push({x:-230,y:-110},{x:230,y:110});
+  return Lo;
+}
+
+function categoryLayout(t){
+  const Lo=baseLayout('category');
+  const mem=ofType(t), k=mem.length;
+  const R=Math.max(235, k*112/(2*Math.PI));
+  const ids=new Set(mem.map(n=>n.id));
+  mem.forEach((n,i)=>{ const a=-90+i*360/k+(k%2?0:180/k); const p=polar(R,a);
+    Lo.nodes[n.id]={x:p.x,y:p.y,s:t==='pat'?10:9,o:1,tier:'t3',lab:labSide(a)}; });
+  edges.forEach(e=>{ if(ids.has(e.a)&&ids.has(e.b)) Lo.edges.push({a:e.a,b:e.b,e,o:0.8,lab:true}); });
+  faintRing(Lo,ids,R+330,0.25);
+  Lo.annot.push({kind:'category',t});
+  Lo.fitIds=[...ids];
+  return Lo;
+}
+
+function focusLayout(id){
+  const Lo=baseLayout('focus');
+  const nb={}; adj[id].forEach(x=>{ if(!nb[x.o]||nb[x.o].e.w<x.e.w) nb[x.o]=x; });
+  const ids=Object.keys(nb);
+  Lo.nodes[id]={x:0,y:0,s:15,o:1,tier:'focus',lab:'below',wrapAt:24};
+  const RAD={3:225,2:335,1:430};
+  const STEP=15;
+  // group neighbours by type
+  const groups=ORDER.map(t=>({t,items:ids.filter(o=>byId[o].t===t).sort((a,b)=>nb[b].e.w-nb[a].e.w||byId[a].label.localeCompare(byId[b].label))})).filter(g=>g.items.length);
+  let widths=groups.map(g=>g.items.length*STEP+10);
+  const total=widths.reduce((s,x)=>s+x,0); if(total>350) widths=widths.map(x=>x*350/total);
+  groups.forEach((g,i)=>{ g.w=widths[i]; g.c=TYPES[g.t].angle; });
+  // resolve overlaps around the circle, keeping groups near their home direction
+  for(let it=0;it<80;it++){
+    groups.sort((a,b)=>normA(a.c)-normA(b.c));
+    let moved=false;
+    for(let i=0;i<groups.length && groups.length>1;i++){
+      const A=groups[i], B=groups[(i+1)%groups.length];
+      const gap=((B.c-A.c)%360+360)%360;
+      const need=(A.w+B.w)/2;
+      if(gap<need){ const d=(need-gap)/2+0.01; A.c-=d; B.c+=d; moved=true; }
+    }
+    if(!moved) break;
+  }
+  const prev=trail.length>1?trail[trail.length-2]:null;
+  groups.forEach(g=>{
+    const n=g.items.length, step=g.w/Math.max(n,1);
+    // slots ordered centre-out so the strongest sit on the type's axis
+    const slots=[...Array(n).keys()].map(i=>({i,a:g.c-g.w/2+step*(i+0.5)})).sort((p,q)=>Math.abs(p.a-g.c)-Math.abs(q.a-g.c));
+    g.items.forEach((o,k)=>{
+      const sl=slots[k], ww=nb[o].e.w;
+      const r=RAD[ww]+((sl.i%2)?38:0);
+      const p=polar(r,sl.a);
+      const tier=ww===3?'t3':ww===2?'t2':'t1';
+      const s=(ww===3?9.5:ww===2?8:6.5)+(byId[o].t==='pat'?1:0);
+      const visited=trail.slice(0,-1).includes(o);
+      const cs=Math.cos(rad(sl.a)); Lo.nodes[o]={x:p.x,y:p.y,s,o:1,tier,lab:cs>=-0.12?'right':'left',cls:visited?'visited':''};
+    });
+  });
+  // resolve label collisions: weaker nodes step outward until their label box is clear
+  const boxes=[{x0:-90,x1:90,y0:-20,y1:50}];
+  const boxOf=(id,sp)=>{ const lines=wrap(byId[id].label,sp.wrapAt||22); const wd=Math.max(...lines.map(l=>l.length))*(sp.tier==='t3'?8:7.3)+sp.s+8; const ht=lines.length*17+6;
+    return sp.lab==='left'?{x0:sp.x-wd,x1:sp.x+sp.s,y0:sp.y-ht/2,y1:sp.y+ht/2}:{x0:sp.x-sp.s,x1:sp.x+wd,y0:sp.y-ht/2,y1:sp.y+ht/2}; };
+  const hit=(p,q)=>p.x0<q.x1&&p.x1>q.x0&&p.y0<q.y1&&p.y1>q.y0;
+  ids.slice().sort((a,b)=>nb[b].e.w-nb[a].e.w).forEach(o=>{ const sp=Lo.nodes[o]; const ang=Math.atan2(sp.y,sp.x); let r=Math.hypot(sp.x,sp.y);
+    for(let k=0;k<8;k++){ const bx=boxOf(o,sp); if(!boxes.some(q=>hit(bx,q))) break; r+=26; sp.x=r*Math.cos(ang); sp.y=r*Math.sin(ang); }
+    boxes.push(boxOf(o,sp)); });
+  // label each kind of relationship once, on its strongest link
+  const seenRel={};
+  ids.slice().sort((a,b)=>nb[b].e.w-nb[a].e.w).forEach(o=>{ const x=nb[o], ww=x.e.w; const k=x.e.rel+x.dir;
+    const lab=ww>=2 && !seenRel[k]; if(lab) seenRel[k]=1;
+    Lo.edges.push({a:x.e.a,b:x.e.b,e:x.e,o:ww===3?0.95:ww===2?0.72:0.45,lab}); });
+  // light mesh: relationships among the visible neighbours
+  const set=new Set(ids);
+  edges.forEach(e=>{ if(e.w===3 && set.has(e.a)&&set.has(e.b)) Lo.edges.push({a:e.a,b:e.b,e,o:0.09,lab:false,cls:'mesh'}); });
+  const excl=new Set([id,...ids]);
+  faintRing(Lo,excl,560,0.28);
+  if(prev && !set.has(prev) && prev!==id && Lo.nodes[prev]){
+    const pn=Lo.nodes[prev]; pn.o=0.85; pn.tier='t1'; pn.s=6; pn.cls='visited';
+    Lo.edges.push({a:prev,b:id,trail:true,o:0.6,lab:false,cls:'trail'});
+  }
+  Lo.fitIds=[id,...ids];
+  return Lo;
+}
+
+/* ----- Design layout ----- */
+const ANCH={cap:-90, ev:30, ai:150}; const RV=300;
+function scorePatterns(){
+  const d=state.design; const any=d.cap||d.ai||d.ev;
+  return ofType('pat').map(p=>{
+    let sc=0, parts=[];
+    if(d.cap){ const x=w(p.id,d.cap); sc+=3*x; parts.push({k:'cap',w:x}); }
+    if(d.ev){ const x=w(p.id,d.ev); let ind=0;
+      adj[p.id].forEach(a=>{ if(byId[a.o].t==='ver' && (a.e.rel==='built_on'||a.e.rel==='verified_by')) ind=Math.max(ind,a.e.w*w(a.o,d.ev)/3); });
+      sc+=3*x+ind; parts.push({k:'ev',w:x,ind}); }
+    let cover=0, risks=[];
+    if(d.ai){ const x=w(p.id,d.ai); sc+=2*x; parts.push({k:'ai',w:x});
+      adj[d.ai].forEach(a=>{ if(a.e.rel==='creates_risk'){ const red=w(p.id,a.o); if(red){ cover+=a.e.w*red/3; risks.push(a.o);} } });
+      sc+=cover; }
+    return {id:p.id,sc:any?sc:0,parts,risks};
+  }).sort((a,b)=>b.sc-a.sc||byId[a.id].label.localeCompare(byId[b.id].label));
+}
+function designLayout(){
+  const Lo=baseLayout('design'); const d=state.design;
+  // triangle frame
+  const V={}; Object.keys(ANCH).forEach(t=>V[t]=polar(RV,ANCH[t]));
+  Lo.annot.push({kind:'triangle',pts:[V.cap,V.ev,V.ai]});
+  Object.keys(ANCH).forEach(t=>{
+    const a=ANCH[t], mem=ofType(t), sel=d[t];
+    const side=labSide(a);
+    mem.forEach((n,i)=>{
+      if(n.id===sel){ Lo.nodes[n.id]={x:V[t].x,y:V[t].y,s:13,o:1,tier:'anchor',lab:side,wrapAt:20}; return; }
+      // unselected options sit in a small arc just outside the vertex, still clickable
+      const k=mem.length, spread=Math.min(150,k*22), ang=a+(i-(k-1)/2)*spread/Math.max(k-1,1);
+      const p=polar(sel?52:44,ang);
+      Lo.nodes[n.id]={x:V[t].x+p.x,y:V[t].y+p.y,s:4.2,o:sel?0.4:0.75,tier:'dot',lab:'none'};
+    });
+    if(!sel){ const label={cap:'Choose a capability',ev:'Choose the evidence you need',ai:'Choose the role of AI'}[t];
+      const off=polar(96,a); Lo.annot.push({kind:'placeholder',x:V[t].x+off.x,y:V[t].y+off.y+(t==='cap'?-6:8),text:label,anchor:side==='right'?'start':side==='left'?'end':'middle'}); }
+  });
+  const ranked=scorePatterns(); const best=ranked[0].sc||1; const any=d.cap||d.ai||d.ev;
+  const pos={};
+  ranked.forEach((r,i)=>{
+    let p;
+    if(!any){ p=polar(150,-90+i*36); }
+    else{
+      let vx=0,vy=0; ['cap','ev','ai'].forEach(t=>{ if(d[t]){ const ww=w(r.id,d[t])||0.25; const u=polar(1,ANCH[t]); vx+=u.x*ww; vy+=u.y*ww; } });
+      const rel=r.sc/best; const len=Math.hypot(vx,vy)||1; const dist=30+(1-rel)*230+i*9;
+      p={x:vx/len*dist,y:vy/len*dist}; if(Math.hypot(vx,vy)<0.01) p=polar(dist,-90+i*36);
+    }
+    pos[r.id]=p;
+  });
+  // relax pattern collisions
+  const ids=ranked.map(r=>r.id);
+  for(let it=0;it<60;it++){ for(let i=0;i<ids.length;i++) for(let j=i+1;j<ids.length;j++){
+    const A=pos[ids[i]],B=pos[ids[j]]; let dx=B.x-A.x, dy=B.y-A.y, dd=Math.hypot(dx,dy)||0.01; const min=112;
+    if(dd<min){ const m=(min-dd)/2; dx/=dd; dy/=dd; A.x-=dx*m*0.6; A.y-=dy*m*0.6; B.x+=dx*m; B.y+=dy*m; } } }
+  ranked.forEach((r,i)=>{
+    const rel=any?r.sc/best:0.6;
+    const tier=!any?'t2':rel>0.78?'t3':rel>0.5?'t2':'t1';
+    Lo.nodes[r.id]={x:pos[r.id].x,y:pos[r.id].y,s:any?6+rel*6:8,o:any?0.4+0.6*rel:0.95,tier,lab:'below',cls:(any&&i<3&&r.sc>0)?'best':''};
+  });
+  if(any){
+    const top=ranked.slice(0,3).filter(r=>r.sc>0);
+    // anchor → pattern edges for strongest fits
+    ranked.slice(0,3).forEach((r,i)=>{ ['cap','ev','ai'].forEach(t=>{ if(!d[t]) return; const e=edgeBetween(r.id,d[t]); if(e) Lo.edges.push({a:e.a,b:e.b,e,o:i===0?0.85:0.5,lab:false}); }); });
+    // verification worth adding
+    const vs={};
+    top.forEach((r,i)=>{ adj[r.id].forEach(a=>{ if(byId[a.o].t==='ver' && a.e.w>=2){ vs[a.o]=(vs[a.o]||0)+a.e.w*(3-i)+(d.ev?w(a.o,d.ev)*2:0); } }); });
+    const vList=Object.entries(vs).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
+    vList.forEach((v,i)=>{ const a=60+(vList.length>1?i*60/(vList.length-1):30); const p=polar(400,a);
+      Lo.nodes[v]={x:p.x,y:p.y,s:8,o:1,tier:'t2',lab:'below',wrapAt:18};
+      top.forEach((r,j)=>{ const e=edgeBetween(r.id,v); if(e&&e.w>=2) Lo.edges.push({a:e.a,b:e.b,e,o:j===0?0.7:0.35,lab:false}); }); });
+    if(vList.length) Lo.annot.push({kind:'arc',x:0,y:470,text:'Checks worth adding',anchor:'middle'});
+    // risks created by AI role
+    if(d.ai){ const rs=adj[d.ai].filter(a=>a.e.rel==='creates_risk').sort((a,b)=>b.e.w-a.e.w);
+      rs.forEach((a,i)=>{ const ang=232-(rs.length>1?i*58/(rs.length-1):29); const p=polar(420,ang);
+        Lo.nodes[a.o]={x:p.x,y:p.y,s:5+a.e.w*1.5,o:1,tier:a.e.w===3?'t2':'t1',lab:'left',wrapAt:24};
+        Lo.edges.push({a:a.e.a,b:a.e.b,e:a.e,o:0.55,lab:false});
+        if(top[0]){ const e=edgeBetween(top[0].id,a.o); if(e&&e.rel==='reduces') Lo.edges.push({a:e.a,b:e.b,e,o:0.6,lab:false}); }
+      });
+      { const tp=polar(420,232); Lo.annot.push({kind:'arc',x:tp.x-10,y:tp.y-36,text:'Risks this AI role creates',anchor:'end'}); }
+    }
+  }
+  Lo.fitAll=true; Lo.maxK=1.1;
+  return Lo;
+}
+
+/* ----- Column views ----- */
+const COLS={
+  risks:{cols:[{t:'ai',title:'AI role'},{t:'risk',title:'Risk it creates'},{t:'pat',title:'Patterns that reduce it'},{t:'ver',title:'Checks that reduce it'}],rels:['creates_risk','reduces'],hub:1},
+  evidence:{cols:[{t:'cap',title:'Capability'},{t:'ev',title:'Evidence you need'},{t:'pat',title:'Patterns that provide it'},{t:'ver',title:'Checks that make it visible'}],rels:['evidenced_by','provides','makes_visible'],hub:1}
+};
+function columnLayout(kind){
+  const C=COLS[kind]; const Lo=baseLayout('columns'); Lo.style='flow';
+  const X=[-420,-120,200,490];
+  const vEdges=edges.filter(e=>C.rels.includes(e.rel));
+  const order=C.cols.map(c=>ofType(c.t).map(n=>n.id));
+  const Y={}; const gap=66;
+  const place=(ci)=>{ const ids=order[ci], h=(ids.length-1)*gap; ids.forEach((id,i)=>Y[id]=-h/2+i*gap); };
+  place(0);
+  const bary=(id,refIdx)=>{ let s=0,c=0; vEdges.forEach(e=>{ const o=e.a===id?e.b:e.b===id?e.a:null; if(o&&order[refIdx].includes(o)){ s+=Y[o]*e.w; c+=e.w; } }); return c?s/c:0; };
+  order[1].sort((a,b)=>bary(a,0)-bary(b,0)); place(1);
+  [2,3].forEach(ci=>{ order[ci].sort((a,b)=>bary(a,1)-bary(b,1)); place(ci); });
+  // highlight set for a selection
+  let H=null;
+  const sel=state.sel && C.cols.some(c=>c.t===byId[state.sel].t) ? state.sel : null;
+  if(sel){
+    H=new Set([sel]); const ci=C.cols.findIndex(c=>c.t===byId[sel].t);
+    const nbr=id=>vEdges.filter(e=>e.a===id||e.b===id).map(e=>e.a===id?e.b:e.a);
+    const hop1=nbr(sel); hop1.forEach(x=>H.add(x));
+    if(ci===0){ hop1.forEach(m=>nbr(m).forEach(x=>{ const t=byId[x].t; if(t===C.cols[2].t||t===C.cols[3].t) H.add(x); })); }
+    if(ci>=2){ hop1.forEach(m=>nbr(m).forEach(x=>{ if(byId[x].t===C.cols[0].t) H.add(x); })); }
+  }
+  C.cols.forEach((c,ci)=>{ order[ci].forEach(id=>{
+    const on=!H||H.has(id);
+    Lo.nodes[id]={x:X[ci],y:Y[id],s:id===sel?11:c.t==='pat'?8:7.5,o:on?1:0.28,tier:id===sel?'t3':'col',lab:ci===0?'left':'right',wrapAt:ci===0?24:22,cls:H?(on?'hl':'dim'):''};
+  }); });
+  vEdges.forEach(e=>{
+    const on=H&&H.has(e.a)&&H.has(e.b);
+    const o=H?(on?0.35+0.2*e.w:0.05):0.1+0.08*e.w;
+    Lo.edges.push({a:e.a,b:e.b,e,o,lab:false});
+  });
+  const top=Math.min(...Object.values(Y))-62;
+  C.cols.forEach((c,ci)=>Lo.annot.push({kind:'coltitle',x:X[ci]+(ci===0?14:-14),y:top,text:c.title,anchor:ci===0?'end':'start'}));
+  Lo.fitAll=true; Lo.maxK=1.05;
+  return Lo;
+}
+
+/* ================= APPLY + ANIMATE ================= */
+let anim=null, viewAnim=null, raf=null;
+const view={x:0,y:0,k:0.8};
+
+function applyLayout(Lo){
+  const t0=performance.now();
+  NODES.forEach(n=>{
+    const v=NV[n.id];
+    const spec=Lo.nodes[n.id]||{x:v.cur.x,y:v.cur.y,s:v.cur.s,o:0,tier:'faint',lab:'none'};
+    v.from=Object.assign({},v.cur); v.to={x:spec.x,y:spec.y,s:spec.s,o:spec.o};
+    setLabel(n.id,spec);
+  });
+  // edges
+  const want={};
+  Lo.edges.forEach(sp=>{ const key=sp.trail?('trail|'+sp.a+'|'+sp.b):sp.a+'|'+sp.b; if(!want[key]||want[key].o<sp.o) want[key]=sp; });
+  Object.keys(EV).forEach(k=>{ if(!want[k]){ const ev=EV[k]; ev.from={o:ev.cur.o}; ev.to={o:0}; ev.dying=true; } });
+  Object.entries(want).forEach(([k,sp])=>{
+    let ev=EV[k];
+    if(!ev){
+      const g=el('g',{class:'edge'}); const path=el('path'); const text=el('text',{'text-anchor':'middle'});
+      g.appendChild(path); g.appendChild(text); edgeLayer.appendChild(g);
+      ev=EV[k]={g,path,text,cur:{o:0}};
+    }
+    ev.spec=sp; ev.dying=false; ev.from={o:ev.cur.o}; ev.to={o:sp.o};
+    const rel=sp.e?REL[sp.e.rel]:null;
+    ev.g.setAttribute('class',`edge${rel&&rel.neg?' neg':''}${sp.cls?' '+sp.cls:''}${sp.lab?'':' nolab'}`);
+    ev.g.dataset.a=sp.a; ev.g.dataset.b=sp.b;
+    ev.path.setAttribute('stroke-width',sp.trail?1.6:sp.e.w===3?2.6:sp.e.w===2?1.7:1);
+    if(sp.trail||sp.cls==='mesh') ev.path.removeAttribute('marker-end'); else ev.path.setAttribute('marker-end',`url(#${rel&&rel.neg?'arrNeg':'arr'})`);
+    ev.text.textContent=rel?rel.f:'';
+  });
+  // hubs + group links
+  ORDER.forEach(t=>{
+    const H=HV[t], h=Lo.hubs&&Lo.hubs[t];
+    if(!h){ H.g.classList.add('off'); H.g.setAttribute('tabindex','-1'); return; }
+    H.g.classList.remove('off'); H.g.setAttribute('tabindex','0');
+    H.g.setAttribute('transform',`translate(${h.x},${h.y})`);
+    H.hit.setAttribute('r',h.rr+16);
+    [H.name,H.count].forEach((tx,i)=>{ tx.setAttribute('x',h.lx); tx.setAttribute('text-anchor',h.anchor); });
+    H.name.setAttribute('y',h.ly+(h.ly<0?-6:h.ly>0?2:-2)); H.count.setAttribute('y',h.ly+(h.ly<0?12:h.ly>0?20:16));
+  });
+  while(linkLayer.firstChild) linkLayer.removeChild(linkLayer.firstChild);
+  if(Lo.hubs){ Lo.links.forEach(l=>{ const A=Lo.hubs[l.a],B=Lo.hubs[l.b];
+    const mx=(A.x+B.x)/2*0.72, my=(A.y+B.y)/2*0.72;
+    const p=el('path',{class:'olink',d:`M${A.x},${A.y}Q${mx},${my} ${B.x},${B.y}`,'stroke-width':(0.6+l.v/14).toFixed(2),opacity:'0.22'});
+    linkLayer.appendChild(p); }); }
+  renderAnnot(Lo);
+  anim={t0};
+  fitView(Lo,true);
+  kick();
+}
+
+function renderAnnot(Lo){
+  while(annotLayer.firstChild) annotLayer.removeChild(annotLayer.firstChild);
+  Lo.annot.forEach(a=>{
+    const g=el('g',{class:'annot'});
+    if(a.kind==='question'){
+      const lh=34, y0=-(a.lines.length-1)*lh/2+6;
+      a.lines.forEach((ln,i)=>{ const t=el('text',{class:'q','text-anchor':'middle',x:0,y:y0+i*lh}); t.textContent=ln; g.appendChild(t); });
+      const s=el('text',{class:'qsmall','text-anchor':'middle',x:0,y:y0+a.lines.length*lh+10}); s.textContent='Open any group, or search for a concept, to begin'; g.appendChild(s);
+      g.style.animationDelay='.25s';
+    } else if(a.kind==='category'){
+      const T=TYPES[a.t];
+      const t=el('text',{class:'ctitle','text-anchor':'middle',x:0,y:-14}); t.textContent=T.plural; g.appendChild(t);
+      wrap(T.desc,40).forEach((ln,i)=>{ const d=el('text',{class:'cdesc','text-anchor':'middle',x:0,y:16+i*20}); d.textContent=ln; g.appendChild(d); });
+    } else if(a.kind==='triangle'){
+      g.appendChild(el('path',{class:'tri',d:`M${a.pts[0].x},${a.pts[0].y}L${a.pts[1].x},${a.pts[1].y}L${a.pts[2].x},${a.pts[2].y}Z`}));
+    } else {
+      const cls={placeholder:'placeholder',arc:'arc',coltitle:'coltitle'}[a.kind];
+      const t=el('text',{class:cls,'text-anchor':a.anchor||'middle',x:a.x,y:a.y}); t.textContent=a.text; g.appendChild(t);
+    }
+    annotLayer.appendChild(g);
+  });
+}
+
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+function kick(){ if(!raf) raf=requestAnimationFrame(tick); }
+function tick(now){
+  raf=null; let more=false;
+  if(anim){
+    const t=Math.min(1,(now-anim.t0)/DUR), e=ease(t);
+    NODES.forEach(n=>{ const v=NV[n.id], f=v.from, to=v.to;
+      v.cur={x:f.x+(to.x-f.x)*e,y:f.y+(to.y-f.y)*e,s:f.s+(to.s-f.s)*e,o:f.o+(to.o-f.o)*e}; drawNode(v); });
+    Object.keys(EV).forEach(k=>{ const ev=EV[k]; ev.cur.o=ev.from.o+(ev.to.o-ev.from.o)*e; drawEdge(ev); });
+    if(t<1) more=true; else { anim=null; Object.keys(EV).forEach(k=>{ if(EV[k].dying){ EV[k].g.remove(); delete EV[k]; } }); }
+  }
+  if(viewAnim){
+    const t=Math.min(1,(now-viewAnim.t0)/(reduceMotion?1:820)), e=ease(t), f=viewAnim.from, to=viewAnim.to;
+    view.x=f.x+(to.x-f.x)*e; view.y=f.y+(to.y-f.y)*e; view.k=f.k+(to.k-f.k)*e; drawView();
+    if(t<1) more=true; else viewAnim=null;
+  }
+  if(more) kick();
+}
+function drawNode(v){
+  v.g.setAttribute('transform',`translate(${v.cur.x.toFixed(1)},${v.cur.y.toFixed(1)})`);
+  v.sh.setAttribute('transform',`scale(${(v.cur.s/10).toFixed(3)})`);
+  v.g.style.opacity=v.cur.o.toFixed(3);
+}
+function drawEdge(ev){
+  const sp=ev.spec, A=NV[sp.a].cur, B=NV[sp.b].cur;
+  ev.g.style.opacity=ev.cur.o.toFixed(3);
+  let d, lp;
+  if(L && L.style==='flow' && !sp.trail){
+    const dx=B.x-A.x, sg=dx>=0?1:-1;
+    const ax=A.x+sg*(A.s+3), bx=B.x-sg*(B.s+5);
+    const c1x=ax+(bx-ax)*0.5, c2x=bx-(bx-ax)*0.5;
+    d=`M${ax.toFixed(1)},${A.y.toFixed(1)}C${c1x.toFixed(1)},${A.y.toFixed(1)} ${c2x.toFixed(1)},${B.y.toFixed(1)} ${bx.toFixed(1)},${B.y.toFixed(1)}`;
+    lp={x:(ax+bx)/2,y:(A.y+B.y)/2};
+  } else {
+    const dx=B.x-A.x, dy=B.y-A.y, len=Math.hypot(dx,dy)||1;
+    const cx=(A.x+B.x)/2-dy/len*len*0.07, cy=(A.y+B.y)/2+dx/len*len*0.07;
+    const ua=unit(cx-A.x,cy-A.y), ub=unit(B.x-cx,B.y-cy);
+    const ax=A.x+ua.x*(A.s+2), ay=A.y+ua.y*(A.s+2), bx=B.x-ub.x*(B.s+5), by=B.y-ub.y*(B.s+5);
+    d=`M${ax.toFixed(1)},${ay.toFixed(1)}Q${cx.toFixed(1)},${cy.toFixed(1)} ${bx.toFixed(1)},${by.toFixed(1)}`;
+    // label sits nearer the outer node, away from the crowded centre
+    const focusIsA=state.focus===sp.a; const t=focusIsA?0.6:0.4;
+    lp={x:(1-t)*(1-t)*ax+2*(1-t)*t*cx+t*t*bx, y:(1-t)*(1-t)*ay+2*(1-t)*t*cy+t*t*by};
+  }
+  ev.path.setAttribute('d',d);
+  ev.text.setAttribute('x',lp.x.toFixed(1)); ev.text.setAttribute('y',(lp.y+4).toFixed(1));
+}
+function unit(x,y){ const l=Math.hypot(x,y)||1; return {x:x/l,y:y/l}; }
+
+/* ---------- View: fit, zoom, pan ---------- */
+function stageSize(){ const r=svg.getBoundingClientRect(); return {W:r.width,H:r.height}; }
+function drawView(){
+  world.setAttribute('transform',`translate(${view.x.toFixed(1)},${view.y.toFixed(1)}) scale(${view.k.toFixed(4)})`);
+  svg.classList.toggle('far',view.k<0.5); svg.classList.toggle('near',view.k>1.25);
+}
+function fitView(Lo,animate){
+  const {W,H}=stageSize(); if(!W||!H) return;
+  let minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9;
+  const inc=(x,y)=>{ minX=Math.min(minX,x); minY=Math.min(minY,y); maxX=Math.max(maxX,x); maxY=Math.max(maxY,y); };
+  const ids=Lo.fitIds||Object.keys(Lo.nodes).filter(id=>Lo.nodes[id].o>=0.5||Lo.fitAll&&Lo.nodes[id].o>0);
+  ids.forEach(id=>{ const s=Lo.nodes[id]; if(!s) return; const lw=(s.lab==='none'?0:Math.min(byId[id].label.length,s.wrapAt||22)*7.2);
+    inc(s.x-s.s-(s.lab==='left'?lw+10:s.lab==='below'||s.lab==='above'?lw/2:0), s.y-s.s-(s.lab==='above'?30:12));
+    inc(s.x+s.s+(s.lab==='right'?lw+10:s.lab==='below'||s.lab==='above'?lw/2:0), s.y+s.s+(s.lab==='below'?(s.tier==='focus'?60:40):14)); });
+  Lo.bounds.forEach(b=>inc(b.x,b.y));
+  Lo.annot.forEach(a=>{ if(a.x!==undefined){ const tw=(a.text||'').length*8.5; inc(a.anchor==='end'?a.x-tw:a.anchor==='middle'?a.x-tw/2:a.x,a.y-20); inc(a.anchor==='start'?a.x+tw:a.anchor==='middle'?a.x+tw/2:a.x,a.y+8);} });
+  if(minX>maxX) return;
+  const {W:_w,H:_h}=stageSize(); const short=_h<600; const jOpen=J&&J.classList.contains('open'); qline.style.display=short?'none':''; const padX=_w<700?24:50, padTop=Lo.kind==='overview'||short?30:(_w<700?120:104), padBot=(short?62:74)+(jOpen?96:0);
+  const k=Math.max(0.28,Math.min((W-padX*2)/(maxX-minX),(H-padTop-padBot)/(maxY-minY),Lo.maxK||1.1));
+  const cx=(minX+maxX)/2, cy=(minY+maxY)/2;
+  const to={k,x:W/2-cx*k,y:padTop+(H-padTop-padBot)/2-cy*k};
+  if(animate && !firstFit){ viewAnim={t0:performance.now(),from:{x:view.x,y:view.y,k:view.k},to}; kick(); }
+  else { Object.assign(view,to); drawView(); firstFit=false; }
+}
+let firstFit=true;
+
+function zoomAt(factor,px,py){
+  const k2=Math.max(0.2,Math.min(3,view.k*factor)); const f=k2/view.k;
+  view.x=px-(px-view.x)*f; view.y=py-(py-view.y)*f; view.k=k2; viewAnim=null; drawView();
+}
+svg.addEventListener('wheel',ev=>{ ev.preventDefault(); const r=svg.getBoundingClientRect(); zoomAt(Math.exp(-ev.deltaY*0.0016),ev.clientX-r.left,ev.clientY-r.top); },{passive:false});
+const pointers=new Map(); let dragMoved=false, dragStart=null, pinch=null;
+svg.addEventListener('pointerdown',ev=>{
+  pointers.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
+  if(pointers.size===1){ dragMoved=false; dragStart={x:ev.clientX,y:ev.clientY,vx:view.x,vy:view.y}; }
+  if(pointers.size===2){ const [p1,p2]=[...pointers.values()]; pinch={d:Math.hypot(p1.x-p2.x,p1.y-p2.y),k:view.k}; dragMoved=true; }
+});
+svg.addEventListener('pointermove',ev=>{
+  if(!pointers.has(ev.pointerId)) return;
+  pointers.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
+  if(pointers.size===2 && pinch){ const [p1,p2]=[...pointers.values()]; const d=Math.hypot(p1.x-p2.x,p1.y-p2.y); const r=svg.getBoundingClientRect();
+    zoomAt((pinch.k*d/pinch.d)/view.k,(p1.x+p2.x)/2-r.left,(p1.y+p2.y)/2-r.top); return; }
+  if(dragStart){ const dx=ev.clientX-dragStart.x, dy=ev.clientY-dragStart.y;
+    if(!dragMoved && Math.hypot(dx,dy)>5){ dragMoved=true; svg.classList.add('dragging'); svg.setPointerCapture(ev.pointerId); hideTip(); }
+    if(dragMoved){ viewAnim=null; view.x=dragStart.vx+dx; view.y=dragStart.vy+dy; drawView(); } }
+});
+const endPtr=ev=>{ pointers.delete(ev.pointerId); if(pointers.size<2) pinch=null; if(!pointers.size){ dragStart=null; svg.classList.remove('dragging'); setTimeout(()=>{dragMoved=false;},0); } };
+svg.addEventListener('pointerup',endPtr); svg.addEventListener('pointercancel',endPtr);
+const center=()=>{ const {W,H}=stageSize(); return [W/2,H/2]; };
+$('#zin').onclick=()=>zoomAt(1.3,...center());
+$('#zout').onclick=()=>zoomAt(1/1.3,...center());
+$('#zfit').onclick=()=>fitView(L,true);
+$('#home').onclick=goHome;
+$('#back').onclick=goBack;
+new ResizeObserver(()=>{ if(L) fitView(L,false); }).observe($('#stage'));
+
+/* ---------- Hover ---------- */
+function hoverNode(id,ev){
+  const n=byId[id];
+  let extra='';
+  if(state.mode==='explore'&&state.focus&&state.focus!==id){ const e=edgeBetween(state.focus,id); if(e){ const fr=e.a===state.focus; extra=`<i style="margin-top:6px">${esc(byId[state.focus].label)} ${esc(fr?REL[e.rel].f:REL[e.rel].r)} ${esc(n.label)}</i>`; } }
+  showTip(`<i>${esc(TYPES[n.t].name)}</i><b>${esc(n.label)}</b><span>${esc(n.short)}</span>${extra}`,ev);
+  edgeLayer.querySelectorAll('.edge').forEach(g=>{ if(g.dataset.a===id||g.dataset.b===id) g.classList.add('hot'); });
+}
+function unhover(){ hideTip(); edgeLayer.querySelectorAll('.edge.hot').forEach(g=>g.classList.remove('hot')); }
+function showTip(html,ev){ tip.innerHTML=html; tip.classList.add('show'); moveTip(ev); }
+function moveTip(ev){ const r=$('#stage').getBoundingClientRect(); let x=ev.clientX-r.left+14, y=ev.clientY-r.top+14; const tw=tip.offsetWidth, th=tip.offsetHeight; if(x+tw>r.width-8) x=ev.clientX-r.left-tw-14; if(y+th>r.height-8) y=ev.clientY-r.top-th-14; tip.style.left=x+'px'; tip.style.top=y+'px'; }
+function hideTip(){ tip.classList.remove('show'); }
+
+/* ================= PANEL ================= */
+const strWord={3:'Strong',2:'Moderate',1:'Partial'};
+const AIPHRASE={ai_permitted:'works when AI is permitted',ai_verify:'works when AI use is then verified',ai_partial:'works with a restricted component',ai_none:'works without AI',ai_undecided:'holds up while AI policy is undecided'};
+function strBars(wt){ return `<span class="str" data-w="${wt}" role="img" aria-label="${strWord[wt]} relationship"><i></i><i></i><i></i></span>`; }
+function chip(id,pressed){ const n=byId[id]; return `<button class="chip" data-go="${id}"${pressed!==undefined?` aria-pressed="${pressed}"`:''}>${glyph(n.t)}${esc(n.label)}</button>`; }
+
+function connectionsHTML(id){
+  const groups={};
+  adj[id].forEach(x=>{ const rel=REL[x.e.rel]; const phrase=x.dir==='f'?rel.f:rel.r; (groups[phrase]=groups[phrase]||[]).push(x); });
+  const list=Object.entries(groups).map(([ph,items])=>({ph,items:items.sort((a,b)=>b.e.w-a.e.w),max:Math.max(...items.map(i=>i.e.w))}))
+    .sort((a,b)=>b.max-a.max||b.items.length-a.items.length);
+  const me=byId[id];
+  return list.map(g=>`<div class="group-label">${esc(me.label)} ${esc(g.ph)}</div><ul class="conn">${g.items.map(x=>{
+    const o=byId[x.o]; const note=x.e.note||o.short;
+    return `<li><button data-go="${o.id}"><span class="row">${glyph(o.t)}<span class="name">${esc(o.label)}</span>${strBars(x.e.w)}</span><span class="note">${esc(note)}</span></button></li>`; }).join('')}</ul>`).join('');
+}
+
+function relevanceIntro(id){
+  const n=byId[id];
+  const strong=adj[id].filter(x=>x.e.w===3);
+  const lines={
+    cap:`The strongest evidence for this capability sits closest on the map. Patterns that assess it and evidence that would show it appear in their own directions, so you can see what to look for and how to get it.`,
+    ev:`Around this kind of evidence you can see which capabilities need it, which AI risks undermine it, and which patterns and checks make it visible. Strong links are drawn heavier and sit closer.`,
+    ai:`The risks this AI role creates are the reason for most design choices. Patterns that suit this role appear alongside, so you can see which risks each one leaves open.`,
+    risk:`Each risk threatens particular evidence. The patterns and checks that reduce it are shown with how strongly they do so, which helps you pick the lightest response that still works.`,
+    pat:`This pattern is placed among the capabilities it assesses, the evidence it provides, the risks it reduces and the checks it depends on. Dashed links show what it costs.`,
+    ver:`A check matters for the evidence it makes visible and the risks it closes. Dashed links show its costs, usually in workload or inclusivity.`,
+    con:`Every pattern and check trades off against this consideration. Solid links support it; dashed links put pressure on it.`
+  }[n.t];
+  return `<p>${lines}</p><p class="muted">${strong.length} strong and ${adj[id].length-strong.length} weaker relationships.</p>`;
+}
+
+function detailHTML(id,opts={}){
+  const n=byId[id]; let h='';
+  if(opts.backLabel) h+=`<button class="linkbtn" data-act="${opts.backAct}">&larr; ${esc(opts.backLabel)}</button>`;
+  h+=`<div class="kind">${glyph(n.t)}${esc(TYPES[n.t].name)}</div><h2>${esc(n.label)}</h2>`;
+  if(n.t==='pat'){
+    h+=`<p class="lede">${esc(n.short)}</p>`;
+    h+=`<div class="why"><b>Why it works</b><p>${esc(n.why)}</p></div>`;
+    h+=`<h3>How it runs</h3><ol class="seq">${n.seq.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`;
+    h+=`<div class="watch"><b>Watch for</b><p>${esc(n.watch)}</p></div>`;
+  } else {
+    h+=`<p class="lede">${esc(n.short)}</p><p>${esc(n.long)}</p>`;
+  }
+  if(opts.explore) h+=`<div class="btnrow"><button class="btn quiet" data-act="explore-from" data-id="${id}">Explore from here</button></div>`;
+  h+=`<h3>Why these connections matter</h3>${relevanceIntro(id)}${connectionsHTML(id)}`;
+  return h;
+}
+
+function introHTML(){
+  return `<h2>Start anywhere</h2>
+  <p>Each point on the map is a concept from assessment design under generative AI. Select one and its strongest relationships come into focus. Your path builds up along the bottom of the map, so you can step back or see how one idea led to the next.</p>
+  <div class="question">What would count as convincing evidence that this student actually knows, can judge, can do, or can account for what they have produced, in a world where AI can generate sophisticated work?</div>
+  <h3>Try one of these</h3>
+  <div class="chips">${ENTRY_POINTS.map(id=>chip(id)).join('')}</div>
+  <div class="btnrow" style="margin-top:16px"><button class="btn" data-act="journey">Walk through an example</button></div>
+  <h3>What the shapes mean</h3>
+  <ul class="legend">${ORDER.map(t=>`<li><button data-act="category" data-t="${t}">${glyph(t)}<span><b>${esc(TYPES[t].plural)}</b><span>${esc(TYPES[t].desc)}</span></span></button></li>`).join('')}</ul>
+  <div class="keyline"><span><svg width="26" height="8"><path d="M1 4h24" stroke="currentColor" stroke-width="2.6"/></svg>Strong</span><span><svg width="26" height="8"><path d="M1 4h24" stroke="currentColor" stroke-width="1"/></svg>Partial</span><span style="color:var(--risk)"><svg width="26" height="8"><path d="M1 4h24" stroke="currentColor" stroke-width="1.7" stroke-dasharray="5 4"/></svg>Risk or cost</span></div>
+  <p class="muted" style="margin-top:14px">Scroll or pinch to zoom. Drag to move around. Press / to search.</p>`;
+}
+
+function categoryHTML(t){
+  const T=TYPES[t];
+  return `<button class="linkbtn" data-act="home">&larr; Overview</button>
+  <div class="kind">${glyph(t)}Group</div><h2>${esc(T.plural)}</h2><p class="lede">${esc(T.desc)}</p>
+  <ul class="conn" style="margin-top:12px">${ofType(t).map(n=>`<li><button data-go="${n.id}"><span class="row">${glyph(n.t)}<span class="name">${esc(n.label)}</span></span><span class="note">${esc(n.short)}</span></button></li>`).join('')}</ul>`;
+}
+
+function designHTML(){
+  const d=state.design;
+  if(state.sel) return detailHTML(state.sel,{backLabel:'Back to your design',backAct:'clear-sel',explore:true});
+  const group=(t,title)=>`<h3>${title}</h3><div class="chips">${ofType(t).map(n=>chip(n.id,d[t]===n.id)).join('')}</div>`;
+  let h=`<h2>Design an assessment</h2><p>Choose what the student must show, how AI is involved and the evidence you most need. Patterns move toward the centre of the triangle as they fit your choices more closely. You can also select options on the map.</p>`;
+  h+=group('cap','What must the student show?')+group('ai','How is AI involved?')+group('ev','What evidence do you most need?');
+  const any=d.cap||d.ai||d.ev;
+  if(!any){ h+=`<p class="muted" style="margin-top:18px">Nothing selected yet. All ten patterns sit at equal distance until you make a choice.</p>`; return h; }
+  const ranked=scorePatterns(); const best=ranked[0].sc||1;
+  h+=`<div class="pick"><h3>Closest fits</h3><ul class="rank">${ranked.slice(0,5).map(r=>{
+    const reasons=[];
+    r.parts.forEach(p=>{ if(!p.w && !p.ind) return; const target=byId[d[p.k]];
+      if(p.k==='cap'&&p.w) reasons.push(`${strWord[p.w]} on ${target.label}`);
+      if(p.k==='ev'&&p.w) reasons.push(`${strWord[p.w].toLowerCase()} evidence of ${target.label.toLowerCase()}`);
+      else if(p.k==='ev'&&p.ind) reasons.push(`${target.label.toLowerCase()} through its checks`);
+      if(p.k==='ai'&&p.w) reasons.push(AIPHRASE[target.id]); });
+    if(d.ai){ const tot=adj[d.ai].filter(a=>a.e.rel==='creates_risk').length; reasons.push(`reduces ${r.risks.length} of ${tot} risks this role creates`); }
+    return `<li><button data-go="${r.id}"><span class="nm">${esc(byId[r.id].label)}</span><span class="fit"><i style="width:${Math.round(r.sc/best*100)}%"></i></span><span class="rs">${esc(reasons.join('; ')||'Weak fit with these choices')}</span></button></li>`; }).join('')}</ul></div>`;
+  if(d.ai){
+    const top=ranked.slice(0,3);
+    const rs=adj[d.ai].filter(a=>a.e.rel==='creates_risk').sort((a,b)=>b.e.w-a.e.w);
+    h+=`<h3>Risks to cover</h3><ul class="conn">${rs.map(a=>{ const cov=top.filter(r=>w(r.id,a.o)).map(r=>byId[r.id].label);
+      return `<li><button data-go="${a.o}"><span class="row">${glyph('risk')}<span class="name">${esc(byId[a.o].label)}</span>${strBars(a.e.w)}</span><span class="note">${cov.length?'Reduced by '+esc(cov.join(', ')):'Not covered by the closest fits. Consider adding a check.'}</span></button></li>`; }).join('')}</ul>`;
+  }
+  const top0=ranked[0]; if(top0&&top0.sc>0){ const cs=adj[top0.id].filter(a=>byId[a.o].t==='con').sort((a,b)=>b.e.w-a.e.w);
+    if(cs.length) h+=`<h3>Trade-offs for ${esc(byId[top0.id].label)}</h3><ul class="conn">${cs.map(a=>`<li><button data-go="${a.o}"><span class="row">${glyph('con')}<span class="name">${a.e.rel==='strains'?'Puts pressure on':'Supports'} ${esc(byId[a.o].label.toLowerCase())}</span>${strBars(a.e.w)}</span>${a.e.note?`<span class="note">${esc(a.e.note)}</span>`:''}</button></li>`).join('')}</ul>`; }
+  h+=`<p class="muted" style="margin-top:18px">Principle from the prototype: use the smallest additional evidence that strengthens a material claim, and remove weaker activity to make room.</p>`;
+  return h;
+}
+
+function columnsHTML(kind){
+  if(state.sel) return detailHTML(state.sel,{backLabel:kind==='risks'?'All AI risks':'All evidence',backAct:'clear-sel',explore:true});
+  if(kind==='risks') return `<h2>See AI risks</h2>
+    <p>Read left to right. Each AI role creates particular risks, and each risk can be reduced by assessment patterns or by lighter checks.</p>
+    <p>Select an AI role to trace its risks through to the responses that address them. Select a risk to see where it comes from and what reduces it.</p>
+    <h3>Places to start</h3><div class="chips">${['ai_permitted','ai_undecided','r_cannot_defend','r_generic'].map(id=>chip(id)).join('')}</div>`;
+  return `<h2>See evidence of learning</h2>
+    <p>Read left to right. Each capability needs certain evidence. Patterns provide that evidence, and checks make it visible.</p>
+    <p>Select a capability to trace the evidence it needs through to the designs that produce it. Select a kind of evidence to see everything that strengthens it.</p>
+    <h3>Places to start</h3><div class="chips">${['judge','account','ev_ownership','ev_adaptation'].map(id=>chip(id)).join('')}</div>`;
+}
+
+function renderPanel(){
+  let h;
+  if(state.mode==='design') h=designHTML();
+  else if(state.mode==='risks'||state.mode==='evidence') h=columnsHTML(state.mode);
+  else if(state.focus) h=detailHTML(state.focus);
+  else if(state.category) h=categoryHTML(state.category);
+  else h=introHTML();
+  pbody.innerHTML=h;
+  $('#panel').scrollTop=0;
+}
+pbody.addEventListener('click',ev=>{
+  const go=ev.target.closest('[data-go]'); if(go){ activate(go.dataset.go); return; }
+  const act=ev.target.closest('[data-act]'); if(!act) return;
+  const a=act.dataset.act;
+  if(a==='journey') startJourney();
+  else if(a==='category') navigate({mode:'explore',category:act.dataset.t,focus:null,sel:null});
+  else if(a==='home') goHome();
+  else if(a==='clear-sel') navigate({sel:null});
+  else if(a==='explore-from') navigate({mode:'explore',focus:act.dataset.id,category:null,sel:null});
+});
+$('#ptoggle').onclick=()=>{ const p=$('#panel'); const c=p.classList.toggle('collapsed'); $('#ptoggle').setAttribute('aria-expanded',String(!c)); $('#ptoggle').textContent=c?'Show details':'Hide details'; };
+
+/* ---------- Trail ---------- */
+function renderTrail(){
+  const c=$('#crumbs'); const items=trail.slice(-7); const offset=trail.length-items.length;
+  let h=offset?`<span class="rel">&hellip;</span>`:'';
+  items.forEach((id,i)=>{
+    if(i>0||offset){ const prev=trail[offset+i-1]; if(prev){ const e=edgeBetween(prev,id);
+      h+=`<span class="rel">${e?esc(e.a===prev?REL[e.rel].f:REL[e.rel].r):'then'}</span>`; } }
+    const cur=state.mode==='explore'&&id===state.focus&&offset+i===trail.length-1;
+    h+=`<button class="crumb${cur?' current':''}" data-go-trail="${id}">${glyph(byId[id].t)}${esc(byId[id].label)}</button>`;
+  });
+  c.innerHTML=h; c.scrollLeft=c.scrollWidth;
+}
+$('#crumbs').addEventListener('click',ev=>{ const b=ev.target.closest('[data-go-trail]'); if(b) navigate({mode:'explore',focus:b.dataset.goTrail,category:null,sel:null}); });
+
+/* ---------- Example journey ---------- */
+const J=$('#journey');
+function startJourney(){ history.push(snap()); trail=[]; journeyStep=0; showJourneyStep(); }
+function showJourneyStep(){
+  const s=JOURNEY[journeyStep];
+  state=Object.assign({},state,{mode:'explore',focus:s.id,category:null,sel:null});
+  if(trail[trail.length-1]!==s.id) trail.push(s.id);
+  J.classList.add('open');
+  render();
+  J.innerHTML=`<p><small>Example journey, step ${journeyStep+1} of ${JOURNEY.length}</small>${esc(s.text)}</p><div class="jbtns">${journeyStep>0?'<button data-j="prev">Previous</button>':''}${journeyStep<JOURNEY.length-1?'<button class="primary" data-j="next">Next</button>':'<button class="primary" data-j="done">Keep exploring</button>'}<button data-j="close" aria-label="Close the example">Close</button></div>`;
+  J.classList.add('open');
+}
+J.addEventListener('click',ev=>{ const b=ev.target.closest('[data-j]'); if(!b) return; const a=b.dataset.j;
+  if(a==='next'){ journeyStep++; showJourneyStep(); }
+  else if(a==='prev'){ journeyStep--; trail.pop(); trail.pop(); showJourneyStep(); }
+  else closeJourney(); });
+function closeJourney(silent){ journeyStep=-1; J.classList.remove('open'); }
+
+/* ---------- Search ---------- */
+const q=$('#q'), res=$('#results'); let hits=[], hi=0;
+function search(term){
+  term=term.trim().toLowerCase(); if(!term) return [];
+  return NODES.map(n=>{ const l=n.label.toLowerCase(); let s=0;
+    if(l===term) s=100; else if(l.startsWith(term)) s=80; else if(l.includes(term)) s=60;
+    (n.alias||[]).forEach(a=>{ if(a===term) s=Math.max(s,90); else if(a.startsWith(term)) s=Math.max(s,70); else if(a.includes(term)) s=Math.max(s,50); });
+    if(!s){ const words=term.split(/\s+/); if(words.every(wd=>(l+' '+(n.alias||[]).join(' ')+' '+n.short.toLowerCase()).includes(wd))) s=30; }
+    return {n,s}; }).filter(x=>x.s).sort((a,b)=>b.s-a.s||a.n.label.length-b.n.label.length).slice(0,8).map(x=>x.n);
+}
+function drawResults(){
+  if(!q.value.trim()){ res.classList.remove('open'); q.setAttribute('aria-expanded','false'); return; }
+  res.innerHTML=hits.length?hits.map((n,i)=>`<button role="option" aria-selected="${i===hi}" data-id="${n.id}">${glyph(n.t)}<span>${esc(n.label)}<small>${esc(TYPES[n.t].name)}</small></span></button>`).join(''):`<div class="empty">No concept matches. Try "ownership", "viva" or "workload".</div>`;
+  res.classList.add('open'); q.setAttribute('aria-expanded','true');
+}
+function pick(id){ q.value=''; res.classList.remove('open'); q.blur(); navigate({mode:'explore',focus:id,category:null,sel:null}); }
+q.addEventListener('input',()=>{ hits=search(q.value); hi=0; drawResults(); });
+q.addEventListener('keydown',ev=>{
+  if(ev.key==='ArrowDown'){ ev.preventDefault(); hi=Math.min(hits.length-1,hi+1); drawResults(); }
+  else if(ev.key==='ArrowUp'){ ev.preventDefault(); hi=Math.max(0,hi-1); drawResults(); }
+  else if(ev.key==='Enter'){ if(hits[hi]) pick(hits[hi].id); }
+  else if(ev.key==='Escape'){ q.value=''; res.classList.remove('open'); q.blur(); }
+});
+res.addEventListener('mousedown',ev=>{ const b=ev.target.closest('[data-id]'); if(b){ ev.preventDefault(); pick(b.dataset.id); } });
+q.addEventListener('blur',()=>setTimeout(()=>res.classList.remove('open'),120));
+document.addEventListener('keydown',ev=>{
+  if(ev.key==='/' && document.activeElement!==q){ ev.preventDefault(); q.focus(); }
+  else if(ev.key==='Escape' && document.activeElement!==q && history.length){ goBack(); }
+});
+
+/* ---------- Modes ---------- */
+document.querySelectorAll('#modes button').forEach(b=>b.addEventListener('click',()=>{ if(state.mode!==b.dataset.mode) navigate({mode:b.dataset.mode,sel:null}); }));
+
+render();
+window.__lab={state:()=>state,navigate,trail:()=>trail};
+})();
+
+</script>
+</body>
+</html>

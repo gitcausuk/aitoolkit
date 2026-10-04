@@ -1,0 +1,288 @@
+Oxford AI Toolkit
+Oxford AI assessment playbook
+Accessible text alternative · Version 2.3
+
+Status and scope
+This is practical professional guidance developed at Saïd Business School. It supports,
+and does not replace, current University policy, Examination Regulations, local approval
+processes, accessibility requirements or programme guidance.
+Use this playbook to move from the intended learning to clear AI permissions, visible
+evidence of student learning and copy-ready assessment wording. It covers common
+assessment types rather than prescribing one University-wide design.
+Assessment-design principle
+Design assessments that produce verifiable judgement.
+The central question is not simply "Did AI write this?" but whether the assessment provides credible
+evidence that the student can reach a reasoned conclusion and explain, defend and apply it. VIVA is
+the practical framework for designing that evidence.
+The five-step workflow
+1 Clarify the purpose
+State the knowledge, reasoning, judgement, performance or professional capability the assessment
+should evidence.
+2 Choose the permission level
+Decide whether AI is not permitted, limited, open or integral. These are toolkit categories for
+communication, not mandatory University-wide labels.
+3 Apply VIVA
+Check that the design is valid, inclusive, visible and accountable, underpinned by integrity, honesty and
+transparency.
+4 Write the rule and declaration
+Issue clear written guidance in advance for the discrete assessment. Specify permitted, required and
+prohibited uses and the declaration expected.
+5 Mark, review and improve
+Align criteria with the intended learning, review the assessment after use and update the design when
+evidence, student experience or technology changes.
+Oxford AI Toolkit
+Oxford AI assessment playbook
+A practical implementation guide for faculty and module leads
+Check that the design is valid, inclusive, visible and accountable.
+Version 2.3
+Four practical permission levels
+Not permitted
+Closed exam; unaided
+calculation; live
+performance.
+Use it when
+Independent performance is itself the
+capability being assessed.
+What students need
+A clear prohibition and any allowed
+assistive technology or reasonable
+adjustment.
+Limited
+Proofreading;
+brainstorming; code
+checking.
+Use it when
+Specific support can assist without
+replacing the intended learning.
+What students need
+An explicit list of permitted tasks and a
+declaration where required.
+Open
+Take-home analysis with
+source checking.
+Use it when
+AI may support broad parts of the process,
+but the student remains responsible for
+judgement and evidence.
+What students need
+Requirements for verification, process
+evidence and declaration.
+Integral
+Audit, compare or
+improve AI output.
+Use it when
+Using and evaluating AI is part of the
+learning outcome.
+What students need
+The required tool or capability, safeguards,
+critical evaluation and declaration.
+Permission levels are a shared language, not an assessment design in themselves.
+Their value depends on alignment with the intended learning, disciplinary context,
+equitable access, staff capacity, marking and workable implementation.
+Implementation safeguards
+Process evidence is evidence, not proof of authorship. Oral follow-up is not a universal gold standard.
+Where AI could materially obscure the capability being assessed, draw on more than one
+proportionate source of evidence, such as the submitted work together with staged drafts, explanation
+or dialogue. Triangulation strengthens the judgement; no single component proves authorship.
+Any oral or additional component that affects marks should be specified in advance, consistently
+applied, accessible, proportionate and locally approved. Do not selectively viva only students
+suspected of AI use.
+Practical professional guidance, not University policy 2 / 5
+Assessment types
+Timed exams and in-class tests
+1. Define whether the task tests recall, method, reasoning,
+interpretation or application.
+2. Use approved controlled conditions and explain why AI
+is not permitted, if that is the decision.
+3. Require workings, justification or application rather than
+final answers alone.
+4. Check accessibility, reasonable adjustments, time
+pressure and platform reliability.
+5. Rotate or refresh questions for assessment quality, not
+because novelty makes them inaccessible to AI.
+Copy-ready wording — adapt the brackets
+AI use is not permitted in this assessment
+because independent performance under
+controlled conditions is part of the capability
+being assessed. [State any authorised assistive
+technology or reasonable-adjustment
+arrangements.]
+Take-home essays
+1. State the argument, synthesis or disciplinary judgement
+the essay should evidence.
+2. Choose the AI permission level before deciding whether
+drafts, plans or reflections are needed.
+3. Use specific course material, comparison, application or
+a justified critical position.
+4. Ask for proportionate process evidence only when it
+contributes to learning or assessment validity.
+5. Align criteria with reasoning, evidence and judgement
+rather than polish alone.
+Copy-ready wording — adapt the brackets
+AI may be used only for [permitted purposes]. It
+must not be used to [prohibited purposes]. Your
+final argument, interpretation and use of
+evidence must be your own. Include the
+prescribed declaration before the references.
+Literature reviews
+1. Decide whether literature discovery, screening, synthesis
+or writing is being assessed.
+2. Require a transparent search strategy appropriate to
+the discipline.
+3. Ask students to verify every AI-suggested source against
+the original record.
+4. Use annotated source notes or inclusion/exclusion
+reasoning where these evidence the learning outcome.
+5. Mark synthesis, evaluation and judgement, not the
+number of sources found.
+Copy-ready wording — adapt the brackets
+Where AI is used for literature discovery or
+organisation, verify each source against the
+original publication and declare the tool, purpose
+and verification process. AI-generated citations
+must not be treated as verified sources.
+Case studies and policy memos
+1. Clarify whether the task tests diagnosis,
+recommendation, trade-offs, evidence use or
+communication to an audience.
+2. Use supplied data and a specific decision context rather
+than relying on novelty or secrecy.
+3. Require a prioritised recommendation and
+explicit reasoning.
+4. Make assumptions, limitations and trade-offs visible.
+5. Use an oral or written defence only where proportionate
+and consistently designed.
+Copy-ready wording — adapt the brackets
+Your recommendation must be justified using the
+supplied evidence and explicit trade-offs. AI may
+be used for [purposes], but you remain
+responsible for the analysis, source verification
+and final recommendation.
+Practical professional guidance, not University policy 3 / 5
+Assessment types continued
+Presentations and posters
+1. Decide whether the assessment tests content,
+communication, visual design, oral response or all four.
+2. State whether AI may support research, scripting, slide
+design or rehearsal.
+3. Use individual questioning or explanation where it is part
+of the intended learning.
+4. Provide consistent criteria and reasonable adjustments
+for any live component.
+5. For groups, include a contribution statement and an
+individual evidence component where appropriate.
+Copy-ready wording — adapt the brackets
+AI may be used for [preparation tasks]. It may
+not be used during the live assessed component
+unless explicitly stated. Be prepared to explain
+the evidence, choices and recommendations in
+your presentation.
+Group projects
+1. Separate the team product from the individual learning
+that needs to be evidenced.
+2. Use milestone decisions, role records or contribution
+statements proportionately.
+3. Specify whether the AI permission applies to the team,
+each member or both.
+4. Avoid process logging that creates excessive
+surveillance or workload.
+5. Use peer or individual evidence with transparent criteria.
+Copy-ready wording — adapt the brackets
+Each team member must submit a short
+contribution and AI-use statement identifying
+their role, any substantive AI assistance and how
+outputs were checked. The team remains jointly
+responsible for the final submission.
+Problem sets and quantitative work
+1. Identify whether the learning lies in method selection,
+calculation, interpretation or modelling judgement.
+2. Require workings and conceptual explanation where
+they provide relevant evidence.
+3. Decide whether AI may check, generate or explain code
+and calculations.
+4. Use parameter variation for breadth and feedback, not
+as a guarantee against AI use.
+5. Mark method, assumptions, error checking
+and interpretation.
+Copy-ready wording — adapt the brackets
+AI may be used for
+[checking/formatting/debugging] but not to
+generate the submitted solution. Show your
+workings and explain why the selected method is
+appropriate. Declare any substantive AI
+assistance.
+Coding and data analysis
+1. Decide whether syntax, architecture, debugging,
+analysis, interpretation or professional use of AI is
+being assessed.
+2. Require explanation of key design and
+analytical choices.
+3. Use version history, notebooks or demonstrations where
+they support the learning outcome.
+4. Require comments or a declaration for substantive AI-
+generated code.
+5. Mark understanding, testing, reproducibility, limitations
+and interpretation.
+Copy-ready wording — adapt the brackets
+AI coding tools may be used for [permitted tasks].
+You must understand, test and be able to explain
+all submitted code. Identify substantive AI-
+generated or AI-modified code and describe how
+it was verified.
+Practical professional guidance, not University policy 4 / 5
+Research proposals and
+dissertations
+1. Define permitted AI use by stage: question development,
+literature work, methods, analysis, drafting and editing.
+2. Use supervision and milestones as developmental
+evidence, not forensic proof.
+3. Apply both assessment and research requirements
+where relevant.
+4. Address data protection, confidentiality, ethics, IP, funder
+and publisher rules.
+5. Require a declaration in the location and form
+prescribed locally.
+Copy-ready wording — adapt the brackets
+AI use is governed by the written assessment
+guidance, the University research policy where
+applicable and local departmental requirements.
+Declare substantive use, verify outputs and
+remain responsible for the research design,
+evidence, analysis and final text.
+AI-integral critique or simulation
+1. Make the AI-related capability an explicit
+learning outcome.
+2. Provide equal baseline access to the required tool or a
+suitable alternative.
+3. Assess prompting only where it is pedagogically
+relevant; prioritise evaluation and judgement.
+4. Require verification against disciplinary sources and
+identification of limitations.
+5. Plan for tool failure, model variation and accessibility.
+Copy-ready wording — adapt the brackets
+Use of [tool/capability] is required for this
+assessment. Your marks will be based on how
+well you evaluate, verify, improve and take
+responsibility for the output, not on the fluency
+of the AI-generated content alone.
+Minimum quality-assurance check
+Seven statements that should be true before the assessment is issued.
+The intended learning and the reason for the AI permission level are explicit.
+Students receive written guidance before the assessment and know what to declare.
+Permitted tools are equitably available or an appropriate alternative is provided.
+The design is accessible, proportionate and manageable for students, markers and administrators.
+Marking criteria reward the intended knowledge, reasoning, judgement or performance.
+No claim is made that a format, process log or oral component proves authorship or is AI-proof.
+The design has the necessary local approval and fits Examination Regulations and programme requirements.
+Official sources
+AI use in summative assessment
+governance.admin.ox.ac.uk/education-committee/policies/ai-
+use-in-summative-assessment
+Generative AI at Oxford
+ox.ac.uk/gen-ai
+AI Competency Centre tools
+oerc.ox.ac.uk/ai-centre/generative-ai-tools
+Full interactive toolkit
+gitcausuk.github.io/aitoolkit
+Version 2.2 · July 2026 · Official sources checked 11 July 2026 5 / 5
+Version 2.3

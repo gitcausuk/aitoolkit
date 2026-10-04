@@ -1,0 +1,18 @@
+OXFORD AI TOOLKIT — ASSESSMENT DESIGN LAB INTEGRATION
+
+This package adds the Assessment Design Lab as a new step in the existing Assessment design hub.
+
+Preserved unchanged
+- Existing Oxford AI Toolkit visual system, colours, typography, navigation patterns and layout conventions
+- Existing branding assets and accessibility pages
+- Existing AI Designer files and behaviour
+- Existing PDF and accessible-text guidance
+- Existing reviewed notes and review date
+
+Added
+- assessment-design-lab/index.html
+- A new Assessment Design Lab tab between VIVA and AI Designer
+- An embedded Lab view plus a full-screen option
+- Search entries for the Lab
+
+The Lab is an exploratory design aid. It does not set policy, approve assessment changes or replace University/local requirements.
