@@ -407,8 +407,62 @@
     ctlAI: { title: 'CTL: AI in teaching and learning', url: 'https://www.ox.ac.uk/about/how-we-are-run/education/centre-for-teaching-and-learning/ai-in-teaching-and-learning' },
     ctlConsult: { title: 'CTL course and assessment redesign consultancy', url: 'https://www.ctl.ox.ac.uk/course-and-assessment-redesign-consultancy-service' },
     ctlInclusive: { title: 'CTL: designing inclusive assessments', url: 'https://www.ctl.ox.ac.uk/included-designing-inclusive-assessments' },
-    checked: '5 September 2026'
+    checked: '5 September 2026',
+    policyUpdated: '27 October 2025',
+    playbook: { title: 'Oxford AI assessment playbook v2.3', url: '../oxford-ai-assessment-playbook-v2-3.pdf' },
+    playbookText: { title: 'text version', url: '../accessible/oxford-ai-assessment-playbook-v2-3.txt' },
+    toolkitQuestions: { title: 'Toolkit: common AI use questions', url: '../#checker' },
+    toolkitMarking: { title: 'Toolkit: marking guidance', url: '../#faculty_marking' }
   };
 
-  root.REDESIGN_LIBRARY = { AIM_KINDS, CLASSIFY_ORDER, SCAN_ORDER, RATING_WORDS, AI_CHOICES, PATTERNS, LEVEL_LABELS, LEVEL_SHORT, SOURCES };
+  // ── Where each piece of guidance comes from ─────────────────────────────────
+  // Every policy-like statement in the pack carries one of these. Only 'policy' points
+  // at University policy itself, and it never restates it. 'record' repeats what the main
+  // Toolkit already says about the policy page, with that page's dates.
+  // Do not add a statement of Oxford policy here unless the main Toolkit or the live
+  // policy page supports it word for word.
+  const BASIS = {
+    policy: { label: 'University policy', detail: 'Read the live page. This tool does not restate it.' },
+    record: { label: 'Toolkit summary of University policy', detail: 'As recorded in the main Toolkit from the policy page last updated ' + SOURCES.policyUpdated + ', checked by the Toolkit review on ' + SOURCES.checked + '. Check the live page, which takes precedence.' },
+    guidance: { label: 'Toolkit design guidance', detail: 'Practical guidance from Saïd Business School, not University policy.' },
+    suggestion: { label: 'Toolkit suggestion', detail: 'Design advice from this tool, not a requirement.' },
+    local: { label: 'Local decision', detail: 'Only your department, programme or approval route can answer this.' }
+  };
+
+  // What the main Toolkit records about the policy (index.html, "Can students use AI for a
+  // take-home essay?"). Shown before the faculty member chooses an AI position.
+  const POLICY_RECORD = {
+    setting: 'The authorised position should be set through the applicable course, programme, department, faculty or school process and communicated clearly in writing, in advance, for the specific assessment. If the applicable guidance does not authorise AI use, the default is that it is unauthorised.',
+    formative: 'You marked this assessment as formative. The University policy page is titled for summative assessment, so check whether your department applies the same approach to formative work.'
+  };
+
+  // ── Help me decide: a short decision path for the AI position ───────────────
+  // Questions are asked in order; the first "yes" (or the last answer) settles the outcome.
+  // The reasons quote the playbook's "Four practical permission levels" table word for word.
+  // The playbook's own note applies: these are toolkit categories, not University-wide labels.
+  const DECISION_PATH = [
+    {
+      id: 'local',
+      q: 'Has your department or programme already set the AI position for this assessment?',
+      yes: { choice: null, title: 'Use the position you have been given', reason: 'The setting process belongs to your department or programme. Pick the option below that matches it, and in the pack replace the draft AI wording with the wording they use.', basis: 'record' }
+    },
+    {
+      id: 'integral',
+      q: 'Is using or evaluating AI part of what this assessment is meant to assess?',
+      yes: { choice: 'required', title: 'Suggested: Required as part of the task', reason: 'The playbook suggests integral use when “using and evaluating AI is part of the learning outcome.”', basis: 'guidance' }
+    },
+    {
+      id: 'independent',
+      q: 'For {priority}, must students work without AI help for the mark to mean what it should?',
+      yes: { choice: 'not', title: 'Suggested: Not allowed', reason: 'The playbook suggests no AI use when “independent performance is itself the capability being assessed.” Say which assistive technology or agreed adjustments are still allowed.', basis: 'guidance' }
+    },
+    {
+      id: 'support',
+      q: 'Could AI help with specific parts you can name (for example background reading, or checking the clarity of a student’s own writing) without doing that work for them?',
+      yes: { choice: 'some', title: 'Suggested: Allowed for some purposes', reason: 'The playbook suggests limited use when “specific support can assist without replacing the intended learning.” List the permitted uses in the AI wording.', basis: 'guidance' },
+      no: { choice: 'unsure', title: 'No single position stands out', reason: 'You said students need not work unaided, but you cannot name AI help that would leave the learning intact. Keep “Not sure yet” and compare the options in the next step, which show what each change does under different AI positions. This is a good point to talk to your course director.', basis: 'suggestion' }
+    }
+  ];
+
+  root.REDESIGN_LIBRARY = { AIM_KINDS, CLASSIFY_ORDER, SCAN_ORDER, RATING_WORDS, AI_CHOICES, PATTERNS, LEVEL_LABELS, LEVEL_SHORT, SOURCES, BASIS, POLICY_RECORD, DECISION_PATH };
 })(typeof window !== 'undefined' ? window : globalThis);
