@@ -112,3 +112,28 @@
   .designer-card { border: 0; box-shadow: none; }
   .rd-brief { max-height: none; overflow: visible; }
 }
+
+/* Clearer question, decision path and source labels (October 2026 revision). Existing tokens only. */
+.rd-scope { max-width: 760px; margin: 0 0 14px; color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+.rd-field-hint { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.45; margin-top: 5px; font-weight: 400; }
+.rd-policy-record p { margin: 4px 0 8px; }
+.rd-decide { border: 1px solid var(--border); border-radius: 11px; background: var(--white); padding: 16px 18px; margin: 0 0 22px; }
+.rd-decide h3 { font-size: 17px; margin: 0 0 4px; }
+.rd-decide .rd-hint { margin: 0 0 10px; }
+.rd-decide-q { border: 0; border-top: 1px solid var(--border); padding: 12px 0 10px; margin: 0; min-width: 0; }
+.rd-decide-q legend { float: left; width: 100%; padding: 0; margin: 0 0 8px; color: var(--navy); font-weight: 500; font-size: 14px; line-height: 1.5; }
+.rd-yesno { clear: both; display: flex; flex-wrap: wrap; gap: 8px; }
+.rd-yesno label { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; min-width: 88px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 14px; color: var(--text); }
+.rd-yesno label:has(input:checked) { border-color: var(--blue); background: var(--blue-pale); color: var(--navy); }
+.rd-yesno input { accent-color: var(--navy); }
+.rd-decide-out .callout { margin: 8px 0 0; }
+.rd-decide-out p { margin: 4px 0 8px; }
+.rd-decide-use { margin-top: 10px; }
+.rd-basis { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.55; margin-top: 4px; }
+.rd-basis-label { display: inline-block; margin-right: 4px; padding: 1px 7px; border-radius: 4px; border: 1px solid var(--border-strong); background: var(--white); color: var(--text); font-weight: 500; font-size: 12px; }
+.rd-basis-policy { background: var(--navy); border-color: var(--navy); color: var(--white); }
+.rd-basis-record { background: var(--blue-pale); border-color: var(--navy); color: var(--navy); }
+.rd-basis-guidance { background: var(--success-bg); border-color: var(--success-border); color: var(--success); }
+.rd-basis-local { background: var(--warning-bg); border-color: var(--warning-border); color: var(--text); }
+.rd-yesno label:has(input:focus-visible) { outline: 3px solid rgba(21,97,109,.38); outline-offset: 2px; }
+.rd-brief:focus-visible { outline: 3px solid rgba(21,97,109,.38); outline-offset: 2px; }

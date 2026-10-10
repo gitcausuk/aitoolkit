@@ -350,17 +350,23 @@
       ? 'This change gives you better evidence on: ' + raised.map(function (r) { return r.label.charAt(0).toLowerCase() + r.label.slice(1); }).join('; ') + '. '
       : '') + 'What it shows: ' + p.shows + ' What it does not do: ' + p.doesnt;
 
+    const summative = s.status !== 'formative';
     const checks = {
-      policy: [
-        { text: 'Read the University\u2019s policy on AI use in summative assessment and confirm this assessment states its AI permission in the way the policy requires.', link: L.SOURCES.policy }
-      ],
+      policy: (summative ? [
+        { text: 'Read the University\u2019s policy on AI use in summative assessment and confirm this assessment states its AI permission in the way the policy requires.', basis: 'policy', link: L.SOURCES.policy },
+        { text: 'State the AI position in writing, in advance, for this specific assessment, as set through your course, programme, department, faculty or school process.', basis: 'record', link: L.SOURCES.toolkitQuestions }
+      ] : [
+        { text: L.POLICY_RECORD.formative, basis: 'policy', link: L.SOURCES.policy }
+      ]).concat([
+        { text: 'Do not rely on AI-detection tools as evidence unless current University guidance confirms that a tool has been endorsed. The policy page stated at its last update (' + L.SOURCES.policyUpdated + ') that none had.', basis: 'record', link: L.SOURCES.toolkitMarking }
+      ]),
       local: [p.checkQuestion, 'Does your department or programme set its own AI wording or categories that should replace the draft wording here?', 'Who needs to see this before students do? Usually your course director or programme administrator will know.']
-        .concat(s.constraints && s.constraints.thisYear && p.level !== 'wording' ? ['Can this change be approved in time for this academic year?'] : []),
+        .concat(s.constraints && s.constraints.thisYear && p.level !== 'wording' ? ['Can this change be approved in time for this academic year?'] : [])
+        .map(function (t) { return { text: t, basis: 'local' }; }),
       suggestions: [
-        'Publish the AI wording and any new component with the brief, not later.',
-        'Mark the work on its academic merits. Do not apply a blanket penalty for permitted, declared AI use.',
-        'Do not rely on AI-detection tools as evidence.',
-        'Plan alternative arrangements for students with agreed adjustments before the brief is released.'
+        { text: 'Publish the AI wording and any new component with the brief, not later.', basis: 'guidance', quote: 'Issue clear written guidance in advance for the discrete assessment.', link: L.SOURCES.playbook },
+        { text: 'Plan alternative arrangements for students with agreed adjustments before the brief is released.', basis: 'guidance', quote: 'The design is accessible, proportionate and manageable for students, markers and administrators.', link: L.SOURCES.playbook },
+        { text: 'Mark the work on its academic merits. Do not apply a blanket penalty for permitted, declared AI use.', basis: 'suggestion' }
       ]
     };
     const cost = option.costs;
@@ -373,6 +379,7 @@
         finding: s.finding || '',
         change: p.name + '. ' + fill(p.summary, sl),
         ai: aiDef.title + ' (in CTL\u2019s terms, ' + aiDef.ctl + ').',
+        aiReason: s.aiReason || '',
         cost: 'Students: ' + cost.studentTime + '. Marking: ' + cost.markingPer + (cost.markingTotal ? ', ' + cost.markingTotal : '') + '.' + (offset ? ' The main word limit drops from ' + interp.wordCountText + ' to ' + formatWords(newWords, interp.wordCountText) + ' to offset the added work.' : '')
       },
       brief: brief, addition: addition, aiWording: aiWording, declaration: declaration,
@@ -383,12 +390,21 @@
     };
   }
 
+  // One check as plain text, with its basis. Relative Toolkit links become descriptions,
+  // because they mean nothing outside the site.
+  function checkLine(c) {
+    const b = L.BASIS[c.basis];
+    let src = '';
+    if (c.link) src = /^https?:/.test(c.link.url) ? ' ' + c.link.url : ' See ' + c.link.title + ' in the Oxford AI Toolkit.';
+    return c.text + ' (Basis: ' + b.label + '.' + (c.quote ? ' \u201c' + c.quote + '\u201d' : '') + src + ')';
+  }
+
   function packToText(pack) {
     const L2 = [];
     L2.push('# ' + pack.title + ': redesign pack', '', 'Draft for review. This is not an approval.', '');
     L2.push('## Summary', '', 'What the assessment asks students to show:');
     pack.summary.aims.forEach(function (a) { L2.push('- ' + a); });
-    L2.push('', 'What AI changes: ' + pack.summary.finding, '', 'Chosen change (' + pack.levelLabel.toLowerCase() + '): ' + pack.summary.change, '', 'AI use: ' + pack.summary.ai, '', 'Cost: ' + pack.summary.cost, '');
+    L2.push('', 'What AI changes: ' + pack.summary.finding, '', 'Chosen change (' + pack.levelLabel.toLowerCase() + '): ' + pack.summary.change, '', 'AI use: ' + pack.summary.ai + (pack.summary.aiReason ? ' Why: ' + pack.summary.aiReason : ''), '', 'Cost: ' + pack.summary.cost, '');
     L2.push('## Revised brief', '');
     pack.brief.forEach(function (para) {
       const t = para.runs.map(function (r) { return r.del ? '' : r.text; }).join('');
@@ -401,12 +417,12 @@
     if (pack.marking) L2.push('', 'Weightings are illustrative, not approved replacements.');
     L2.push('', '## Why this gives better evidence', '', pack.why, '', '## Implementation', '');
     pack.implementation.forEach(function (x) { L2.push('- ' + x); });
-    L2.push('', 'Accessibility: ' + pack.accessibility, '', '## Before you use this', '', 'Oxford policy:');
-    pack.checks.policy.forEach(function (c) { L2.push('- ' + c.text + ' ' + c.link.url); });
+    L2.push('', 'Accessibility: ' + pack.accessibility, '', '## Before you use this', '', 'Each item says where it comes from. Only University policy and your local approval route can make something a requirement.', '', 'Oxford policy:');
+    pack.checks.policy.forEach(function (c) { L2.push('- ' + checkLine(c)); });
     L2.push('', 'Check locally:');
-    pack.checks.local.forEach(function (c) { L2.push('- ' + c); });
+    pack.checks.local.forEach(function (c) { L2.push('- ' + checkLine(c)); });
     L2.push('', 'Suggestions:');
-    pack.checks.suggestions.forEach(function (c) { L2.push('- ' + c); });
+    pack.checks.suggestions.forEach(function (c) { L2.push('- ' + checkLine(c)); });
     L2.push('', 'For changes to format or weighting, CTL\u2019s course and assessment redesign consultancy can help: ' + L.SOURCES.ctlConsult.url);
     return L2.join('\n');
   }
@@ -446,7 +462,7 @@
     out.push(P('Heading2', 'Chosen change'));
     out.push({ style: 'Normal', runs: [{ text: pack.levelLabel + '. ', bold: true }, { text: pack.summary.change }] });
     out.push(P('Heading2', 'AI use'));
-    out.push(P('Normal', pack.summary.ai));
+    out.push(P('Normal', pack.summary.ai + (pack.summary.aiReason ? ' Why: ' + pack.summary.aiReason : '')));
     out.push(P('Heading2', 'Cost'));
     out.push(P('Normal', pack.summary.cost));
     out.push(P('Heading1', 'Revised brief (tracked changes)'));
@@ -462,12 +478,13 @@
     pack.implementation.forEach(function (x) { out.push(P('Normal', '\u2022 ' + x)); });
     out.push({ style: 'Normal', runs: [{ text: 'Accessibility. ', bold: true }, { text: pack.accessibility }] });
     out.push(P('Heading1', 'Before you use this'));
+    out.push(P('Note', 'Each item says where it comes from. Only University policy and your local approval route can make something a requirement.'));
     out.push(P('Heading2', 'Oxford policy'));
-    pack.checks.policy.forEach(function (c) { out.push(P('Normal', '\u2610 ' + c.text + ' ' + c.link.url)); });
+    pack.checks.policy.forEach(function (c) { out.push(P('Normal', '\u2610 ' + checkLine(c))); });
     out.push(P('Heading2', 'Check locally'));
-    pack.checks.local.forEach(function (c) { out.push(P('Normal', '\u2610 ' + c)); });
+    pack.checks.local.forEach(function (c) { out.push(P('Normal', '\u2610 ' + checkLine(c))); });
     out.push(P('Heading2', 'Suggestions'));
-    pack.checks.suggestions.forEach(function (c) { out.push(P('Normal', '\u2610 ' + c)); });
+    pack.checks.suggestions.forEach(function (c) { out.push(P('Normal', '\u2610 ' + checkLine(c))); });
     out.push(P('Note', 'For changes to format or weighting, CTL\u2019s course and assessment redesign consultancy can help: ' + L.SOURCES.ctlConsult.url));
     return out;
   }
@@ -524,10 +541,27 @@
     return zipStore(files);
   }
 
+  // ── Help me decide ──────────────────────────────────────────────────────────
+  // answers: { questionId: 'yes' | 'no' }. Returns the questions to show (in order, up to
+  // the first unanswered one) and the outcome once the path settles.
+  function decide(answers) {
+    answers = answers || {};
+    const shown = [];
+    for (let i = 0; i < L.DECISION_PATH.length; i++) {
+      const q = L.DECISION_PATH[i];
+      shown.push(q);
+      const a = answers[q.id];
+      if (!a) return { questions: shown, outcome: null };
+      if (a === 'yes') return { questions: shown, outcome: q.yes };
+      if (a === 'no' && q.no) return { questions: shown, outcome: q.no };
+    }
+    return { questions: shown, outcome: null };
+  }
+
   function classifyAim(text) { return L.CLASSIFY_ORDER.find(function (k) { return matchKind(text, k); }) || 'analyze'; }
 
   root.REDESIGN_ENGINE = {
     classifyAim, interpretBrief, defaultPriority, stressTest, tryItPrompt, selectOptions, ratingsFor,
-    buildPack, packToText, buildDocx, quoteIsGrounded, CONSTRAINTS, baselineFor
+    buildPack, packToText, buildDocx, quoteIsGrounded, CONSTRAINTS, baselineFor, decide
   };
 })(typeof window !== 'undefined' ? window : globalThis);
