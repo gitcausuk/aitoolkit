@@ -64,7 +64,7 @@ person who received the summary found it useful.
 
 ## Verification
 
-`node assessment-redesign/tests/engine.test.js` runs 11 checks (3 added in October 2026, see ASSESSMENT_REDESIGN_REVISION_2026-10.md). The original 8: quotes grounded in
+`node assessment-redesign/tests/engine.test.js` runs 8 checks: quotes grounded in
 seven test briefs, format detection, the sample brief's outcomes, the supervised-exam
 path, constraint and AI-fit adherence across 28 combinations per brief, complete
 packs with weights summing to 100 for every pattern, valid Word packages containing

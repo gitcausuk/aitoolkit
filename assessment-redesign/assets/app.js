@@ -13,8 +13,7 @@
     step: 1, maxStep: 1, interp: null, aims: [], priority: null,
     constraints: { keepFormat: false, noLive: false, noMarking: false, thisYear: false },
     cohort: '', aiChoice: null, finding: '', showHidden: false,
-    selected: 0, options: [], chosen: null, packChoice: null, offsetWords: false, edits: {}, pack: null, aimSeq: 100,
-    status: 'summative', decide: {}, aiReason: ''
+    selected: 0, options: [], chosen: null, packChoice: null, offsetWords: false, edits: {}, pack: null, aimSeq: 100
   };
 
   // ── Navigation ──────────────────────────────────────────────────────────────
@@ -59,7 +58,6 @@
     state.cohort = $('#cohortInput').value;
     state.status = $('#statusInput').value;
     state.aiChoice = null; state.chosen = null; state.edits = {}; state.showHidden = false;
-    state.decide = {}; state.aiReason = '';
     state.maxStep = 2;
     renderReading();
     go(2);
@@ -122,74 +120,10 @@
       const c = L.AI_CHOICES[k];
       return '<label><input type="radio" name="aiChoice" value="' + k + '"' + (state.aiChoice === k ? ' checked' : '') + '><span><strong>' + esc(c.title) + '.</strong> <small>' + esc(c.sub) + '</small></span></label>';
     }).join('');
-    renderPolicyRecord();
-    renderDecide();
     $('#stressActions').innerHTML = st.sound
       ? '<button type="button" class="secondary-button" data-action="to-options">Show me options anyway</button><button type="button" class="primary-button" data-action="wording-only">Get clear AI wording</button>'
       : '<button type="button" class="primary-button" data-action="to-options">Show me options</button>';
     go(3);
-  }
-
-  // ── Step 3: where the AI position comes from, and help deciding it ─────────
-  function newTab(link) {
-    return '<a href="' + esc(link.url) + '" target="_blank" rel="noopener noreferrer">' + esc(link.title) + '<span class="visually-hidden"> (opens in a new tab)</span></a>';
-  }
-  function basisLine(c) {
-    const b = L.BASIS[c.basis];
-    let html = '<span class="rd-basis"><span class="rd-basis-label rd-basis-' + c.basis + '">' + esc(b.label) + '</span> ' + esc(b.detail);
-    if (c.quote) html += ' Playbook: \u201c' + esc(c.quote) + '\u201d';
-    if (c.link) {
-      html += ' ' + newTab(c.link);
-      if (c.link === L.SOURCES.playbook) html += ' (' + newTab(L.SOURCES.playbookText) + ')';
-    }
-    return html + '</span>';
-  }
-
-  function renderPolicyRecord() {
-    const formative = state.status === 'formative';
-    $('#policyRecord').innerHTML = '<div class="callout rd-policy-record"><span class="callout-title">Before you choose: who sets the AI position</span>' +
-      '<p>' + esc(formative ? L.POLICY_RECORD.formative : L.POLICY_RECORD.setting) + '</p>' +
-      basisLine(formative ? { basis: 'policy', link: L.SOURCES.policy } : { basis: 'record', link: L.SOURCES.toolkitQuestions }) +
-      (formative ? '' : '<span class="rd-basis">' + newTab(L.SOURCES.policy) + '</span>') + '</div>';
-  }
-
-  function priorityLabel() {
-    const a = state.aims.find(function (x) { return x.id === state.priority; });
-    return a ? 'the outcome that matters most (\u201c' + a.label.charAt(0).toLowerCase() + a.label.slice(1) + '\u201d)' : 'the outcome that matters most';
-  }
-
-  function renderDecide() {
-    const r = E.decide(state.decide);
-    let html = '<section class="rd-decide" aria-labelledby="decideTitle"><h3 id="decideTitle">Not sure which position fits? Answer up to four questions</h3>' +
-      '<p class="rd-hint">Each answer either settles it or leads to the next question. You can change any answer, or skip this and choose below.</p>';
-    r.questions.forEach(function (q, i) {
-      const v = state.decide[q.id];
-      html += '<fieldset class="rd-decide-q"><legend>' + (i + 1) + '. ' + esc(q.q.replace('{priority}', priorityLabel())) + '</legend><div class="rd-yesno">' +
-        ['yes', 'no'].map(function (a) {
-          return '<label><input type="radio" name="decide-' + q.id + '" id="d-' + q.id + '-' + a + '" value="' + a + '"' + (v === a ? ' checked' : '') + '> ' + (a === 'yes' ? 'Yes' : 'No') + '</label>';
-        }).join('') + '</div></fieldset>';
-    });
-    html += '<div class="rd-decide-out" id="decideOut" aria-live="polite">';
-    const o = r.outcome;
-    if (o) {
-      html += '<div class="callout ' + (o.choice && o.choice !== 'unsure' ? 'success' : '') + '"><span class="callout-title">' + esc(o.title) + '</span><p>' + esc(o.reason) + '</p>' +
-        basisLine({ basis: o.basis, link: o.basis === 'guidance' ? L.SOURCES.playbook : (o.basis === 'record' ? L.SOURCES.toolkitQuestions : null) }) +
-        (o.basis === 'guidance' ? '<span class="rd-basis">The playbook calls these toolkit categories for communication, not mandatory University-wide labels.</span>' : '') +
-        (o.choice ? '<button type="button" class="secondary-button compact rd-decide-use" data-action="use-decision">' + (o.choice === 'unsure' ? 'Keep \u201cNot sure yet\u201d' : 'Use this position') + '</button>' : '') +
-        '</div>';
-    }
-    html += '</div></section>';
-    $('#decidePath').innerHTML = html;
-  }
-
-  function useDecision() {
-    const o = E.decide(state.decide).outcome;
-    if (!o || !o.choice) return;
-    state.aiChoice = o.choice;
-    state.aiReason = o.choice === 'unsure' ? '' : o.reason;
-    const r = $('input[name="aiChoice"][value="' + o.choice + '"]');
-    r.checked = true; r.focus();
-    $('#announcer').textContent = L.AI_CHOICES[o.choice].title + ' selected.';
   }
 
   // ── Step 3 → 4 ──────────────────────────────────────────────────────────────
@@ -288,7 +222,7 @@
   }
 
   function buildPack() {
-    const s = Object.assign(sel(), { aiChoice: state.packChoice, finding: state.finding, offsetWords: state.offsetWords, status: state.status, aiReason: state.packChoice === state.aiChoice ? state.aiReason : '' });
+    const s = Object.assign(sel(), { aiChoice: state.packChoice, finding: state.finding, offsetWords: state.offsetWords });
     state.pack = E.buildPack(state.interp, s, state.chosen, state.edits);
     return state.pack;
   }
@@ -324,18 +258,18 @@
       '<dl class="rd-dl"><dt>What it asks students to show</dt><dd><ul class="rd-tight">' + pk.summary.aims.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul></dd>' +
       '<dt>What AI changes</dt><dd>' + esc(pk.summary.finding) + '</dd>' +
       '<dt>Chosen change</dt><dd><strong>' + esc(pk.levelLabel) + '.</strong> ' + esc(pk.summary.change) + '</dd>' +
-      '<dt>AI use</dt><dd>' + esc(pk.summary.ai) + (pk.summary.aiReason && state.packChoice === state.aiChoice ? '<br><small>Why: ' + esc(pk.summary.aiReason) + '</small>' : '') + '</dd>' +
+      '<dt>AI use</dt><dd>' + esc(pk.summary.ai) + '</dd>' +
       '<dt>Cost</dt><dd id="summaryCost">' + esc(pk.summary.cost) + '</dd></dl></section>';
 
     html += '<section class="rd-pack-section" id="pk-brief"><h3>Revised brief</h3><p class="rd-hint">Suggested changes are marked. <ins>Underlined</ins> text is added and <del>struck</del> text is removed. The Word download carries these as tracked changes you can accept or reject.</p>';
     if (p.offset && I.wordCount) {
       html += '<label class="rd-inline-check"><input type="checkbox" id="offsetWords"' + (state.offsetWords ? ' checked' : '') + '> Reduce the main word limit from ' + esc(I.wordCountText) + ' to offset the added work</label>';
     }
-    html += '<div class="rd-brief" id="briefPreview" tabindex="0" role="region" aria-label="Revised brief with suggested changes">' + briefHTML(pk.brief) + '</div>';
+    html += '<div class="rd-brief" id="briefPreview">' + briefHTML(pk.brief) + '</div>';
     if (p.briefAddition) html += editBox('addition', p.level === 'format' ? 'New assessment structure' : 'New component wording', pk.addition);
     html += '</section>';
 
-    html += '<section class="rd-pack-section" id="pk-ai"><h3>AI wording for students</h3><p class="rd-hint">Toolkit draft wording, not University-approved wording. Replace it with your department\u2019s or CTL\u2019s approved wording where that exists.</p><p class="rd-hint">Whatever wording you use, give it to students in writing, in advance, for this specific assessment. ' + basisLine({ basis: 'record', link: L.SOURCES.toolkitQuestions }) + '</p>' +
+    html += '<section class="rd-pack-section" id="pk-ai"><h3>AI wording for students</h3><p class="rd-hint">Toolkit draft wording. Replace it with your department\u2019s or CTL\u2019s approved wording where that exists.</p>' +
       editBox('aiWording', 'What students may and may not do', pk.aiWording) + editBox('declaration', 'Declaration requirement', pk.declaration) + '</section>';
 
     html += '<section class="rd-pack-section" id="pk-marking"><h3>Marking changes</h3>';
@@ -352,17 +286,15 @@
     html += '<section class="rd-pack-section" id="pk-impl"><h3>Implementation</h3><ul>' + pk.implementation.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><p><strong>Accessibility.</strong> ' + esc(pk.accessibility) + '</p></section>';
 
     html += '<section class="rd-pack-section" id="pk-checks"><h3>Before you use this</h3>' +
-      '<p class="rd-hint">Each item says where it comes from. Only University policy and your local approval route can make something a requirement.</p>' +
-      checkGroup('Oxford policy', 'Read the source. The Toolkit does not restate policy.', pk.checks.policy.map(checkItem)) +
-      checkGroup('Check locally', 'Things this tool can\u2019t know.', pk.checks.local.map(checkItem)) +
-      checkGroup('Suggestions', 'Design advice, not requirements.', pk.checks.suggestions.map(checkItem)) +
+      checkGroup('Oxford policy', 'Read the source. The Toolkit does not restate policy.', pk.checks.policy.map(function (c) { return esc(c.text) + ' <a href="' + esc(c.link.url) + '" target="_blank" rel="noopener noreferrer">' + esc(c.link.title) + '</a>'; })) +
+      checkGroup('Check locally', 'Things this tool can\u2019t know.', pk.checks.local.map(esc)) +
+      checkGroup('Suggestions', 'Design advice, not requirements.', pk.checks.suggestions.map(esc)) +
       '<p class="rd-hint">For changes to format or weighting, <a href="' + L.SOURCES.ctlConsult.url + '" target="_blank" rel="noopener noreferrer">CTL\u2019s course and assessment redesign consultancy</a> can help.</p></section>';
     $('#packBody').innerHTML = html;
   }
   function editBox(key, label, val) {
     return '<label class="field rd-edit"><span>' + esc(label) + ' <small>(editable)</small></span><textarea data-edit="' + key + '" rows="' + Math.min(9, Math.max(3, Math.ceil(String(val).length / 90))) + '">' + esc(val) + '</textarea></label>';
   }
-  function checkItem(c) { return esc(c.text) + '<br>' + basisLine(c); }
   function checkGroup(title, sub, items) {
     return '<div class="rd-checkgroup"><h4>' + esc(title) + ' <small>' + esc(sub) + '</small></h4><ul class="rd-checks">' + items.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul></div>';
   }
@@ -408,7 +340,6 @@
       case 'to-stress': toStress(); break;
       case 'to-options': toOptions(); break;
       case 'wording-only': wordingOnly(); break;
-      case 'use-decision': useDecision(); break;
       case 'show-hidden': state.showHidden = true; toOptions(); break;
       case 'hide-hidden': state.showHidden = false; toOptions(); break;
       case 'copy-try': copy(E.tryItPrompt(state.interp), 'Prompt copied'); break;
@@ -418,7 +349,7 @@
       case 'print': window.print(); break;
       case 'restart':
         if (!confirm('Start again with another brief? This clears what you have here.')) return;
-        $('#briefInput').value = ''; $('#weightInput').value = ''; state.maxStep = 1; state.aiChoice = null; state.selected = 0; state.decide = {}; state.aiReason = '';
+        $('#briefInput').value = ''; $('#weightInput').value = ''; state.maxStep = 1; state.aiChoice = null; state.selected = 0;
         Object.keys(state.constraints).forEach(function (k) { state.constraints[k] = false; });
         go(1); $('#briefInput').focus(); break;
     }
@@ -436,24 +367,7 @@
     }
     if (t.name === 'priority') { state.priority = t.value; return; }
     if (t.dataset.constraint) { state.constraints[t.dataset.constraint] = t.checked; return; }
-    if (t.name === 'aiChoice') {
-      state.aiChoice = t.value;
-      const o = E.decide(state.decide).outcome;
-      state.aiReason = (o && o.choice === t.value && t.value !== 'unsure') ? o.reason : '';
-      return;
-    }
-    if (t.name && t.name.indexOf('decide-') === 0) {
-      const id = t.name.slice(7);
-      // A changed answer makes the later answers stale.
-      const ids = L.DECISION_PATH.map(function (q) { return q.id; });
-      ids.slice(ids.indexOf(id) + 1).forEach(function (k) { delete state.decide[k]; });
-      state.decide[id] = t.value;
-      const o = E.decide(state.decide).outcome;
-      state.aiReason = (o && o.choice && o.choice === state.aiChoice && o.choice !== 'unsure') ? o.reason : '';
-      renderDecide();
-      const back = $('#d-' + id + '-' + t.value); if (back) back.focus();
-      return;
-    }
+    if (t.name === 'aiChoice') { state.aiChoice = t.value; return; }
     if (t.id === 'packChoice') { state.packChoice = t.value; delete state.edits.aiWording; delete state.edits.declaration; delete state.edits.addition; renderPack(true); return; }
     if (t.id === 'offsetWords') { state.offsetWords = t.checked; renderPack(false); return; }
   });

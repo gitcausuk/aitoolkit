@@ -44,8 +44,7 @@
     <section class="rd-intro">
       <div class="rd-intro-inner">
         <h1>Check an assessment for AI</h1>
-        <p class="hero-lead">One question about a brief you set: <strong>if students can use generative AI, will this assessment still show you what each student has learned, and what is the smallest change that would help?</strong></p>
-        <p class="rd-scope">It takes about 15 minutes and ends with a draft revised brief you can take to review. It does not decide what University policy permits or approve a change. Your department, programme and approval route decide that, and the tool shows where each piece of guidance comes from.</p>
+        <p class="hero-lead">Paste a brief you set. In about 15 minutes, see what it can still tell you about student learning, choose a change, and leave with a revised version you can take to review.</p>
         <details class="method-note">
           <summary>How this works</summary>
           <p>The tool reads your brief with fixed rules, matches it to a curated library of redesign approaches drawn from the Toolkit's design guidance, and fills in wording templates. It does not call an AI model, and nothing you paste leaves your browser. Ratings are design judgments, not measurements. You make every decision, and nothing here approves an assessment.</p>
@@ -76,7 +75,7 @@
           <section class="form-step active" data-step="1" aria-labelledby="h-step1">
             <div class="section-heading">
               <span class="section-number">01</span>
-              <div><h2 id="h-step1" tabindex="-1">Paste your assessment brief</h2><p>Paste the brief as students see it, with the learning outcomes and marking criteria if you have them. The tool reads it to work out what the assessment asks students to show.</p></div>
+              <div><h2 id="h-step1" tabindex="-1">Paste your assessment brief</h2><p>Include the marking criteria if you have them.</p></div>
             </div>
             <div class="privacy-alert" role="note">
               Don't paste student work or unreleased exam questions. Your text stays in this browser.
@@ -86,9 +85,8 @@
             </label>
             <p class="rd-error hidden" id="briefError" role="alert">Paste the brief to continue. A few sentences describing the task is enough to start.</p>
             <div class="field-grid rd-three">
-              <label class="field"><span>Summative or formative?</span>
-                <select id="statusInput" aria-describedby="statusHint"><option value="summative">Summative (counts towards the mark)</option><option value="formative">Formative (feedback only)</option></select>
-                <small class="rd-field-hint" id="statusHint">The University AI policy page is titled for summative assessment, so this changes which checks you see.</small>
+              <label class="field"><span>Is this assessment</span>
+                <select id="statusInput"><option value="summative">Summative</option><option value="formative">Formative</option></select>
               </label>
               <label class="field"><span>Weighting (optional)</span>
                 <input id="weightInput" type="text" inputmode="numeric" placeholder="For example: 40%">
@@ -134,12 +132,10 @@
               <div><h2 id="h-step3" tabindex="-1">What AI changes</h2><p id="stressSub">What a capable general-purpose AI tool could plausibly do with this brief.</p></div>
             </div>
             <div id="stressBody"></div>
-            <div id="policyRecord"></div>
-            <div id="decidePath"></div>
             <fieldset class="choice-fieldset">
               <legend>How do you want students to use AI on this task?</legend>
               <div class="choice-grid rd-ai-grid" id="aiChoiceGrid"></div>
-              <p class="rd-hint">These follow the three broad categories illustrated by the <a href="https://www.ox.ac.uk/about/how-we-are-run/education/centre-for-teaching-and-learning/ai-in-teaching-and-learning" target="_blank" rel="noopener noreferrer">Centre for Teaching and Learning</a>, as recorded by the Toolkit review on 5 September 2026. Use your department's wording if it has its own.</p>
+              <p class="rd-hint">These follow the three broad categories illustrated by the <a href="https://www.ox.ac.uk/about/how-we-are-run/education/centre-for-teaching-and-learning/ai-in-teaching-and-learning" target="_blank" rel="noopener noreferrer">Centre for Teaching and Learning</a>. Use your department's wording if it has its own.</p>
             </fieldset>
             <div class="form-navigation">
               <button type="button" class="quiet-button" data-go="2">Back</button>
