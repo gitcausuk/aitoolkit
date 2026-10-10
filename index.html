@@ -7,13 +7,21 @@
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#002147">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<link rel="preload" href="assets/fonts/roboto-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/noto-serif-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:'Roboto';font-style:normal;font-weight:100 900;font-display:swap;src:url(assets/fonts/roboto-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Roboto';font-style:normal;font-weight:100 900;font-display:swap;src:url(assets/fonts/roboto-latin-ext-wght-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Roboto';font-style:italic;font-weight:100 900;font-display:swap;src:url(assets/fonts/roboto-latin-wght-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Noto Serif';font-style:normal;font-weight:100 900;font-display:swap;src:url(assets/fonts/noto-serif-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Noto Serif';font-style:normal;font-weight:100 900;font-display:swap;src:url(assets/fonts/noto-serif-latin-ext-wght-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Noto Serif';font-style:italic;font-weight:100 900;font-display:swap;src:url(assets/fonts/noto-serif-latin-wght-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 .nav-label-short{display:none}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 @media (max-width:600px){
   .main-nav-button{padding-left:7px!important;padding-right:7px!important;font-size:12px!important}
 }
-a[aria-label*="return to home"]:focus-visible{outline:2px solid #B9D6F2;outline-offset:5px;border-radius:3px}
+a[aria-label*="return to home"]:focus-visible{outline:2px solid #FFFFFF;outline-offset:5px;border-radius:3px}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #15616D!important;outline-offset:3px!important;box-shadow:none!important}
 .main-nav-button:focus-visible,footer a:focus-visible{outline-color:#FFFFFF!important}
 @media (max-width:600px){
@@ -422,7 +430,8 @@ var e,t;e=this,t=function(){"use strict";function e(e,t){var n=Object.keys(e);if
 html{font-size:16px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 body{font-family:'Roboto',system-ui,sans-serif;background:#F2F0F0;color:#211D1C;min-height:100vh}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(1100px 520px at 50% -180px,rgba(255,255,255,0.85),rgba(255,255,255,0) 70%)}
-h1,h2,h3{text-wrap:balance}
+h1,h2,h3{text-wrap:balance;font-optical-sizing:auto}
+@media(max-width:640px){.site-footer-credit{text-align:left!important;flex:1 1 100%!important}}
 p{text-wrap:pretty}
 ::selection{background:#002147;color:#FFFFFF}
 a{color:#002147;text-underline-offset:3px;text-decoration-color:rgba(0,33,71,0.3)}
@@ -440,8 +449,8 @@ html{scroll-behavior:smooth}
 ::-webkit-scrollbar-thumb{background:#89827A;border-radius:6px}
 ::-webkit-scrollbar-thumb:hover{background:#89827A}
 button:focus-visible{outline:2px solid #15616D;outline-offset:2px}
-a{color:#15616D;text-decoration:none;transition:color 0.15s ease}
-a:hover{color:#002147;text-decoration:underline}
+a{color:#002147;text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:rgba(0,33,71,0.35);text-underline-offset:3px;transition:text-decoration-color 0.15s ease}
+a:hover{color:#002147;text-decoration-color:#002147}
 @keyframes sectionEnter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .section-enter{animation:sectionEnter 0.32s cubic-bezier(0.22,1,0.36,1) forwards}
 .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
@@ -501,10 +510,10 @@ window.__pdfUrl = function(key){
 const C = {
   navy: '#002147',
   navyDk: '#002147',
-  navyMd: '#15616D',
+  navyMd: '#002147',
   navyGlow: 'rgba(0,33,71,0.07)',
-  gold: '#15616D',
-  goldMd: '#15616D',
+  gold: '#002147',
+  goldMd: '#002147',
   goldPale: '#F1EEE9',
   goldBd: '#D9D8D6',
   goldStrip: 'rgba(226,192,68,0.22)',
@@ -517,9 +526,9 @@ const C = {
   tx: '#211D1C',
   muted: '#61615F',
   light: '#61615F',
-  ok: '#15616D',
-  okBg: '#E4F0EF',
-  okBd: '#789E9E',
+  ok: '#002147',
+  okBg: '#EEF1F5',
+  okBd: '#D9D8D6',
   warn: '#211D1C',
   warnBg: '#F1EEE9',
   warnBd: '#E2C044',
@@ -528,9 +537,9 @@ const C = {
   err: '#002147',
   errBg: '#F1EEE9',
   errBd: '#D9D8D6',
-  info: '#15616D',
-  infoBg: '#E4F0EF',
-  infoBd: '#789E9E',
+  info: '#002147',
+  infoBg: '#EEF1F5',
+  infoBd: '#D9D8D6',
   purple: '#002147',
   purpleBg: '#F2F0F0',
   purpleBd: '#B9D6F2'
@@ -610,9 +619,9 @@ const Alert = ({
       fontWeight: 700,
       color: m.col,
       marginBottom: 8,
-      fontSize: 11.5,
+      fontSize: 12,
       textTransform: 'none',
-      letterSpacing: '0.11em'
+      letterSpacing:'0.02em'
     }
   }, title), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -700,12 +709,12 @@ const Chip = ({
   return /*#__PURE__*/React.createElement("span", {
     style: {
       ...m,
-      fontSize: 11,
+      fontSize: 12,
       padding: '3px 9px 2px',
       borderRadius: 3,
       fontWeight: 700,
       textTransform: 'none',
-      letterSpacing: '0.09em',
+      letterSpacing:'0.02em',
       whiteSpace: 'nowrap',
       display: 'inline-block'
     }
@@ -1712,7 +1721,7 @@ function HomeSection({ setSec }) {
       },
         React.createElement('div', { style: { position:'absolute', inset:10, border:'1px solid rgba(185,214,242,0.18)', borderRadius:6, pointerEvents:'none' } }),
         React.createElement('div', { style: { position:'relative' } },
-        React.createElement('div', { style: { fontSize:10.5, fontWeight:600, color:C.mist, textTransform: 'none', letterSpacing:'0.2em', marginBottom:11, opacity:0.95 } }, 'For Oxford teaching, assessment and research'),
+        React.createElement('div', { style: { fontSize:12, fontWeight:600, color:C.white, textTransform: 'none', letterSpacing:'0.02em', marginBottom:11, opacity:0.95 } }, 'For Oxford teaching, assessment and research'),
         React.createElement('h1', { style: { fontFamily:serif, fontSize:'clamp(32px,5vw,46px)', fontWeight:600, color:C.white, marginBottom:0, lineHeight:1.05, letterSpacing:'-0.022em' } }, 'Oxford Saïd AI Toolkit'),
         React.createElement('div', { style: { width:72, height:1, background:`linear-gradient(90deg,${C.mist},rgba(185,214,242,0.08))`, margin:'15px 0 13px' } }),
         React.createElement('p', { style: { fontFamily:serif, fontSize:17.5, fontWeight:400, color:'rgba(233,237,243,0.78)', lineHeight:1.5, fontStyle:'italic', maxWidth:'58ch', margin:0 } }, 'Practical guidance for teaching, assessment and research'))
@@ -1724,7 +1733,7 @@ function HomeSection({ setSec }) {
         React.createElement('div', {
           style: { background:C.cream, border:'1px solid '+C.goldBd, borderLeft:'4px solid '+C.gold, borderRadius:8, padding:'0.9rem 1.05rem' }
         },
-          React.createElement('div', { style:{ fontSize:10.5, fontWeight:700, color:C.gold, textTransform: 'none', letterSpacing:'0.12em', marginBottom:5 } }, 'Assessment-design principle'),
+          React.createElement('div', { style:{ fontSize:12, fontWeight:700, color:C.gold, textTransform: 'none', letterSpacing:'0.02em', marginBottom:5 } }, 'Assessment-design principle'),
           React.createElement('div', { style:{ fontFamily:serif, fontSize:16, fontWeight:600, color:C.navy, lineHeight:1.45, marginBottom:5 } }, 'Make student learning and judgement visible.'),
           React.createElement('div', { style:{ fontSize:13.5, color:C.tx, lineHeight:1.65 } },
             'Ask what students must demonstrate, which AI uses are appropriate and what evidence shows their own reasoning. The Assessment Designer includes optional validity, inclusion, visibility and accountability checks.'
@@ -1734,7 +1743,7 @@ function HomeSection({ setSec }) {
     ),
 
     React.createElement(Card, { style:{ marginBottom:'1.5rem' } },
-      React.createElement('div', { style:{ fontSize:10, fontWeight:700, color:C.gold, textTransform: 'none', letterSpacing:'0.18em', marginBottom:7 } }, 'Start here'),
+      React.createElement('div', { style:{ fontSize:12, fontWeight:700, color:C.gold, textTransform: 'none', letterSpacing:'0.02em', marginBottom:7 } }, 'Start here'),
       React.createElement('div', { style:{ fontFamily:serif, fontSize:24, fontWeight:600, color:C.navy, marginBottom:6, letterSpacing:'-0.015em' } }, 'What are you trying to do?'),
       React.createElement('div', { style:{ fontSize:14, color:C.muted, lineHeight:1.7, marginBottom:'1.375rem', maxWidth:'62ch' } }, 'Choose one task. The toolkit will take you to the relevant starting point.'),
       React.createElement('div', { style:{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(232px,1fr))', gap:12, alignItems:'stretch' } },
@@ -1742,11 +1751,11 @@ function HomeSection({ setSec }) {
           return React.createElement('button', {
             key:action.title,
             onClick:function(){ openAction(action); },
-            style:{ background:'#FFFFFF', border:'1px solid #D9D8D6', borderTop:`3px solid ${C.bd2}`, borderRadius:8, padding:'1.125rem 1.25rem 1.25rem', textAlign:'left', cursor:'pointer', transition:'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease', boxShadow:'0 1px 2px rgba(0,33,71,0.04)', display:'flex', flexDirection:'column', height:'100%' },
+            style:{ background:'#FFFFFF', border:'1px solid #D9D8D6', borderTop:`3px solid ${C.navy}`, borderRadius:8, padding:'1.125rem 1.25rem 1.25rem', textAlign:'left', cursor:'pointer', transition:'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease', boxShadow:'0 1px 2px rgba(0,33,71,0.04)', display:'flex', flexDirection:'column', height:'100%' },
             onMouseEnter:function(e){ e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.borderTopColor=C.navy; e.currentTarget.style.boxShadow='0 18px 30px -20px rgba(0,33,71,0.45)'; var ar=e.currentTarget.querySelector('[data-arrow]'); if(ar){ ar.style.transform='translateX(3px)'; } },
             onMouseLeave:function(e){ e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.borderTopColor=C.bd2; e.currentTarget.style.boxShadow='0 1px 2px rgba(0,33,71,0.04)'; var ar=e.currentTarget.querySelector('[data-arrow]'); if(ar){ ar.style.transform='translateX(0)'; } }
           },
-            React.createElement('div', { style:{ fontSize:10, fontWeight:700, color:C.gold, textTransform: 'none', letterSpacing:'0.15em', marginBottom:7 } }, action.label),
+            React.createElement('div', { style:{ fontSize:12, fontWeight:700, color:C.gold, textTransform: 'none', letterSpacing:'0.02em', marginBottom:7 } }, action.label),
             React.createElement('div', { style:{ fontFamily:serif, fontSize:17.5, fontWeight:600, color:C.navy, marginBottom:6, lineHeight:1.22, letterSpacing:'-0.01em' } }, action.title),
             React.createElement('div', { style:{ fontSize:13.5, color:C.muted, lineHeight:1.62 } }, action.desc),
             React.createElement('div', { style:{ flex:'1 1 auto', minHeight:10 } }),
@@ -1994,7 +2003,7 @@ function FacultyPolicySection() {
         fontWeight: 600,
         color: s.col,
         textTransform: 'none',
-        letterSpacing: '0.05em',
+        letterSpacing:'0.02em',
         marginBottom: 3
       }
     }, node.stanceLabel), /*#__PURE__*/React.createElement("div", {
@@ -2026,7 +2035,7 @@ function FacultyPolicySection() {
       fontWeight: 600,
       color: C.navy,
       textTransform: 'none',
-      letterSpacing: '0.06em',
+      letterSpacing:'0.02em',
       marginBottom: '0.6rem'
     }
   }, "Specific recommendations for your context"), /*#__PURE__*/React.createElement("details", {
@@ -2064,7 +2073,7 @@ function FacultyPolicySection() {
       fontWeight: 600,
       color: C.navy,
       textTransform: 'none',
-      letterSpacing: '0.06em'
+      letterSpacing:'0.02em'
     }
   }, "Suggested assessment brief / local assessment brief language"), /*#__PURE__*/React.createElement("button", {
     onClick: copyLang,
@@ -2093,7 +2102,7 @@ function FacultyPolicySection() {
       fontWeight: 600,
       color: C.navy,
       textTransform: 'none',
-      letterSpacing: '0.06em',
+      letterSpacing:'0.02em',
       marginBottom: '0.75rem'
     }
   }, "Key points to communicate to students in this context"), node.stupts && node.stupts.map((p, i) => /*#__PURE__*/React.createElement(BulletRow, {
@@ -2305,7 +2314,7 @@ function FacultyAssessmentSection() {
       fontWeight: 600,
       color: C.navy,
       textTransform: 'none',
-      letterSpacing: '0.06em',
+      letterSpacing:'0.02em',
       marginBottom: '0.75rem'
     }
   }, "What every assessment brief must include (all formats)"), ["The explicit AI policy for this assessment: what is permitted, what is restricted, what is prohibited.", "The precise declaration format you require, stating: tool name and version, how it was used and how outputs were evaluated.", form.ai === 'none' ? "The pedagogical rationale for restricting AI: students who understand why they matter are far more likely to engage honestly." : "A specification of exactly which AI uses are in and out of scope, without ambiguity.", "A link to or citation of the University's academic integrity policy and your department's specific conduct guidance.", "Clear statement of the consequences of undisclosed or unauthorised AI use.", "Confirmation that this policy applies to this specific assessment only and that students must check the policy for each assessment independently."].map((item, i) => /*#__PURE__*/React.createElement(BulletRow, {
@@ -2597,7 +2606,7 @@ function FacultyLanguageSection() {
       fontWeight: 600,
       color: C.navy,
       textTransform: 'none',
-      letterSpacing: '0.06em'
+      letterSpacing:'0.02em'
     }
   }, doc.label), /*#__PURE__*/React.createElement("button", {
     onClick: () => copy(doc.text, doc.key),
@@ -2688,11 +2697,11 @@ function FacultyObligationsSection() {
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 700,
       color: 'rgba(255,255,255,0.78)',
       textTransform: 'none',
-      letterSpacing: '0.1em',
+      letterSpacing:'0.02em',
       marginBottom: 3
     }
   }, "Progress"), /*#__PURE__*/React.createElement("div", {
@@ -2776,10 +2785,10 @@ function FacultyObligationsSection() {
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: 700,
       color: C.light,
-      letterSpacing: '0.06em',
+      letterSpacing:'0.02em',
       textTransform: 'none'
     }
   }, "Obligation ", ob.n), ob.important && /*#__PURE__*/React.createElement("span", {
@@ -3176,7 +3185,7 @@ function StudentsSection() {
       fontWeight: 600,
       color: C.navy,
       textTransform: 'none',
-      letterSpacing: '0.06em'
+      letterSpacing:'0.02em'
     }
   }, "Your AI Use Declaration"), /*#__PURE__*/React.createElement("button", {
     onClick: copyDecl,
@@ -3437,7 +3446,7 @@ function ResearchersSection() {
       fontWeight: 600,
       color: C.err,
       textTransform: 'none',
-      letterSpacing: '0.06em',
+      letterSpacing:'0.02em',
       marginBottom: '0.75rem'
     }
   }, "Substantive use: must declare"), SUBSTANTIVE_USE_YES.map((item, i) => /*#__PURE__*/React.createElement("div", {
@@ -3471,7 +3480,7 @@ function ResearchersSection() {
       fontWeight: 600,
       color: C.ok,
       textTransform: 'none',
-      letterSpacing: '0.06em',
+      letterSpacing:'0.02em',
       marginBottom: '0.75rem'
     }
   }, "Not substantive: declaration not required"), SUBSTANTIVE_USE_NO.map((item, i) => /*#__PURE__*/React.createElement("div", {
@@ -3617,7 +3626,7 @@ function ResearchersSection() {
       fontWeight: 600,
       color: C.navy,
       textTransform: 'none',
-      letterSpacing: '0.06em'
+      letterSpacing:'0.02em'
     }
   }, "Your Research AI Declaration"), /*#__PURE__*/React.createElement("button", {
     onClick: copyDecl,
@@ -3789,11 +3798,11 @@ function CheckerSection() {
       display: 'inline-flex',
       alignItems: 'center',
       gap: 6,
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 700,
       color: C.navy,
       textTransform: 'none',
-      letterSpacing: '0.08em',
+      letterSpacing:'0.02em',
       marginBottom: 6
     }
   }, /*#__PURE__*/React.createElement("span", {
@@ -3934,11 +3943,11 @@ function CheckerSection() {
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: 500,
         color: C.light,
         textTransform: 'none',
-        letterSpacing: '0.07em',
+        letterSpacing:'0.02em',
         marginRight: 4
       }
     }, 'Policy basis:'), ((policySupportFor(s) || {}).links || []).map(function(link) {
@@ -4078,18 +4087,18 @@ function ToolsSection() {
       boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
     }
   }, /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 700, color: C.mist, marginBottom: 8, fontSize: 13, letterSpacing: '0.01em' }
+    style: { fontWeight: 700, color: C.white, marginBottom: 8, fontSize: 13, letterSpacing: '0.01em' }
   }, "\u26A0\uFE0F Always sign in with your Oxford SSO"), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 13, color: 'rgba(255,255,255,0.88)', lineHeight: 1.7, marginBottom: 10 }
   }, "Access University-provided AI tools through the official Oxford ", /*#__PURE__*/React.createElement("span", { style: { color: C.white } }, "Single Sign-On (SSO) route"), ". Do not create a personal consumer account using a work email address, because that may bypass Oxford's contractual and data-governance protections. Use the official service link rather than signing up directly with the supplier. For example, do not simply register ", /*#__PURE__*/React.createElement("code", { style: { background: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.55)', padding: '1px 6px', borderRadius: 4, fontSize: 12.5, fontFamily: 'monospace', textDecoration: 'line-through' } }, "jane.doe@sbs.ox.ac.uk"), " as a new personal account."), /*#__PURE__*/React.createElement("div", {
     style: { background: 'rgba(255,255,255,0.06)', borderRadius: 8, padding: '0.75rem 1rem', display: 'flex', flexDirection: 'column', gap: 7 }
   }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'none', letterSpacing: '0.07em', marginBottom: 2 }
+    style: { fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'none', letterSpacing:'0.02em', marginBottom: 2 }
   }, "How to sign in"), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 13, color: 'rgba(255,255,255,0.85)', lineHeight: 1.65 }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.okBd } }, "\u2713 "), "When prompted, choose ", /*#__PURE__*/React.createElement("span", { style: { color: C.white } }, "\u2018Sign in with your organisation\u2019"), " or ", /*#__PURE__*/React.createElement("span", { style: { color: C.white } }, "\u2018Use SSO\u2019")), /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 13, color: 'rgba(255,255,255,0.85)', lineHeight: 1.65 }
-  }, /*#__PURE__*/React.createElement("span", { style: { color: C.okBd } }, "\u2713 "), "Complete the Oxford authentication flow using the credentials requested by the official service; for some services this may appear in a format such as ", /*#__PURE__*/React.createElement("code", { style: { background: 'rgba(255,255,255,0.12)', color: C.mist, padding: '1px 6px', borderRadius: 4, fontSize: 12.5, fontFamily: 'monospace' } }, "abcd1234@ox.ac.uk"), " and proceed through the standard Oxford login and two-factor authentication"))), /*#__PURE__*/React.createElement(Alert, {
+  }, /*#__PURE__*/React.createElement("span", { style: { color: C.okBd } }, "\u2713 "), "Complete the Oxford authentication flow using the credentials requested by the official service; for some services this may appear in a format such as ", /*#__PURE__*/React.createElement("code", { style: { background: 'rgba(255,255,255,0.12)', color: C.white, padding: '1px 6px', borderRadius: 4, fontSize: 12.5, fontFamily: 'monospace' } }, "abcd1234@ox.ac.uk"), " and proceed through the standard Oxford login and two-factor authentication"))), /*#__PURE__*/React.createElement(Alert, {
     type: "warn",
     title: "Use an approved tool appropriate to the data"
   }, "Personal consumer AI accounts do not carry Oxford's contractual protections. For student, research, internal, confidential or sensitive information, use only a University-approved tool that is suitable for the data classification and purpose and follow current InfoSec, data-protection, ethics and research-governance requirements."), /*#__PURE__*/React.createElement("div", {
@@ -4162,11 +4171,11 @@ function ToolsSection() {
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: 700,
       color: C.ok,
       textTransform: 'none',
-      letterSpacing: '0.08em',
+      letterSpacing:'0.02em',
       marginBottom: 7
     }
   }, "Appropriate for"), t.can.map((item, i) => /*#__PURE__*/React.createElement("div", {
@@ -4191,11 +4200,11 @@ function ToolsSection() {
     }
   }, item)))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: 700,
       color: C.err,
       textTransform: 'none',
-      letterSpacing: '0.08em',
+      letterSpacing:'0.02em',
       marginBottom: 7
     }
   }, "Not appropriate for"), t.cant.map((item, i) => /*#__PURE__*/React.createElement("div", {
@@ -4716,7 +4725,7 @@ function FacultyPlaybookSection() {
       React.createElement(Card, { style:{ borderTop:'4px solid '+C.gold, marginBottom:'1.25rem' } },
         React.createElement('div', { style:{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'1.375rem', flexWrap:'wrap', gap:10 } },
           React.createElement('div', null,
-            React.createElement('div', { style:{ fontSize:10.5, fontWeight:700, color:C.gold, textTransform: 'none', letterSpacing:'0.12em', marginBottom:4 } }, 'Five implementation steps'),
+            React.createElement('div', { style:{ fontSize:12, fontWeight:700, color:C.gold, textTransform: 'none', letterSpacing:'0.02em', marginBottom:4 } }, 'Five implementation steps'),
             React.createElement('div', { style:{ fontFamily:serif, fontSize:19, fontWeight:600, color:C.navy, lineHeight:1.2, marginBottom:3 } }, sel.title),
             React.createElement('div', { style:{ fontSize:13, color:C.muted } }, sel.context)
           ),
@@ -4732,7 +4741,7 @@ function FacultyPlaybookSection() {
           );
         }),
         React.createElement('div', { style:{ borderTop:'1px solid '+C.bd, paddingTop:'1.125rem' } },
-          React.createElement('div', { style:{ fontSize:10.5, fontWeight:700, color:C.light, textTransform: 'none', letterSpacing:'0.1em', marginBottom:8 } }, 'Implementation language for assessment brief'),
+          React.createElement('div', { style:{ fontSize:12, fontWeight:700, color:C.light, textTransform: 'none', letterSpacing:'0.02em', marginBottom:8 } }, 'Implementation language for assessment brief'),
           React.createElement('div', { style:{ background:C.bg, border:'1px solid '+C.bd, borderRadius:8, padding:'0.875rem 1rem', fontSize:13, color:C.tx, lineHeight:1.8, marginBottom:'0.875rem', whiteSpace:'pre-wrap', fontFamily:"'Georgia','Times New Roman',serif" } }, sel.lang),
           React.createElement('div', { style:{ display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' } },
             React.createElement('button', { onClick:copyLang, style:{ fontSize:13, fontWeight:600, color: copied ? C.ok : C.warn, border:'1px solid '+(copied ? C.okBd : C.goldBd), borderRadius:8, padding:'7px 18px', background: copied ? C.okBg : C.goldPale, cursor:'pointer', transition:'all 0.18s' } }, copied ? '✓ Copied to clipboard' : 'Copy language →'),
@@ -4918,9 +4927,9 @@ function VIVAFrameworkSection() {
       React.createElement('div', {
         style:{ background:`linear-gradient(160deg,${C.navyDk} 0%,${C.navy} 100%)`, borderBottom:`2px solid ${C.mist}`, padding:'1.5rem 1.25rem', textAlign:'center' }
       },
-        React.createElement('div', { style:{ fontSize:10.5, fontWeight:700, color:C.mist, textTransform: 'none', letterSpacing:'0.16em', marginBottom:8 } }, 'A practical framework for AI and assessment'),
-        React.createElement('div', { style:{ fontFamily:serif, fontSize:54, fontWeight:600, color:C.white, letterSpacing:'0.13em', lineHeight:1, marginBottom:6 } }, 'VIVA'),
-        React.createElement('div', { style:{ fontFamily:serif, fontStyle:'italic', fontSize:17, color:C.mist, lineHeight:1.45, maxWidth:680, margin:'0 auto' } }, 'Every assessment should provide evidence of learning that the student could explain and defend.'),
+        React.createElement('div', { style:{ fontSize:12, fontWeight:700, color:C.white, textTransform: 'none', letterSpacing:'0.02em', marginBottom:8 } }, 'A practical framework for AI and assessment'),
+        React.createElement('div', { style:{ fontFamily:serif, fontSize:54, fontWeight:600, color:C.white, letterSpacing:'0.02em', lineHeight:1, marginBottom:6 } }, 'VIVA'),
+        React.createElement('div', { style:{ fontFamily:serif, fontStyle:'italic', fontSize:17, color:C.white, lineHeight:1.45, maxWidth:680, margin:'0 auto' } }, 'Every assessment should provide evidence of learning that the student could explain and defend.'),
       ),
       React.createElement('div', { style:{ padding:'1.25rem 1.375rem' } },
         React.createElement('p', { style:{ fontSize:14, color:C.muted, lineHeight:1.75, margin:'0 0 1.2rem 0' } },
@@ -4957,7 +4966,7 @@ function VIVAFrameworkSection() {
         React.createElement('div', {
           style:{ background:`linear-gradient(160deg,${C.navyDk} 0%,${C.navy} 100%)`, borderLeft:`5px solid ${C.mist}`, borderRadius:10, padding:'1rem 1.1rem', color:C.white, marginBottom:'1rem' }
         },
-          React.createElement('div', { style:{ fontFamily:serif, fontSize:20, fontWeight:600, color:C.mist, marginBottom:6 } }, 'Could the student explain and defend the work?'),
+          React.createElement('div', { style:{ fontFamily:serif, fontSize:20, fontWeight:600, color:C.white, marginBottom:6 } }, 'Could the student explain and defend the work?'),
           React.createElement('p', { style:{ fontSize:13.5, color:'rgba(255,255,255,0.82)', lineHeight:1.65, margin:0 } },
             'AI may assist in producing an answer. Assessment should nevertheless provide proportionate evidence of the student\'s own understanding and judgement under the conditions established for the task. Look for evidence through critique, defence, application and reflection on decision-making. If that evidence is weak, strengthen the task or what students must show.'
           )
@@ -5487,7 +5496,7 @@ function SearchSection({ setSec }) {
 
     // Suggestions shown when no query
     !q && React.createElement('div', { style:{ marginBottom:'1.75rem' } },
-      React.createElement('div', { style:{ fontSize:11.5, fontWeight:700, color:C.light, textTransform: 'none', letterSpacing:'0.09em', marginBottom:9 } }, 'Suggested searches'),
+      React.createElement('div', { style:{ fontSize:12, fontWeight:700, color:C.light, textTransform: 'none', letterSpacing:'0.02em', marginBottom:9 } }, 'Suggested searches'),
       React.createElement('div', { style:{ display:'flex', flexWrap:'wrap', gap:7 } },
         SUGG.map(function(s) {
           return React.createElement('button', {
@@ -5653,7 +5662,7 @@ function TeachingAssessmentSection({ initialArea }) {
     background:C.white,color:C.navy,fontWeight:650,fontSize:13.5,fontFamily:'inherit',cursor:'pointer',textAlign:'left'};
   function task(label,detail,id){return React.createElement('button',{
     key:id,type:'button',onClick:function(){choose(id);},'aria-expanded':panel===id,
-    'aria-controls':'teaching-task-detail',style:{...buttonStyle,flex:'1 1 205px',minHeight:95}},
+    'aria-controls':'teaching-task-detail',style:{...buttonStyle,flex:'1 1 205px',minHeight:95,display:'flex',flexDirection:'column',justifyContent:'flex-start',alignItems:'stretch'}},
     React.createElement('strong',{style:{display:'block',fontSize:14.2,color:C.navy,marginBottom:6}},label),
     React.createElement('span',{style:{display:'block',fontSize:12.7,color:C.muted,lineHeight:1.5,fontWeight:400}},detail));}
   return React.createElement('div',null,
@@ -5912,7 +5921,7 @@ function FacultyGuidanceSection({ initialTab }) {
   ];
   return React.createElement('div', null,
     React.createElement(Card, { style:{ marginBottom:'1rem' } },
-      React.createElement('div', { style:{ fontSize:11, fontWeight:700, color:C.ok, textTransform:'none', letterSpacing:'0.06em', marginBottom:5 } }, 'New Oxford guidance, October 2026'),
+      React.createElement('div', { style:{ fontSize:12, fontWeight:700, color:C.ok, textTransform:'none', letterSpacing:'0.02em', marginBottom:5 } }, 'New Oxford guidance, October 2026'),
       React.createElement('div', { style:{ fontFamily:serif, fontSize:17, fontWeight:600, color:C.navy, marginBottom:6 } }, 'Talking with students about AI'),
       React.createElement('p', { style:{ fontSize:13, color:C.muted, lineHeight:1.65, margin:'0 0 0.75rem 0' } }, 'The Centre for Teaching and Learning briefing note supports ongoing conversations with students about AI in the subject and professional practice, AI and learning, AI and assessment, and revisiting those conversations as practice changes.'),
       React.createElement('a', { href:'ctl-talking-with-students-about-ai-october-2026.pdf', target:'_blank', rel:'noopener noreferrer', style:{ color:C.navy, fontSize:13, fontWeight:600, textDecoration:'underline' } }, 'Read the CTL briefing note'),
@@ -6009,7 +6018,7 @@ function App() {
     style: {
       maxWidth: 900,
       margin: '0 auto',
-      padding: '1rem 1.5rem',
+      padding: '2rem 1.75rem',
       display: 'flex',
       alignItems: 'center',
       gap: 22,
@@ -6054,7 +6063,7 @@ function App() {
       display: 'flex',
       overflowX: 'auto',
       WebkitOverflowScrolling: 'touch',
-      padding: '0 0.5rem',
+      padding: '0 calc(1.75rem - 10px)',
       scrollbarWidth: 'thin',
       msOverflowStyle: 'auto',
       alignItems: 'stretch'
@@ -6109,10 +6118,10 @@ function App() {
       }
     }, isGroupStart && /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 10,
-        letterSpacing: '0.12em',
+        fontSize: 12,
+        letterSpacing:'0.02em',
         textTransform: 'none',
-        color: C.mist,
+        color: C.white,
         opacity: 0.85,
         lineHeight: 1,
         fontWeight: 700
@@ -6140,7 +6149,7 @@ function App() {
   }, /*#__PURE__*/React.createElement("nav", {
     'aria-label': 'Breadcrumb',
     className: 'hide-on-print',
-    style: { display:'flex', alignItems:'center', gap:8, fontSize:10.5, letterSpacing:'0.1em', textTransform: 'none', fontWeight:600, minWidth:0, flexWrap:'wrap', rowGap:4, lineHeight:1.5 }
+    style: { display:'flex', alignItems:'center', gap:8, fontSize:12, letterSpacing:'0.02em', textTransform: 'none', fontWeight:600, minWidth:0, flexWrap:'wrap', rowGap:4, lineHeight:1.5 }
   }, (function(){
     const TRAIL = {
       teaching: [], students: [], researchers: [], tools: [], checker: [],
@@ -6215,7 +6224,7 @@ function App() {
     setSec: setSec
   }), (sec === 'teaching' || sec === 'faculty_policy' || sec === 'faculty_assessment_hub' || sec === 'faculty_guidance' || sec === 'faculty_language' || sec === 'faculty_marking' || sec === 'faculty_obligations') && React.createElement(TeachingAssessmentSection, { initialArea: sec === 'faculty_policy' || sec === 'faculty_obligations' ? 'policy' : sec === 'faculty_assessment_hub' ? 'assessment' : sec === 'faculty_marking' ? 'marking' : sec === 'faculty_guidance' || sec === 'faculty_language' ? 'guidance' : 'path' }), sec === 'students' && /*#__PURE__*/React.createElement(StudentsSection, null), sec === 'researchers' && /*#__PURE__*/React.createElement(ResearchersSection, null), sec === 'checker' && /*#__PURE__*/React.createElement(CheckerSection, null), sec === 'search' && React.createElement(SearchSection, { setSec: setSec }), sec === 'tools' && /*#__PURE__*/React.createElement(ToolsSection, null),
   CROSS_LINKS[sec] && React.createElement('div', { style:{ marginTop:'2.5rem', paddingTop:'1.25rem', borderTop:'1px solid '+C.bd } },
-    React.createElement('div', { style:{ fontSize:11, fontWeight:700, color:C.light, textTransform: 'none', letterSpacing:'0.1em', marginBottom:10 } }, 'Continue in this toolkit'),
+    React.createElement('div', { style:{ fontSize:12, fontWeight:700, color:C.light, textTransform: 'none', letterSpacing:'0.02em', marginBottom:10 } }, 'Continue in this toolkit'),
     React.createElement('div', { style:{ display:'flex', flexWrap:'wrap', gap:8 } },
       CROSS_LINKS[sec].map(function(lnk,li) {
         return React.createElement('button', {
@@ -6232,14 +6241,14 @@ function App() {
 )), /*#__PURE__*/React.createElement("footer", {
     style: {
       background: `linear-gradient(135deg, #002147 0%, #002147 100%)`,
-      padding: '1.25rem 1.25rem',
-      marginTop: 0,
-      borderTop: `2px solid rgba(21,97,109,0.2)`
+      padding: '2.5rem 1.75rem 2.25rem',
+      marginTop: '1.5rem',
+      borderTop: `2px solid ${C.mist}`
     },
     role: 'contentinfo'
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      maxWidth: 900,
+      maxWidth: 844,
       margin: '0 auto',
       display: 'flex',
       justifyContent: 'space-between',
@@ -6249,7 +6258,7 @@ function App() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      flex: '1 1 560px',
+      flex: '1 1 480px',
       minWidth: 0
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -6301,12 +6310,13 @@ function App() {
     /*#__PURE__*/React.createElement("a", { href:'website-policies.html', style:{color:'rgba(255,255,255,0.9)',textDecoration:'underline'} }, 'Privacy and cookies'),
     /*#__PURE__*/React.createElement("a", { href:'mailto:David.Dodick@sbs.ox.ac.uk', style:{color:'rgba(255,255,255,0.9)',textDecoration:'underline'} }, 'Report a problem')
   )), /*#__PURE__*/React.createElement("div", {
+    className: 'site-footer-credit',
     style: {
       fontSize: 11.5,
       color: 'rgba(255,255,255,0.76)',
       textAlign: 'right',
       lineHeight: 1.75,
-      flex: '0 1 255px',
+      flex: '0 1 300px',
       minWidth: 210
     }
   }, /*#__PURE__*/React.createElement("div", {
