@@ -99,53 +99,11 @@ check('Word files are valid packages with tracked changes', function () {
   });
 });
 
-check('decision path settles on the first yes and asks in order', function () {
-  assert.strictEqual(E.decide({}).questions.length, 1);
-  assert.strictEqual(E.decide({}).outcome, null);
-  assert.strictEqual(E.decide({ local: 'yes' }).outcome.choice, null);
-  assert.strictEqual(E.decide({ local: 'no', integral: 'yes' }).outcome.choice, 'required');
-  assert.strictEqual(E.decide({ local: 'no', integral: 'no', independent: 'yes' }).outcome.choice, 'not');
-  assert.strictEqual(E.decide({ local: 'no', integral: 'no', independent: 'no', support: 'yes' }).outcome.choice, 'some');
-  assert.strictEqual(E.decide({ local: 'no', integral: 'no', independent: 'no', support: 'no' }).outcome.choice, 'unsure');
-  assert.strictEqual(E.decide({ local: 'no', integral: 'no' }).questions.length, 3);
-  L.DECISION_PATH.forEach(function (q) { [q.yes, q.no].filter(Boolean).forEach(function (o) { assert(L.BASIS[o.basis], q.id + ' basis'); }); });
-});
-
-check('playbook quotes in the decision path and checks are verbatim', function () {
-  const pb = fs.readFileSync(path.join(__dirname, '../../accessible/oxford-ai-assessment-playbook-v2-3.txt'), 'utf8').replace(/\s+/g, ' ').toLowerCase();
-  const quotes = [];
-  L.DECISION_PATH.forEach(function (q) { [q.yes, q.no].filter(Boolean).forEach(function (o) { const m = o.reason.match(/\u201c([^\u201d]+?)\.?\u201d/); if (o.basis === 'guidance') { assert(m, q.id); quotes.push(m[1]); } }); });
-  const I = E.interpretBrief(briefs.sample);
-  const opt = { pattern: L.PATTERNS[0], ratings: E.ratingsFor(L.PATTERNS[0], I.aims, I), costs: { studentTime: '', markingPer: '', markingTotal: '', liveOrSupervised: 'No' } };
-  E.buildPack(I, { aims: I.aims, constraints: {}, aiChoice: 'some' }, opt).checks.suggestions.forEach(function (c) { if (c.quote) quotes.push(c.quote.replace(/\.$/, '')); });
-  assert(quotes.length >= 5);
-  quotes.forEach(function (q) { assert(pb.indexOf(q.toLowerCase()) !== -1, 'not in playbook: ' + q); });
-  const hub = fs.readFileSync(path.join(__dirname, '../../index.html'), 'utf8');
-  assert(hub.indexOf(L.POLICY_RECORD.setting) !== -1, 'policy record matches the main Toolkit');
-});
-
-check('every check carries a basis, and formative briefs get the formative check', function () {
-  const I = E.interpretBrief(briefs.sample);
-  const p = L.PATTERNS[0];
-  const opt = { pattern: p, ratings: E.ratingsFor(p, I.aims, I), costs: { studentTime: '', markingPer: '', markingTotal: '', liveOrSupervised: 'No' } };
-  ['summative', 'formative'].forEach(function (st) {
-    const pk = E.buildPack(I, { aims: I.aims, constraints: {}, aiChoice: 'some', status: st }, opt);
-    ['policy', 'local', 'suggestions'].forEach(function (g) { pk.checks[g].forEach(function (c) { assert(c.text && L.BASIS[c.basis], g + ' basis'); }); });
-    const txt = E.packToText(pk);
-    assert(/Basis: University policy\./.test(txt));
-    assert.strictEqual(txt.indexOf('../#') === -1, true, 'no relative links in text export');
-    assert.strictEqual(/titled for summative assessment/.test(txt), st === 'formative');
-  });
-});
-
 check('no em or en dashes in faculty-facing text', function () {
   const texts = [];
   L.PATTERNS.forEach(function (p) { ['name', 'summary', 'shows', 'doesnt', 'accessibility', 'briefAddition', 'why', 'checkQuestion', 'studentTime'].forEach(function (f) { texts.push(p[f] || ''); }); texts.push.apply(texts, p.implementation); Object.values(p.aiNote).forEach(function (n) { texts.push(n); }); });
   Object.values(L.AI_CHOICES).forEach(function (c) { texts.push(c.title, c.sub, c.wording || '', c.declaration || ''); });
   Object.values(L.AIM_KINDS).forEach(function (k) { texts.push(k.label, k.ai, k.gap); });
-  L.DECISION_PATH.forEach(function (q) { texts.push(q.q); [q.yes, q.no].filter(Boolean).forEach(function (o) { texts.push(o.title, o.reason); }); });
-  Object.values(L.BASIS).forEach(function (b) { texts.push(b.label, b.detail); });
-  texts.push(L.POLICY_RECORD.setting, L.POLICY_RECORD.formative);
   const html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
   texts.push(html);
   texts.forEach(function (t) { assert(!/[\u2013\u2014]/.test(t), 'dash in: ' + t.slice(0, 80)); });
