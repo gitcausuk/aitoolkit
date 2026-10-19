@@ -1,0 +1,15 @@
+{
+  "name": "Oxford Saïd Assessment Designer",
+  "short_name": "Assessment Designer",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F2F0F0",
+  "theme_color": "#002147",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
