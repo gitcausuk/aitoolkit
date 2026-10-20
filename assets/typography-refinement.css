@@ -1,0 +1,419 @@
+/* Oxford Saïd AI Toolkit: editorial typography and spacing, October 2026.
+   The content, policy guidance, links and interaction logic are unchanged.
+   Scoped to the three page families to avoid changing the working tools. */
+:root {
+  --editorial-ink: #25292d;
+  --editorial-secondary: #4c5358;
+  --editorial-blue: #002147;
+  --editorial-rule: #d9d8d6;
+}
+body.toolkit-main, body.toolkit-information, body.toolkit-designer {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+/* Main toolkit: comfortable reading measure across sections */
+.toolkit-main #main-content { overflow-wrap: break-word; }
+.toolkit-main #main-content .section-title { margin-bottom: 2rem !important; padding-bottom: 1.55rem !important; }
+.toolkit-main #main-content .section-title-heading { line-height: 1.19 !important; }
+.toolkit-main #main-content .section-title > p {
+  font-size: 16.25px !important;
+  line-height: 1.66 !important;
+  color: var(--editorial-ink) !important;
+  max-width: 70ch !important;
+}
+/* Home: meaningful separation between purpose, audience and policy.
+   No decorative cards inside the existing introductory panel. */
+.toolkit-main .home-intro {
+  padding: 1.55rem 2.25rem 1.6rem !important;
+}
+.toolkit-main .home-intro-lead {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-size: clamp(17px, 1.52vw, 19px);
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  color: var(--editorial-blue);
+  max-width: 66ch;
+  margin: 0 0 0.62rem;
+}
+.toolkit-main .home-intro-detail {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15.25px;
+  line-height: 1.65;
+  color: var(--editorial-ink);
+  max-width: 72ch;
+  margin: 0;
+}
+.toolkit-main .home-intro-policy {
+  max-width: none;
+  margin: 1.4rem 0 0;
+  padding: 0.12rem 0 0.12rem 0.95rem;
+  border-left: 3px solid var(--editorial-blue);
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.62;
+  color: var(--editorial-secondary);
+}
+.toolkit-main .home-intro-policy-label {
+  color: var(--editorial-blue);
+  font-size: 13px;
+  font-weight: 700;
+  margin-right: 0.58rem;
+  letter-spacing: 0.003em;
+}
+.toolkit-main .home-tasks h2 { line-height: 1.26 !important; margin-bottom: 0.7rem !important; }
+.toolkit-main .home-tasks .home-task { line-height: 1.45; }
+.toolkit-main .home-tasks .home-task:focus-visible { outline: 3px solid #002147; outline-offset: 3px; }
+.toolkit-main .home-fit-item { line-height: 1.55; }
+/* Content in tabs: original 13px informational paragraphs were visually
+   indistinguishable from captions. Adjust prose without altering controls. */
+.toolkit-main #main-content .tab-panel > p,
+.toolkit-main #main-content .tab-panel > section > p,
+.toolkit-main #main-content .tab-panel > div > p {
+  font-size: 15px !important;
+  line-height: 1.68 !important;
+}
+.toolkit-main #main-content :is(ol, ul) li { line-height: 1.65; }
+.toolkit-main #main-content blockquote { line-height: 1.7; }
+/* Shared accessible table reading; leave table cells compact */
+.toolkit-main #main-content table { line-height: 1.55; }
+/* Policy, privacy and accessibility information pages */
+.toolkit-information main {
+  max-width: 790px;
+  padding-top: 3.15rem;
+  padding-bottom: 5rem;
+  font-size: 16px;
+  line-height: 1.72;
+}
+.toolkit-information main h1 { font-size: clamp(32px, 5vw, 42px); line-height: 1.18; margin-bottom: 20px; }
+.toolkit-information main h2 { font-size: 23px; line-height: 1.32; margin: 2.2rem 0 0.7rem; }
+.toolkit-information main p,
+.toolkit-information main li { line-height: 1.73; max-width: 72ch; }
+.toolkit-information main p + p { margin-top: 0.9rem; }
+.toolkit-information main .intro {
+  color: var(--editorial-ink);
+  font-size: 17.25px;
+  line-height: 1.7;
+  max-width: 67ch;
+}
+.toolkit-information main .notice { background: #fff; padding: 1.05rem 1.3rem; border-left: 3px solid var(--editorial-blue); }
+.toolkit-information main .updated { font-size: 13.5px; }
+/* Assessment Designer: bring its instructions into the same Oxford typographic system. */
+.toolkit-designer .hero-inner { min-height: 0; }
+.toolkit-designer .hero h1 { font-size: clamp(35px, 4vw, 49px); line-height: 1.13; }
+.toolkit-designer .hero .hero-lead {
+  color: var(--editorial-ink);
+  font-size: 17px;
+  line-height: 1.66;
+  max-width: 62ch;
+}
+.toolkit-designer .hero-panel > p { font-size: 15.5px; line-height: 1.65; color: var(--editorial-secondary); }
+.toolkit-designer .section-heading { gap: 16px; padding-bottom: 23px; margin-bottom: 25px; }
+.toolkit-designer .section-heading h2 { font-size: clamp(23px, 2.6vw, 28px); line-height: 1.28; }
+.toolkit-designer .section-heading p { color: var(--editorial-secondary); font-size: 15px; line-height: 1.62; }
+.toolkit-designer .field > span,
+.toolkit-designer .choice-fieldset legend { font-size: 14px; }
+.toolkit-designer .choice-grid label { font-size: 14px; line-height: 1.52; }
+.toolkit-designer .choice-grid small { font-size: 12.75px; line-height: 1.52; }
+.toolkit-designer .sidebar-note { font-size: 13.25px; line-height: 1.63; }
+.toolkit-designer .privacy-alert { font-size: 13.75px; line-height: 1.6; }
+.toolkit-designer .review-card p { font-size: 14px; line-height: 1.63; }
+.toolkit-designer .results-header p:not(.kicker) { color: var(--editorial-ink); font-size: 15.5px; line-height: 1.65; }
+.toolkit-designer .results h2 { line-height: 1.25; }
+.toolkit-designer .privacy-line { font-size: 13.5px; line-height: 1.65; }
+@media (max-width: 640px) {
+  .toolkit-main .home-intro { padding: 1.25rem 1.3rem 1.3rem !important; }
+  .toolkit-main .home-intro-lead { font-size: 17px; line-height: 1.58; }
+  .toolkit-main .home-intro-detail { font-size: 14.5px; }
+  .toolkit-main .home-intro-policy { font-size: 13px; margin-top: 1.2rem; padding-left: 0.75rem; }
+  .toolkit-main #main-content .section-title > p { font-size: 15.5px !important; }
+  .toolkit-information main { padding: 2.2rem 1.25rem 4rem; }
+  .toolkit-information main .intro { font-size: 16px; }
+  .toolkit-designer .section-heading { gap: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toolkit-main .home-task,
+  .toolkit-designer .primary-button,
+  .toolkit-designer .secondary-button { transition: none; }
+}
+
+/* Second visual review: improve the remaining small descriptive text.
+   This layer changes presentation only. No page copy or template logic is edited. */
+
+/* A consistent, restrained text scale for the home-page task routes. */
+.toolkit-main #main-content .home-tasks > h3,
+.toolkit-main #main-content .home-tasks > .home-task-grid + h3 {
+  font-size: 13.5px !important;
+  letter-spacing: 0.015em !important;
+  line-height: 1.45 !important;
+}
+.toolkit-main #main-content .home-task > span:nth-child(2) {
+  font-size: 18px !important;
+  line-height: 1.31 !important;
+  letter-spacing: -0.012em !important;
+}
+.toolkit-main #main-content .home-task > span:nth-child(3) {
+  font-size: 14.75px !important;
+  line-height: 1.66 !important;
+  color: var(--editorial-secondary) !important;
+}
+.toolkit-main #main-content .home-task > .home-task-open {
+  margin-top: 0.85rem !important;
+}
+
+/* Guidance below the home task cards: make full sentences clearly readable. */
+.toolkit-main #main-content #home-fit { line-height: 1.32 !important; }
+.toolkit-main #main-content .home-fit-item > div:first-child {
+  font-size: 14.25px !important;
+  line-height: 1.42 !important;
+}
+.toolkit-main #main-content .home-fit-item > div:nth-child(2) {
+  font-size: 14.75px !important;
+  line-height: 1.69 !important;
+  color: var(--editorial-secondary) !important;
+}
+.toolkit-main #main-content section[aria-labelledby="home-fit"] > p {
+  font-size: 15.25px !important;
+  line-height: 1.72 !important;
+  color: var(--editorial-ink) !important;
+}
+.toolkit-main #main-content .home-pair > div > div:nth-child(3) {
+  font-size: 14.75px !important;
+  line-height: 1.7 !important;
+}
+.toolkit-main #main-content .home-pair > div > p {
+  font-size: 14.75px !important;
+  line-height: 1.7 !important;
+}
+.toolkit-main #main-content .home-pair > div > ol {
+  font-size: 14.25px !important;
+  line-height: 1.75 !important;
+}
+.toolkit-main #main-content .home-pair > div > ol li + li {
+  margin-top: 0.12rem;
+}
+
+/* The main teaching entry card and its companion task cards. */
+.toolkit-main #main-content .section-enter > div > div:has(> h2) > p:first-of-type {
+  font-size: 15.25px !important;
+  line-height: 1.74 !important;
+  color: var(--editorial-secondary) !important;
+  max-width: 67ch !important;
+}
+.toolkit-main #main-content .section-enter > div > div:has(> h2) > p + p {
+  font-size: 13.75px !important;
+  line-height: 1.62 !important;
+  color: var(--editorial-secondary) !important;
+}
+.toolkit-main #main-content button[aria-controls="teaching-task-detail"] > strong {
+  font-size: 14.75px !important;
+  line-height: 1.43 !important;
+}
+.toolkit-main #main-content button[aria-controls="teaching-task-detail"] > span {
+  font-size: 13.75px !important;
+  line-height: 1.63 !important;
+  color: var(--editorial-secondary) !important;
+}
+
+/* Tabs, answers and checklists retain a stronger distinction between
+   explanation, source attribution and functional labels. */
+.toolkit-main #main-content #research-panel-policy > div:first-child {
+  font-size: 15px !important;
+  line-height: 1.7 !important;
+  color: var(--editorial-secondary) !important;
+  max-width: 72ch;
+}
+.toolkit-main #main-content .tab-panel > p,
+.toolkit-main #main-content .tab-panel > section > p,
+.toolkit-main #main-content .tab-panel > div > p {
+  max-width: 74ch;
+  color: var(--editorial-ink) !important;
+}
+.toolkit-main #main-content .tab-panel li {
+  line-height: 1.72 !important;
+}
+.toolkit-main #main-content details > summary {
+  font-size: 13.75px !important;
+  line-height: 1.5 !important;
+}
+.toolkit-main #main-content details > div > p {
+  line-height: 1.72 !important;
+}
+
+/* Information pages: keep paragraphs and source notes visually separate. */
+.toolkit-information main li + li { margin-top: 0.42rem; }
+.toolkit-information main h2 + p { margin-top: 0.52rem; }
+.toolkit-information main .notice p { max-width: 67ch; }
+
+/* Designer: improve instructions and review prose, leave form fields and
+   compact state indicators at their existing sizes. */
+.toolkit-designer .hero .hero-lead { line-height: 1.7; }
+.toolkit-designer .hero-panel > p { line-height: 1.72; }
+.toolkit-designer .section-heading p { line-height: 1.7; }
+.toolkit-designer .review-card p { line-height: 1.7; }
+.toolkit-designer .sidebar-note { line-height: 1.7; }
+.toolkit-designer .results-header p:not(.kicker) { line-height: 1.7; }
+
+@media (max-width: 640px) {
+  .toolkit-main #main-content .home-task > span:nth-child(2) { font-size: 17.5px !important; }
+  .toolkit-main #main-content .home-task > span:nth-child(3),
+  .toolkit-main #main-content .home-fit-item > div:nth-child(2) { font-size: 14.5px !important; }
+  .toolkit-main #main-content .home-pair > div > p,
+  .toolkit-main #main-content .home-pair > div > div:nth-child(3) { font-size: 14.5px !important; }
+  .toolkit-main #main-content .section-enter > div > div:has(> h2) > p:first-of-type {
+    font-size: 14.75px !important;
+  }
+}
+
+/* Third pass, October 2026: letterforms, wrapping and spacing.
+   Presentation only. Colours, sizes of controls, copy and logic are unchanged. */
+
+/* Use the fonts' own kerning and ligatures, and let the variable fonts
+   choose optical detail for each size. */
+body.toolkit-main, body.toolkit-information, body.toolkit-designer {
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures contextual;
+  font-optical-sizing: auto;
+}
+
+/* Headings: even line lengths instead of a single stranded word. */
+.toolkit-information main :is(h1, h2, h3),
+.toolkit-designer :is(h1, h2, h3, .route-card h3, .brand-title, .callout-title),
+.toolkit-main #main-content :is(h4, .section-title-heading, .home-task > span:nth-child(2)) {
+  text-wrap: balance;
+}
+
+/* Running text: avoid one-word last lines in paragraphs and list items. */
+.toolkit-information main :is(p, li),
+.toolkit-designer :is(p, li, small, .metric-note, .field-help),
+.toolkit-main #main-content :is(li, dd, figcaption, summary, .home-task > span:nth-child(3)) {
+  text-wrap: pretty;
+}
+
+/* Large serif headings sit slightly tighter; small serif headings keep
+   their natural spacing so counters stay open. */
+.toolkit-designer .hero h1 { letter-spacing: -0.022em; }
+.toolkit-designer .section-heading h2,
+.toolkit-designer .results h2,
+.toolkit-information main h1 { letter-spacing: -0.015em; }
+.toolkit-designer .route-card h3,
+.toolkit-designer .hero-panel h2 { letter-spacing: -0.008em; }
+
+/* Small capitals labels need more tracking than lower-case text to read as words. */
+.toolkit-main #main-content [style*="font-size: 11.5px"][style*="letter-spacing: 0.03em"],
+.toolkit-designer .hero-panel > p:first-child {
+  letter-spacing: 0.085em !important;
+}
+
+/* Small grey supporting copy (Oxford Ash Grey) is set a touch heavier on the
+   variable font so it does not look washed out next to body text. */
+.toolkit-main #main-content [style*="color: rgb(97, 97, 95)"]:not([style*="font-weight"]),
+.toolkit-designer :is(.hero-note, .panel-note, .status-inner, .metric-note, .field-help, .source-date) {
+  font-weight: 430;
+}
+
+/* Figures: aligned numerals where numbers are compared or counted. */
+.toolkit-main #main-content table,
+.toolkit-designer :is(.report-table, .section-number, .progress-label, .step-link span) {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Underlines that clear descenders and sit at a consistent distance. */
+.toolkit-main #main-content a,
+.toolkit-information main a,
+.toolkit-designer main a {
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 0.2em;
+}
+
+/* Fourth pass, 21 October Forum release: text colour, reading measure and the
+   Designer's working draft. Presentation only; copy, colours of the Oxford
+   palette, controls and layout structure are unchanged. */
+
+/* Designer results: reading text in the ink colour rather than mid grey. */
+.toolkit-designer .result-panel > p,
+.toolkit-designer .route-card p,
+.toolkit-designer .route-card li,
+.toolkit-designer .result-panel li { color: var(--editorial-ink); }
+
+/* Supporting notes that were set below a comfortable reading size. */
+.toolkit-main #main-content p[style*="font-size: 12.5px"],
+.toolkit-main #main-content div[style*="font-size: 12.7px"] { font-size: 13.5px !important; line-height: 1.7 !important; }
+
+/* Designer results: readable line length and calmer rhythm for long prose. */
+.toolkit-designer .result-panel > p,
+.toolkit-designer .result-panel > ul,
+.toolkit-designer .callout p { max-width: 76ch; }
+.toolkit-designer .result-panel > p,
+.toolkit-designer .result-panel li { font-size: 15px; line-height: 1.7; }
+.toolkit-designer .result-panel h3 { margin-top: 1.6em; }
+.toolkit-designer .route-card li + li,
+.toolkit-designer .result-panel > ul li + li { margin-top: 0.35em; }
+
+/* The working draft brief: a document, not a text dump. */
+.toolkit-designer #briefCopyBox { padding: 26px 28px 30px; }
+.toolkit-designer .brief-text {
+  max-width: 74ch;
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--editorial-ink);
+  white-space: pre-wrap;
+}
+.toolkit-designer .brief-title {
+  display: block;
+  margin: 0 7.5rem 0.2rem 0;
+  font-family: 'Noto Serif', Georgia, serif;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--editorial-blue);
+  text-wrap: balance;
+}
+.toolkit-designer .brief-status {
+  display: block;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--editorial-secondary);
+}
+.toolkit-designer .brief-heading {
+  display: block;
+  margin-top: 0.15rem;
+  font-family: 'Noto Serif', Georgia, serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--editorial-blue);
+}
+.toolkit-designer .brief-placeholder {
+  background: #F1EEE9;
+  border-radius: 3px;
+  padding: 0.05em 0.25em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.toolkit-designer .draft-status { color: var(--editorial-ink); font-size: 14px; line-height: 1.65; }
+
+/* Form guidance: legible help text and a clear note under Step 3's evidence options. */
+.toolkit-designer .field .field-help,
+.toolkit-designer .local-category > .field-help { font-size: 13.25px; line-height: 1.6; color: var(--editorial-secondary); font-weight: 430; }
+.toolkit-designer .evidence-note { font-size: 14px; line-height: 1.68; color: var(--editorial-ink); max-width: 80ch; }
+
+@media (max-width: 640px) {
+  .toolkit-designer #briefCopyBox { padding: 56px 16px 22px; }
+  .toolkit-designer .brief-title { margin-right: 0; font-size: 19px; }
+  .toolkit-designer .brief-text,
+  .toolkit-designer .result-panel > p,
+  .toolkit-designer .result-panel li { font-size: 14.5px; }
+}
+
+@media print {
+  .toolkit-designer .brief-placeholder { background: none; border-bottom: 1px dotted #61615F; }
+  .toolkit-designer .brief-text { max-width: none; }
+}
+.toolkit-designer .brief-title { margin-bottom: 0.5rem; }
+.toolkit-designer .brief-status { margin-bottom: 0.4rem; }
+.toolkit-designer .brief-heading { margin-bottom: 0.15rem; }
+
+/* WCAG 2.2 target size (2.5.8): stacked stand-alone source links get a 24px hit area. */
+.toolkit-main #main-content a[target="_blank"][style*="display: inline-flex"][style*="align-items: baseline"] { padding-block: 4px; }
