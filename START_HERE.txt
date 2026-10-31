@@ -1,0 +1,28 @@
+OXFORD SAID AI TOOLKIT — 31 OCTOBER 2026
+
+Extract the complete ZIP into a short folder such as Downloads\Toolkit.
+Open index.html, then select Teaching and assessment.
+Keep all folders and files together; do not open index.html from inside the ZIP.
+
+This package includes the updated Designer wording and separated links, the
+40-formats-led teaching page, consistent drafting tools, an immediate sample
+result, and the additional Oxford resource links from the earlier update.
+
+Browser verification passed for:
+- 13 site routes and three supporting/static pages
+- 22 linked local resources
+- Search and the home-page assessment-formats shortcut
+- Desktop and 390px/320px layouts
+- Keyboard activation and task-panel focus return
+- Wording drafts, local categories and approved wording preservation
+- Designer workflow with optional reference brief
+- Immediate sample result and local declaration instructions
+- Word/Markdown downloads and direct file opening after extraction
+
+The public Oxford links checked during this conversation were reachable.
+A separate full policy-content review and formal accessibility audit have not
+been performed. Existing source-review dates remain unchanged. Third-party
+PDF/Word input extraction was not re-tested; browser tests blocked those
+external libraries and used text inputs. The PDFs are unchanged.
+
+The site has not been published. Earlier ZIPs are preserved.

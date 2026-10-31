@@ -1,0 +1,218 @@
+Oxford Saïd AI Toolkit · 40 assessment formats
+Accessible text alternative · Updated 26 October 2026
+
+Oxford summative assessment formats
+All 40 formats with AI-resilient design strategies and AI-enhanced assessment options
+
+Purpose: Use this reference when selecting or strengthening an Oxford summative assessment format. The strategies focus on making the intended knowledge, reasoning, judgement, process or performance visible. No format, process record or oral component automatically proves authorship or eliminates unauthorised assistance. Where AI could materially obscure the capability being assessed, use more than one proportionate source of evidence and ensure any additional component is specified in advance, accessible, consistently applied and locally approved.
+
+AI-enhanced options: Use only Oxford-approved AI tools through University-provided accounts, where explicitly authorised for the assessment. Tool approval does not itself permit assessment use.
+
+1. Written Exam | In-person, timed invigilated | Essays
+Description: A short piece of writing on a specific topic or subject.
+AI-resilient design strategies: Controlled, device-restricted and invigilated conditions can provide strong evidence of independent performance when effectively and accessibly implemented. Use questions that require synthesis, application and justified critical positioning. Refresh question banks for assessment quality and security, not because novelty makes a question inaccessible to AI. Follow Oxford Examination Regulations.
+AI-enhanced assessment options: Where evaluation is part of the intended learning, supply an AI-generated argument and relevant sources. Students identify unsupported claims and develop their own supported response. Retain an extended argument if essay writing is assessed. Adjust timing and criteria for the added reading and evaluative work. No live AI access.
+
+2. Written Exam | In-person, timed invigilated | Multiple choice questions
+Description: Students are required to select the correct answer from a list of possible answers.
+AI-resilient design strategies: Controlled, device-restricted and invigilated conditions can provide strong evidence of independent performance when effectively and accessibly implemented. Design application-, analysis- and evaluation-level items, including scenarios or case vignettes. Refresh item banks for quality and security; variation does not by itself establish authorship.
+AI-enhanced assessment options: Use a staff-checked AI rationale as a question stimulus. Students select the strongest evaluation or identify a reasoning error. Align the item with subject understanding; the AI origin alone does not add educational value. Validate the answer and distractors before use. No live AI access.
+
+3. Written Exam | In-person, timed invigilated | Short-answer questions
+Description: Open-ended questions that assess knowledge and understanding. Students may be required to complete a sentence, provide a short descriptive answer or annotate a diagram.
+AI-resilient design strategies: Controlled, device-restricted and invigilated conditions can provide strong evidence of independent performance when effectively and accessibly implemented. Use supplied diagrams, data or primary sources and ask for annotation, justification or application. Vary parameters for breadth and assessment quality, not as proof against AI use.
+AI-enhanced assessment options: Supply a short AI explanation or annotation. Students identify omissions, correct errors and justify the corrections using supplied evidence. Assess subject understanding and reasoning. Set the length of the response and allow time to read the stimulus. No live AI access.
+
+4. Written Exam | In-person, timed invigilated | Problem / computational question
+Description: Students present written solutions to problems, explaining their rationale for the approach(es) taken.
+AI-resilient design strategies: Controlled, device-restricted and invigilated conditions can provide strong evidence of independent performance when effectively and accessibly implemented. Ask students to show workings, justify method choices and explain why an approach is appropriate. Vary parameters and scenarios for breadth and quality, not as a guarantee against assistance.
+AI-enhanced assessment options: Supply an AI-generated worked solution with a plausible error or questionable assumption. Students diagnose the problem, correct the method and explain the consequences. Retain independent problem-solving tasks where generation of a solution is also assessed. No live AI access.
+
+5. Written Exam | In-person, timed invigilated | Unseen translation
+Description: A writing task that assesses competence in translation as well as understanding and application of linguistic and stylistic features in a modern or classical language.
+AI-resilient design strategies: Controlled, device-restricted and invigilated conditions can provide strong evidence of independent performance when effectively and accessibly implemented. Choose passages appropriate to the intended linguistic capability and ask for a translator's commentary on stylistic and linguistic choices. Do not rely on restricted or unpublished status as a safeguard by itself.
+AI-enhanced assessment options: Use AI translation critique only where comparative evaluation is an intended outcome. Keep the unaided translation passage separate from the passage used for critique, or collect the independent response before releasing AI material in an approved separate component. Otherwise retain unaided translation without AI material.
+
+6. Written Exam | Online, timed, invigilated | Essays
+Description: A short piece of writing on a specific topic or subject.
+AI-resilient design strategies: Where online invigilation is approved and accessible, use appropriate platform controls and contingency arrangements; do not assume they eliminate access to other devices or services. Declare AI permissions clearly in advance. Teaching-unit-specific prompts, question-bank rotation and randomisation can support assessment quality but do not prove independent authorship.
+AI-enhanced assessment options: Where evaluation is an intended outcome, supply a fixed AI response and relevant evidence. Students critique its reasoning and build their own supported argument. Specify live AI permissions separately: the supplied-output task does not itself prevent outside assistance. Review timing and marking criteria for the changed task.
+
+7. Written Exam | Online, timed, invigilated | Multiple choice questions
+Description: Students are required to select the correct answer from a list of possible answers.
+AI-resilient design strategies: Where online invigilation is approved and accessible, use appropriate platform controls and clear contingency arrangements; do not assume they eliminate unauthorised assistance. Randomise item order where suitable and design application-level, scenario-based questions. Declare and implement the AI permission clearly in advance.
+AI-enhanced assessment options: Present an AI-generated rationale in a scenario-based item. Students select its strongest criticism or the evidence that would change its conclusion. Validate items and scoring. The fixed stimulus does not itself prevent outside AI assistance; retain the declared invigilation and AI-use conditions.
+
+8. Written Exam | Online, timed, invigilated | Short-answer questions
+Description: Open-ended questions that assess knowledge and understanding. Students may be required to complete a sentence, provide a short descriptive answer or annotate a diagram.
+AI-resilient design strategies: Where online invigilation is approved and accessible, use appropriate platform controls and contingency arrangements. Draw questions from a balanced bank, use supplied data or sources and ask students to justify responses. Declare the AI permission clearly; platform settings reduce opportunity but do not establish authorship by themselves.
+AI-enhanced assessment options: Supply a fixed AI explanation or annotation and ask students to correct omissions and justify their changes against provided evidence. Assess their reasoning under the declared examination conditions. A supplied-output task does not itself prevent outside AI assistance; live-use permissions remain separate.
+
+9. Written Exam | Online, timed, invigilated | Problem / computation questions
+Description: Students present written solutions to problems, explaining their rationale for the approach(es) taken.
+AI-resilient design strategies: Where online invigilation is approved and accessible, use appropriate platform controls and contingency arrangements. Vary numerical parameters where pedagogically suitable and ask for method justification alongside calculations. Declare the AI permission clearly; controls and variation do not by themselves prove independent performance.
+AI-enhanced assessment options: Include an AI-generated calculation or algorithm as supplied material. Students test assumptions, identify a failure and produce a corrected solution. Preserve independent problem solving where required. Supplied material does not prevent outside assistance or authorise live AI use.
+
+10. Written Exam | Online, timed, invigilated | Unseen translation
+Description: A writing task that assesses competence in translation as well as understanding and application of linguistic and stylistic features in a modern or classical language.
+AI-resilient design strategies: Where online invigilation is approved and accessible, use appropriate platform controls and contingency arrangements. Choose passages appropriate to the intended capability and ask for commentary on linguistic and stylistic choices. Declare the AI permission clearly. Do not rely on a passage being absent from public corpora as a safeguard by itself.
+AI-enhanced assessment options: Where translation evaluation is an intended outcome, use a separate passage for AI critique, or a separately approved component after the independent response is submitted. Do not assume the platform supports staged release. Otherwise retain unaided translation; supplied material does not authorise live AI use.
+
+11. Written Exam | Online, open book, timed (up to 3 hours) | Essays
+Description: A short piece of writing on a specific topic or subject.
+AI-resilient design strategies: Open-book conditions may make AI accessible. Declare AI permissions clearly in advance. Design prompts that require synthesis of named course sources, application to supplied material and a justified critical position. These strategies strengthen evidence of judgement but do not make the assessment AI-proof or enforce a prohibition on their own.
+AI-enhanced assessment options: Default to a fixed AI counterargument and relevant course sources. Students develop a reasoned response within a piloted time allowance. Mark their argument and evidence. Live AI use needs a separately specified design that addresses equal access, tool delays, familiarisation and contingencies; do not require routine chat logs.
+
+12. Written Exam | Online, open book, timed (up to 3 hours) | Short-answer questions
+Description: Open-ended questions that assess knowledge and understanding. Students may be required to complete a sentence, provide a short descriptive answer or annotate a diagram.
+AI-resilient design strategies: Use supplied passages, data or sources and ask students to annotate, interpret or apply relevant frameworks. Require concise justification where reasoning is part of the intended learning. Declare AI permissions clearly in advance. Course-specific or recent material supports relevance but does not by itself verify authorship.
+AI-enhanced assessment options: Supply one short AI explanation within the question. Students correct it against provided material and justify the corrections within a stated answer length. No live interaction is needed. Pilot the reading and response time, including agreed adjustments.
+
+13. Written Exam | Online, open book, timed (up to 3 hours) | Case study response
+Description: Students respond to a real-world problem or challenge; this may involve material released in advance which the student has the opportunity to review and prepare notes on.
+AI-resilient design strategies: Ground the case in specific supplied evidence and a defined decision context. Require a prioritised response, explicit reasoning, assumptions and trade-offs. Declare AI permissions clearly in advance. Local or novel scenarios can improve authenticity but should not be treated as proof that AI assistance was unavailable.
+AI-enhanced assessment options: Supply a small set of staff-checked AI recommendations. Students evaluate them against case evidence and defend a final recommendation. If generating alternatives is also assessed, require an independent option before revealing the suggestions or use a separate task. Allow time for the additional reading.
+
+14. Written Exam | Online, open book, window (2 or 3 day) | Essays
+Description: A short piece of writing on a specific topic or subject.
+AI-resilient design strategies: An extended window can weaken the inference that the submission alone evidences the student's capability. Declare AI permissions before the window opens. Strengthen the task through direct engagement with supplied evidence and use proportionate process evidence only where it contributes to validity. An oral follow-up should be planned, accessible, consistently applied and locally approved; no component proves authorship.
+AI-enhanced assessment options: Students may use AI to propose objections to a plan or draft, then develop their own supported argument. Require verification against original sources and the prescribed AI-use declaration. If a decision commentary earns marks, specify its purpose and length; do not treat it as proof of authorship.
+
+15. Written Exam | Online, open book, window (2 or 3 day) | Short-answer questions
+Description: Open-ended questions that assess knowledge and understanding. Students may be required to complete a sentence, provide a short descriptive answer or annotate a diagram.
+AI-resilient design strategies: Use coherent multi-part questions that require a consistent thread of reasoning, direct engagement with supplied material and explicit justification. Declare AI permissions clearly in advance. Teaching-unit-specific or unpublished material may support relevance but should not be treated as proof of independent authorship.
+AI-enhanced assessment options: Students may test an AI explanation against course references and submit a corrected answer with supporting evidence. Specify the permitted assistance and answer length. Assess accuracy and reasoning; require the prescribed declaration, with interaction extracts only if essential to an explicitly assessed process.
+
+16. Written Exam | Online, open book, window (2 or 3 day) | Case study response
+Description: Students respond to a real-world problem or challenge; this may involve material released in advance which the student has the opportunity to review and prepare notes on.
+AI-resilient design strategies: Use a defined decision context and specific supplied evidence. Ask students to identify assumptions, limitations and trade-offs or to evaluate AI-generated analysis where this aligns with the learning outcome. Declare AI permissions clearly. Localisation or novelty should not be relied upon as the principal safeguard.
+AI-enhanced assessment options: Students may use AI to explore competing case interpretations or stress-test a recommendation. They verify claims against supplied evidence and defend their decision. If generating alternatives unaided is an outcome, protect that component separately. Assess the evaluation and recommendation, with the prescribed declaration.
+
+17. Written Exam | Online, open book, long duration (1, 2 or 3 days) | Essays
+Description: A short piece of writing on a specific topic or subject.
+AI-resilient design strategies: A long assessment window can weaken the inference that the submission alone evidences the student's capability. Declare AI permissions clearly. Consider a process commentary, annotated plan or other evidence only where it supports learning, is manageable and is specified in advance. Any oral component should be proportionate, accessible, consistently applied and locally approved.
+AI-enhanced assessment options: Students may use AI as a critical reader of a plan or draft, then make selective, substantiated revisions. Check the permitted feedback scope against the purpose of the task. Mark the argument and use of evidence. Any assessed decision commentary needs a defined purpose and length; a full chat history is not the default.
+
+18. Written Exam | Online, open book, long duration (1, 2 or 3 days) | Case study response
+Description: Students respond to a real-world problem or challenge; this may involve material released in advance which the student has the opportunity to review and prepare notes on.
+AI-resilient design strategies: Where primary data collection, fieldwork or local evidence is part of the intended learning, require students to interpret that evidence directly. Make assumptions, limitations and decision-making visible and declare AI permissions clearly. A reflective process section can add context but does not by itself prove authorship.
+AI-enhanced assessment options: Students may explore AI-generated scenarios or stakeholder perspectives and test them against the case evidence. They explain assumptions and defend a decision. Generated scenarios must remain distinct from primary observations or collected data. Specify permitted assistance and the required declaration.
+
+19. Submission | Short duration (typically 5 days to 3 weeks) | Take-away or take-home essays
+Description: Essays written after teaching has been completed and in response to a list of questions or titles released at a scheduled time. Students typically have around a week to select title(s) and complete their work.
+AI-resilient design strategies: Declare AI permissions clearly before the assessment window opens. Strengthen the task through engagement with supplied or course-specific evidence, a justified critical position and marking criteria that reward reasoning. Use annotated source notes, plans or process evidence only where proportionate. A brief oral follow-up is one possible form of triangulation if planned, accessible, consistently applied and locally approved.
+AI-enhanced assessment options: Students may use AI to propose objections or critique a draft within the declared feedback scope. They verify claims and references and develop their own supported position. Assess argument and critical engagement with evidence. Require the prescribed declaration; add an assessed commentary only where it contributes to the learning outcome.
+
+20. Submission | Short duration (typically 5 days to 3 weeks) | Case studies
+Description: Students find, select and argue for solutions to a real-world problem or challenge and either write up or orally present their findings.
+AI-resilient design strategies: Use a specific case, decision context and supplied evidence. Ask for a prioritised recommendation, explicit reasoning, assumptions and trade-offs. Process documentation or an oral presentation may add evidence where it supports the intended learning and is proportionate, accessible and approved. Declare any permitted AI use and the required declaration.
+AI-enhanced assessment options: Students may use AI to generate competing solutions or stakeholder perspectives, then assess feasibility and defend a prioritised recommendation. Protect independent option-generation if that is an intended capability. Specify the permitted assistance and mark evidence, trade-offs and judgement, with the prescribed declaration.
+
+21. Submission | Short duration (typically 5 days to 3 weeks) | Practical reports
+Description: Concise documents used to communicate the outcomes of an experiment or small-scale project.
+AI-resilient design strategies: Tie the report to the relevant experimental or practical evidence and ask students to justify methodology, interpretation and limitations. Raw data, notebooks or supervisor records can provide context but are not proof of authorship. Declare permitted AI use for analysis, visualisation or writing support and specify how outputs must be checked.
+AI-enhanced assessment options: Where appropriate, permit AI support for analysis code or chart drafts, with checks against known results or independent calculations. If independent interpretation is assessed, exclude AI-generated interpretation from that component. AI-assisted interpretation is a different design requiring explicit criteria. Use only data permitted for the tool.
+
+22. Submission | Short duration (typically 5 days to 3 weeks) | Poster assessments
+Description: A form of visual communication which requires students to concisely summarise and prioritise information and/or ideas.
+AI-resilient design strategies: Clarify whether the poster assesses content, visual communication, oral response or all three. Use a live question-and-answer element only where oral explanation is part of the intended learning and it can be consistently and accessibly implemented. Include original or supplied evidence where relevant and use reflective process evidence proportionately. Declare AI permissions.
+AI-enhanced assessment options: Set permissions by the capability being assessed. If prioritisation or visual design is assessed, preserve evidence of those student decisions before AI alternatives are introduced, or restrict AI support accordingly. Students verify content and justify the final communication choices. Assess the declared outcomes and identify substantive generated elements.
+
+23. Submission | Short duration (typically 5 days to 3 weeks) | Business plans and design proposals
+Description: Documents which set out to persuade potential funders of the feasibility and profitability of a new product or service and how this will be achieved.
+AI-resilient design strategies: Use a defined client brief, evidence base and decision context. Assess feasibility, trade-offs and justification rather than polish alone. An oral pitch, process documentation or client interaction may provide additional evidence where aligned, accessible and approved. Do not rely on the scenario being unfamiliar to AI. Declare permitted AI use and verification responsibilities.
+AI-enhanced assessment options: Students may use AI to propose design alternatives or challenge a business model. They test assumptions against evidence and justify feasibility. Distinguish generated estimates from verified market or financial evidence. Protect independent ideation if assessed, and specify the permitted AI role and declaration.
+
+24. Submission | Short duration (typically 5 days to 3 weeks) | Translations
+Description: Assess competence in translation as well as understanding and application of linguistic and stylistic features in a modern or classical language.
+AI-resilient design strategies: Choose source texts appropriate to the intended translation capability and ask for commentary explaining linguistic and stylistic choices. Declare AI permissions clearly in advance. Restricted, unpublished or recently published status may support assessment quality but should not be treated as proof that AI assistance was unavailable.
+AI-enhanced assessment options: Where post-editing is an explicit outcome, students critically revise an AI translation and explain linguistic decisions against appropriate criteria. If unaided translation is assessed, keep that evidence in a separate independent component before AI material is available. Do not substitute post-editing for translation production without redesign and approval.
+
+25. Submission | Long duration (typically more than 3 weeks) | Dissertation / Thesis
+Description: Extensive pieces of work based on supervised independent research or investigation. The title and focus are often developed by the student. Often completed at the culmination of the degree programme.
+AI-resilient design strategies: Declare AI permissions for the specific work and stage. Use supervision and milestones as developmental evidence, not forensic proof. Require primary sources, original data or fieldwork where these are part of the intended research capability. A well-designed viva can provide strong evidence of understanding, but it is not a universal requirement or proof of authorship. Require the locally prescribed declaration.
+AI-enhanced assessment options: Specify permissions by research stage. Students may use AI to challenge an argument or suggest analysis checks, verifying sources and testing substantive outputs. Keep the student research contribution assessable. Use existing supervision and approved milestones proportionately, with the required declaration and data-handling conditions.
+
+26. Submission | Long duration (typically more than 3 weeks) | Extended essays
+Description: A longer essay written on a topic of the student's choice. Can be written in response to pre-set questions or on a title the student has developed. Students usually receive limited supervision and may be entitled to feedback on draft work.
+AI-resilient design strategies: Align the title and task with the student's intended research and disciplinary context. Use research notes, annotated sources or drafts only where they support development and assessment validity. Declare AI permissions clearly. A brief oral follow-up may provide additional evidence if planned, accessible, consistently applied and locally approved.
+AI-enhanced assessment options: Students may use AI for counterarguments or structural feedback within a defined feedback scope. They verify references against original sources and justify their final position. Mark sustained reasoning and disciplinary judgement. Specify the declaration and any assessed commentary; do not impose routine full interaction histories.
+
+27. Submission | Long duration (typically more than 3 weeks) | Mini-projects and structured projects
+Description: Students are challenged to address more open-ended questions, extend a known result or work with an industry partner on a problem. Mini-projects are typically released after teaching is completed; structured projects run over a longer period with supervision.
+AI-resilient design strategies: Use notebooks, code, design records or process logs where they support the intended learning and remain manageable. Regular check-ins and milestone reviews can make development visible but do not prove authorship. Declare AI permissions; where AI tools are permitted, require critical evaluation, testing and an appropriate declaration.
+AI-enhanced assessment options: Students may use AI to suggest code, models or design alternatives, then test outputs against explicit requirements and diagnose failures. Restrict assistance where independent coding or design is itself assessed. Mark the result and demonstrated testing and adaptation; state the declaration and any reproducibility evidence required.
+
+28. Submission | Long duration (typically more than 3 weeks) | Fieldwork, site, museum and industrial visit reports
+Description: Assess students' learning through fieldwork, a site or museum visit or an industrial visit. Generally presented in a clearly structured format.
+AI-resilient design strategies: Tie the task to the relevant fieldwork, visit or situated experience. Use dated notes, observations, material evidence or reflection where these genuinely evidence the intended learning, while avoiding unnecessary surveillance. Declare AI permissions for the write-up phase and make clear that contemporaneous records provide context rather than proof of authorship.
+AI-enhanced assessment options: Students may use AI to organise permitted field notes or propose themes, then test those themes against observations. Keep recorded evidence distinct from generated interpretation. Restrict AI where independent observation or analysis is assessed. Require a supported account of findings and the prescribed declaration.
+
+29. Submission | Long duration (typically more than 3 weeks) | Portfolio
+Description: A collection of shorter pieces of work chosen by the student to demonstrate their competence and interest in a particular area.
+AI-resilient design strategies: Ask students to explain the selection, development and relationship of portfolio pieces and to reflect on their learning trajectory. Include drafts or iterations where they support the intended learning and are manageable. Mark curation, evidence and judgement rather than assuming personal reflection establishes authorship. Declare AI permissions clearly.
+AI-enhanced assessment options: Students may use AI feedback to revise selected pieces. Where development is assessed, use a small, specified selection of versions and explanations of consequential choices. Mark curation, development and judgement; identify substantive generated content. These records evidence the submitted account, not authenticated authorship.
+
+30. Submission | Long duration (typically more than 3 weeks) | Research papers and articles
+Description: Work follows the format and conventions of a published paper or article in the field, often following the brief of a particular journal.
+AI-resilient design strategies: Where appropriate to the learning outcome, use original data, primary research or a clearly justified argument. Peer review, oral feedback or staged development can provide additional evidence if proportionate and planned. Declare AI permissions for literature work, analysis, visualisation and drafting and require critical evaluation of substantive outputs.
+AI-enhanced assessment options: Students may use AI to challenge an argument, suggest analysis checks or support permitted drafting. They verify sources and results and remain responsible for the final paper. Set boundaries around independently assessed research skills. Assess scholarly reasoning and evidence, with the prescribed declaration of assistance.
+
+31. Submission | Long duration (typically more than 3 weeks) | Business plans and design proposals
+Description: Documents which set out to persuade potential funders of the feasibility and profitability of a new product or service and how this will be achieved.
+AI-resilient design strategies: Use iterative design decisions, mentoring records or a pitch where these support the intended professional capability and can be consistently implemented. Assess evidence, assumptions, trade-offs and feasibility. Declare AI permissions; if AI supports modelling or design, require verification, critical evaluation and an appropriate declaration.
+AI-enhanced assessment options: Students may use AI to generate options and test assumptions across design iterations, validating outputs against client requirements and evidence. Specify a concise written rationale if decisions are assessed. Any oral defence must be separately planned and approved. Assess feasibility and judgement, with the prescribed declaration.
+
+32. Submission | Long duration (typically more than 3 weeks) | Translations
+Description: Assess competence in translation as well as understanding and application of linguistic and stylistic features in a modern or classical language.
+AI-resilient design strategies: Choose source texts appropriate to the intended capability and ask for a substantial translator's commentary that makes linguistic judgement visible. Supervision or milestone records can add developmental evidence but do not prove authorship. Declare AI permissions for both translation and commentary phases.
+AI-enhanced assessment options: Choose explicitly between translation production, post-editing and comparative evaluation. Permit AI translation alternatives only in components where they fit those outcomes. Preserve separately assessed unaided work where required. A substantial commentary may assess linguistic judgement; its scope and marking criteria must be stated in advance.
+
+33. Oral, Practical and/or Performed | Practical tests and simulations | Various
+Description: Students are observed conducting a series of defined tasks within a specified period of time and are assessed against a set of pre-determined criteria.
+AI-resilient design strategies: Observed practical performance can provide strong direct evidence of physical, procedural and real-time decision-making capability. Use suitable scenario variation and standardised criteria for assessment quality and fairness. Ensure observation is accessible and consistent, and declare any relevant AI permissions, such as approved AI-assisted diagnostic tools.
+AI-enhanced assessment options: Where evaluating AI advice fits the intended practical capability, use fixed or equivalently validated advice within a simulation. Observe students checking it and deciding when to accept or override it. Standardise assessment difficulty and criteria; live AI interaction requires separate validation of output variation and access.
+
+34. Oral, Practical and/or Performed | Oral presentation | In relation to a case study, research project or paper
+Description: Assesses knowledge and understanding, as well as the ability to communicate orally and visually. The audience may include peers and members of the department. May be performed live or pre-recorded.
+AI-resilient design strategies: Live delivery and responsive questioning can strengthen evidence of individual understanding and communication. For pre-recorded work, consider a planned live follow-up only where oral response is part of the intended learning and it can be accessible and consistently applied. Declare AI permissions for preparation and require an appropriate declaration for substantive use.
+AI-enhanced assessment options: For an AI-assisted presentation product, specify permitted support for content or design and assess the student's verified evidence, communication choices and responses to questions. Live answer generation is not implied. Rehearsal alone is preparation, not a new summative design; require disclosure of substantive AI contributions.
+
+35. Oral, Practical and/or Performed | Viva voce and interviews | In relation to a dissertation or thesis
+Description: Oral examination of a student's understanding of submitted written work and its wider implications. The format may be formal and structured or less formal and dialogic.
+AI-resilient design strategies: A well-designed oral examination can provide strong evidence of individual understanding in real time. Use structured core questions with responsive follow-up to probe reasoning, wider implications and application, while maintaining fairness and accessibility. Declare any AI permissions relating to the submitted work under examination.
+AI-enhanced assessment options: Retain the viva as direct assessment of understanding. Where the submitted work used AI legitimately, questions may probe the student's consequential decisions, checks and limitations under the existing criteria. This reviews prior assistance; it neither authorises live AI nor turns the viva into proof of authorship.
+
+36. Oral, Practical and/or Performed | Performances, exhibitions and displays | Musical performance
+Description: Assesses practical application of understanding and knowledge. Allows students to communicate their creative practice to wider audiences.
+AI-resilient design strategies: Live performance can provide strong direct evidence of the assessed practical or artistic capability. Use programme choice, interpretation or improvisation where these align with the learning outcome. For pre-recorded work, consider a planned live commentary or defence only where proportionate and accessible. Declare AI permissions for related composition or arrangement work.
+AI-enhanced assessment options: Where technical and expressive performance are the outcomes, retain direct assessment of that performance. AI-supported composition or arrangement belongs in a separately specified component if relevant, with its own criteria and declaration. Rehearsal support alone is not an AI-enhanced summative task.
+
+37. Oral, Practical and/or Performed | Performances, exhibitions and displays | Exhibition of created work
+Description: Assessment of original creative work exhibited for an audience.
+AI-resilient design strategies: Use a process portfolio, sketches, drafts or studio notes where they support the intended creative learning. A live commentary or defence may add evidence of the student's choices if planned, accessible and consistently applied; it does not by itself prove authorship. Declare AI permissions and distinguish substantive AI-generated or AI-modified elements where required.
+AI-enhanced assessment options: Where consistent with the creative outcomes, students may use AI to explore concepts or develop elements of work. Identify generated contributions and assess the student's transformation, curation and creative judgement. Specify any selective process evidence and check relevant permissions, provenance and rights before public exhibition.
+
+38. Oral, Practical and/or Performed | Objective Structured Clinical Examinations (OSCEs) | Various
+Description: Students undertake a series of tasks in sequence to demonstrate a range of skills and competencies in authentic contexts.
+AI-resilient design strategies: The real-time, multi-station and physical format can provide strong evidence of the assessed clinical capabilities. Use standardised criteria, suitable scenario variation and trained assessors to support validity and fairness. Declare any AI permissions relevant to preparatory simulations or tools used within stations.
+AI-enhanced assessment options: Where evaluation of AI advice is an approved learning outcome, use fictional case information and staff-validated AI recommendations in a station. Assess checks, limitations and the candidate's justified response. Use equivalent station difficulty and trained assessors; retain direct evidence of the clinical skills being assessed.
+
+39. Oral, Practical and/or Performed | Aural examination | Various
+Description: A series of exercises that assess listening skills, typically in relation to language or musical competency.
+AI-resilient design strategies: Live or closely invigilated conditions can provide strong evidence of listening and spontaneous response. Use varied stimulus material and appropriate spontaneous tasks for assessment quality. Declare and implement the AI permission clearly, including any authorised assistive technology or reasonable adjustments.
+AI-enhanced assessment options: Retain listening comprehension where that is the intended capability, including agreed reasonable adjustments. Staff use of AI to draft stimuli is item preparation, not student AI use. If critical evaluation of generated audio is an outcome, design and validate it as a separate task with appropriate criteria.
+
+40. Oral, Practical and/or Performed | Oral examination | Various
+Description: A series of exercises that assess verbal skills, typically in relation to language competency.
+AI-resilient design strategies: Live, controlled oral conditions can provide strong evidence of spontaneous language production. Use varied topics, registers and responsive prompts with consistent criteria. Declare and implement the AI permission clearly. Where pre-recorded elements are used, a planned live follow-up may be appropriate if spontaneity is part of the intended learning and the component is accessible and approved.
+AI-enhanced assessment options: Retain live spontaneous speaking where that is the intended capability, including agreed reasonable adjustments. AI conversation practice is preparation, not an enhancement of the assessed task. Evaluate AI-mediated communication only through a separately specified outcome and design; do not imply live assistance is permitted.
+
+IMPLEMENTATION NOTE
+Apply current Oxford Examination Regulations, the University policy on AI use in summative assessment, local programme guidance, accessibility requirements, reasonable adjustments and student workload expectations. The format is only one part of validity; alignment, implementation, marking and the evidence students are asked to show are equally important.
+
+Official sources:
+https://www.ox.ac.uk/about/how-we-are-run/policies-and-statements/policy-hub/ai-use-in-summative-assessment
+https://www.ox.ac.uk/gen-ai
+
+This guide is practical guidance, not University policy, and has not been formally endorsed.
