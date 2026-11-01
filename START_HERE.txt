@@ -1,0 +1,9 @@
+OXFORD SAID AI TOOLKIT — PUBLISHING PACKAGE — 1 NOVEMBER 2026
+
+Extract the ZIP to a short folder, such as Downloads\Toolkit. Upload the extracted contents to the folder used by your existing GitHub website deployment. index.html must sit directly in that publishing folder. Preserve all subfolders and any existing repository-specific CNAME, workflow or deployment settings. Uploading the ZIP itself will not update the website.
+
+The 40 Oxford assessment formats remain the lead resource, dated 31 October 2026. The separate ChatGPT resource is labelled as a Said faculty pilot. The user reported plugin version 0.1.2 saved and provided a successful review response. The website link cannot grant access: save the chosen workspace-link sharing option and check access from an intended recipient account.
+
+This package contains no real assessment briefs, School template, chat transcripts or plugin update instructions. Earlier release notes were excluded to avoid conflicting directions. The VIVA reference remains available through the accessibility text-alternatives page; it is not promoted on the teaching page.
+
+Review and known limits are in PUBLISHING_REVIEW.md. This is a downloadable website package; no live deployment has been performed here.
